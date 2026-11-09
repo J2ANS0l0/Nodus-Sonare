@@ -1,2 +1,2 @@
 # Nodus-Sonare
-Una reinterpretacion artistica de la representacion visual de la musica y sus conecciones. Experimentacion de visualizacion de grafos a bases de datos musicales.
+An artistic reinterpretation of the visual representation of music and its connections. An experiment in graph visualization applied to music databases.

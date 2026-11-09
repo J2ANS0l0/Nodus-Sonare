@@ -1,0 +1,33 @@
+.side_nav {
+  position: absolute;
+  bottom: 84px; /* PlayerBar is 72px + 12px margin */
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 50;
+  align-items: flex-end;
+}
+
+.side_nav_item {
+  background: none;
+  border: none;
+  padding: 6px 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333333;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.1s ease;
+  text-align: right;
+  outline: none;
+}
+
+.side_nav_item:hover {
+  transform: translateX(-2px);
+}
+
+.side_nav_item.selected {
+  color: #000000;
+  font-weight: 700;
+}

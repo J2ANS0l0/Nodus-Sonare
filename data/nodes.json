@@ -1,0 +1,3693 @@
+[
+  {
+    "node_id": "1",
+    "node_type": "Tag",
+    "node_name": "Indie",
+    "node_color": "#f56042",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2",
+      "3",
+      "4",
+      "5"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [],
+    "node_album_links_previous": []
+  },
+  {
+    "node_id": "2",
+    "node_type": "Author",
+    "node_name": "C418",
+    "node_color": "#077efe",
+    "node_music_links_next": [
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+      "20",
+      "21",
+      "22",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "29",
+      "30",
+      "31",
+      "32",
+      "33",
+      "34",
+      "35",
+      "36",
+      "37",
+      "38",
+      "39",
+      "40",
+      "41",
+      "42",
+      "43",
+      "44",
+      "45",
+      "46",
+      "47",
+      "48",
+      "49",
+      "50",
+      "51",
+      "52",
+      "53",
+      "54",
+      "55",
+      "56",
+      "57",
+      "58",
+      "59"
+    ],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [
+      "1"
+    ],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [],
+    "node_author_links_previous": [],
+    "node_album_links_next": [],
+    "node_album_links_previous": [],
+    "author_id": "1",
+    "author_name": "C418",
+    "author_real_name": "Daniel Rosenfeld",
+    "author_description": "Hi it's me your favourite music man, Daniel. You probably know me from Minecraft and then came to stay for all the other music that gets you working. Or you are just stopping by. Whatever it is, hi, I'm your favourite human, and occasional music man, Daniel. welcome.",
+    "author_profile_picture": "http://localhost:9000/profile-picture/c418.jpg",
+    "node_music_likes": []
+  },
+  {
+    "node_id": "3",
+    "node_type": "Author",
+    "node_name": "Olivia Rodrigo",
+    "node_color": "#5F94D9",
+    "node_music_links_next": [
+      "60",
+      "61",
+      "62",
+      "63",
+      "64",
+      "65",
+      "66",
+      "67",
+      "68",
+      "69",
+      "70"
+    ],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [
+      "1"
+    ],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [],
+    "node_author_links_previous": [],
+    "node_album_links_next": [],
+    "node_album_links_previous": [],
+    "author_id": "2",
+    "author_name": "Olivia Rodrigo",
+    "author_real_name": "Olivia Isabel Rodrigo",
+    "author_description": "Olivia Rodrigo is a talented artist.",
+    "author_profile_picture": "http://localhost:9000/profile-picture/olivia-rodrigo.jpg",
+    "node_music_likes": []
+  },
+  {
+    "node_id": "4",
+    "node_type": "Author",
+    "node_name": "Rawayana",
+    "node_color": "#F2D22E",
+    "node_music_links_next": [
+      "71",
+      "72",
+      "73",
+      "74",
+      "75",
+      "76",
+      "77",
+      "78",
+      "79",
+      "80",
+      "81",
+      "82",
+      "83",
+      "84",
+      "85",
+      "86",
+      "87",
+      "88",
+      "89",
+      "90",
+      "91",
+      "92",
+      "93",
+      "94",
+      "95",
+      "96",
+      "97",
+      "98",
+      "99",
+      "100",
+      "101",
+      "102",
+      "103",
+      "104"
+    ],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [
+      "1"
+    ],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [],
+    "node_author_links_previous": [],
+    "node_album_links_next": [],
+    "node_album_links_previous": [],
+    "author_id": "3",
+    "author_name": "Rawayana",
+    "author_real_name": "Alberto Horacio Rafael «Beto» Montenegro, Antonio «Tony» Casas, Andrés «Fofo» Story, Alejandro «Abeja» Abeijón",
+    "author_description": "Rawayana is a talented artist.",
+    "author_profile_picture": "http://localhost:9000/profile-picture/rawayana.jpg",
+    "node_music_likes": []
+  },
+  {
+    "node_id": "5",
+    "node_type": "Author",
+    "node_name": "Tame Impala",
+    "node_color": "#8C8C8C",
+    "node_music_links_next": [
+      "105",
+      "106",
+      "107",
+      "108",
+      "109",
+      "110",
+      "111",
+      "112",
+      "113",
+      "114",
+      "115",
+      "116",
+      "117"
+    ],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [
+      "1"
+    ],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [],
+    "node_author_links_previous": [],
+    "node_album_links_next": [],
+    "node_album_links_previous": [],
+    "author_id": "4",
+    "author_name": "Tame Impala",
+    "author_real_name": "Kevin Parker",
+    "author_description": "Tame Impala is a talented artist.",
+    "author_profile_picture": "http://localhost:9000/profile-picture/tame-impala.jpg",
+    "node_music_likes": []
+  },
+  {
+    "node_id": "6",
+    "node_type": "Music",
+    "node_name": "Key",
+    "node_color": "#67AC37",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "7"
+    ],
+    "node_album_links_previous": [],
+    "music_id": "59",
+    "music_name": "Key",
+    "music_description": "Key from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-alpha.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-alpha/01-key.mp3",
+    "music_album": "Volume Alpha",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "7",
+    "node_type": "Music",
+    "node_name": "Door",
+    "node_color": "#67AC37",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "8"
+    ],
+    "node_album_links_previous": [
+      "6"
+    ],
+    "music_id": "60",
+    "music_name": "Door",
+    "music_description": "Door from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-alpha.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-alpha/02-door.mp3",
+    "music_album": "Volume Alpha",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "8",
+    "node_type": "Music",
+    "node_name": "Subwoofer Lullaby",
+    "node_color": "#67AC37",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "9"
+    ],
+    "node_album_links_previous": [
+      "7"
+    ],
+    "music_id": "61",
+    "music_name": "Subwoofer Lullaby",
+    "music_description": "Subwoofer Lullaby from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-alpha.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-alpha/03-subwoofer lullaby.mp3",
+    "music_album": "Volume Alpha",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "9",
+    "node_type": "Music",
+    "node_name": "Death",
+    "node_color": "#67AC37",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "10"
+    ],
+    "node_album_links_previous": [
+      "8"
+    ],
+    "music_id": "62",
+    "music_name": "Death",
+    "music_description": "Death from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-alpha.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-alpha/04-death.mp3",
+    "music_album": "Volume Alpha",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "10",
+    "node_type": "Music",
+    "node_name": "Living Mice",
+    "node_color": "#67AC37",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "11"
+    ],
+    "node_album_links_previous": [
+      "9"
+    ],
+    "music_id": "63",
+    "music_name": "Living Mice",
+    "music_description": "Living Mice from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-alpha.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-alpha/05-living mice.mp3",
+    "music_album": "Volume Alpha",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "11",
+    "node_type": "Music",
+    "node_name": "Moog City",
+    "node_color": "#67AC37",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "12"
+    ],
+    "node_album_links_previous": [
+      "10"
+    ],
+    "music_id": "64",
+    "music_name": "Moog City",
+    "music_description": "Moog City from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-alpha.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-alpha/06-moog city.mp3",
+    "music_album": "Volume Alpha",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "12",
+    "node_type": "Music",
+    "node_name": "Haggstrom",
+    "node_color": "#67AC37",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "13"
+    ],
+    "node_album_links_previous": [
+      "11"
+    ],
+    "music_id": "65",
+    "music_name": "Haggstrom",
+    "music_description": "Haggstrom from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-alpha.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-alpha/07-haggstrom.mp3",
+    "music_album": "Volume Alpha",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "13",
+    "node_type": "Music",
+    "node_name": "Minecraft",
+    "node_color": "#67AC37",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "14"
+    ],
+    "node_album_links_previous": [
+      "12"
+    ],
+    "music_id": "66",
+    "music_name": "Minecraft",
+    "music_description": "Minecraft from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-alpha.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-alpha/08-minecraft.mp3",
+    "music_album": "Volume Alpha",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "14",
+    "node_type": "Music",
+    "node_name": "Oxygene",
+    "node_color": "#67AC37",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "15"
+    ],
+    "node_album_links_previous": [
+      "13"
+    ],
+    "music_id": "67",
+    "music_name": "Oxygene",
+    "music_description": "Oxygene from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-alpha.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-alpha/09-oxygene.mp3",
+    "music_album": "Volume Alpha",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "15",
+    "node_type": "Music",
+    "node_name": "Equinoxe",
+    "node_color": "#67AC37",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "16"
+    ],
+    "node_album_links_previous": [
+      "14"
+    ],
+    "music_id": "68",
+    "music_name": "Equinoxe",
+    "music_description": "Equinoxe from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-alpha.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-alpha/10-equinoxe.mp3",
+    "music_album": "Volume Alpha",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "16",
+    "node_type": "Music",
+    "node_name": "Mice On Venus",
+    "node_color": "#67AC37",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "17"
+    ],
+    "node_album_links_previous": [
+      "15"
+    ],
+    "music_id": "69",
+    "music_name": "Mice On Venus",
+    "music_description": "Mice On Venus from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-alpha.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-alpha/11-mice on venus.mp3",
+    "music_album": "Volume Alpha",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "17",
+    "node_type": "Music",
+    "node_name": "Dry Hands",
+    "node_color": "#67AC37",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "18"
+    ],
+    "node_album_links_previous": [
+      "16"
+    ],
+    "music_id": "70",
+    "music_name": "Dry Hands",
+    "music_description": "Dry Hands from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-alpha.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-alpha/12-dry hands.mp3",
+    "music_album": "Volume Alpha",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "18",
+    "node_type": "Music",
+    "node_name": "Wet Hands",
+    "node_color": "#67AC37",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "19"
+    ],
+    "node_album_links_previous": [
+      "17"
+    ],
+    "music_id": "71",
+    "music_name": "Wet Hands",
+    "music_description": "Wet Hands from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-alpha.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-alpha/13-wet hands.mp3",
+    "music_album": "Volume Alpha",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "19",
+    "node_type": "Music",
+    "node_name": "Clark",
+    "node_color": "#67AC37",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "20"
+    ],
+    "node_album_links_previous": [
+      "18"
+    ],
+    "music_id": "72",
+    "music_name": "Clark",
+    "music_description": "Clark from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-alpha.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-alpha/14-clark.mp3",
+    "music_album": "Volume Alpha",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "20",
+    "node_type": "Music",
+    "node_name": "Chris",
+    "node_color": "#67AC37",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "21"
+    ],
+    "node_album_links_previous": [
+      "19"
+    ],
+    "music_id": "73",
+    "music_name": "Chris",
+    "music_description": "Chris from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-alpha.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-alpha/15-chris.mp3",
+    "music_album": "Volume Alpha",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "21",
+    "node_type": "Music",
+    "node_name": "Thirteen",
+    "node_color": "#67AC37",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "22"
+    ],
+    "node_album_links_previous": [
+      "20"
+    ],
+    "music_id": "74",
+    "music_name": "Thirteen",
+    "music_description": "Thirteen from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-alpha.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-alpha/16-thirteen.mp3",
+    "music_album": "Volume Alpha",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "22",
+    "node_type": "Music",
+    "node_name": "Excuse",
+    "node_color": "#67AC37",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "23"
+    ],
+    "node_album_links_previous": [
+      "21"
+    ],
+    "music_id": "75",
+    "music_name": "Excuse",
+    "music_description": "Excuse from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-alpha.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-alpha/17-excuse.mp3",
+    "music_album": "Volume Alpha",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "23",
+    "node_type": "Music",
+    "node_name": "Sweden",
+    "node_color": "#67AC37",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "24"
+    ],
+    "node_album_links_previous": [
+      "22"
+    ],
+    "music_id": "76",
+    "music_name": "Sweden",
+    "music_description": "Sweden from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-alpha.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-alpha/18-sweden.mp3",
+    "music_album": "Volume Alpha",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "24",
+    "node_type": "Music",
+    "node_name": "Cat",
+    "node_color": "#67AC37",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "25"
+    ],
+    "node_album_links_previous": [
+      "23"
+    ],
+    "music_id": "77",
+    "music_name": "Cat",
+    "music_description": "Cat from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-alpha.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-alpha/19-cat.mp3",
+    "music_album": "Volume Alpha",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "25",
+    "node_type": "Music",
+    "node_name": "Dog",
+    "node_color": "#67AC37",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "26"
+    ],
+    "node_album_links_previous": [
+      "24"
+    ],
+    "music_id": "78",
+    "music_name": "Dog",
+    "music_description": "Dog from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-alpha.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-alpha/20-dog.mp3",
+    "music_album": "Volume Alpha",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "26",
+    "node_type": "Music",
+    "node_name": "Danny",
+    "node_color": "#67AC37",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "27"
+    ],
+    "node_album_links_previous": [
+      "25"
+    ],
+    "music_id": "79",
+    "music_name": "Danny",
+    "music_description": "Danny from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-alpha.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-alpha/21-danny.mp3",
+    "music_album": "Volume Alpha",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "27",
+    "node_type": "Music",
+    "node_name": "Beginning",
+    "node_color": "#67AC37",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "28"
+    ],
+    "node_album_links_previous": [
+      "26"
+    ],
+    "music_id": "80",
+    "music_name": "Beginning",
+    "music_description": "Beginning from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-alpha.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-alpha/22-beginning.mp3",
+    "music_album": "Volume Alpha",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "28",
+    "node_type": "Music",
+    "node_name": "Droopy Likes Ricochet",
+    "node_color": "#67AC37",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "29"
+    ],
+    "node_album_links_previous": [
+      "27"
+    ],
+    "music_id": "81",
+    "music_name": "Droopy Likes Ricochet",
+    "music_description": "Droopy Likes Ricochet from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-alpha.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-alpha/23-droopy likes ricochet.mp3",
+    "music_album": "Volume Alpha",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "29",
+    "node_type": "Music",
+    "node_name": "Droopy Likes Your Face",
+    "node_color": "#67AC37",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [],
+    "node_album_links_previous": [
+      "28"
+    ],
+    "music_id": "82",
+    "music_name": "Droopy Likes Your Face",
+    "music_description": "Droopy Likes Your Face from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-alpha.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-alpha/24-droopy likes your face.mp3",
+    "music_album": "Volume Alpha",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "30",
+    "node_type": "Music",
+    "node_name": "Ki",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "31"
+    ],
+    "node_album_links_previous": [],
+    "music_id": "83",
+    "music_name": "Ki",
+    "music_description": "Ki from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/01-ki.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "31",
+    "node_type": "Music",
+    "node_name": "Alpha",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "32"
+    ],
+    "node_album_links_previous": [
+      "30"
+    ],
+    "music_id": "84",
+    "music_name": "Alpha",
+    "music_description": "Alpha from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/02-alpha.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "32",
+    "node_type": "Music",
+    "node_name": "Dead Voxel",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "33"
+    ],
+    "node_album_links_previous": [
+      "31"
+    ],
+    "music_id": "85",
+    "music_name": "Dead Voxel",
+    "music_description": "Dead Voxel from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/03-dead voxel.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "33",
+    "node_type": "Music",
+    "node_name": "Blind Spots",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "34"
+    ],
+    "node_album_links_previous": [
+      "32"
+    ],
+    "music_id": "86",
+    "music_name": "Blind Spots",
+    "music_description": "Blind Spots from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/04-blind spots.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "34",
+    "node_type": "Music",
+    "node_name": "Flake",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "35"
+    ],
+    "node_album_links_previous": [
+      "33"
+    ],
+    "music_id": "87",
+    "music_name": "Flake",
+    "music_description": "Flake from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/05-flake.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "35",
+    "node_type": "Music",
+    "node_name": "Moog City 2",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "36"
+    ],
+    "node_album_links_previous": [
+      "34"
+    ],
+    "music_id": "88",
+    "music_name": "Moog City 2",
+    "music_description": "Moog City 2 from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/06-moog city 2.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "36",
+    "node_type": "Music",
+    "node_name": "Concrete Halls",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "37"
+    ],
+    "node_album_links_previous": [
+      "35"
+    ],
+    "music_id": "89",
+    "music_name": "Concrete Halls",
+    "music_description": "Concrete Halls from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/07-concrete halls.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "37",
+    "node_type": "Music",
+    "node_name": "Biome Fest",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "38"
+    ],
+    "node_album_links_previous": [
+      "36"
+    ],
+    "music_id": "90",
+    "music_name": "Biome Fest",
+    "music_description": "Biome Fest from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/08-biome fest.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "38",
+    "node_type": "Music",
+    "node_name": "Mutation",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "39"
+    ],
+    "node_album_links_previous": [
+      "37"
+    ],
+    "music_id": "91",
+    "music_name": "Mutation",
+    "music_description": "Mutation from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/09-mutation.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "39",
+    "node_type": "Music",
+    "node_name": "Haunt Muskie",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "40"
+    ],
+    "node_album_links_previous": [
+      "38"
+    ],
+    "music_id": "92",
+    "music_name": "Haunt Muskie",
+    "music_description": "Haunt Muskie from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/10-haunt muskie.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "40",
+    "node_type": "Music",
+    "node_name": "Warmth",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "41"
+    ],
+    "node_album_links_previous": [
+      "39"
+    ],
+    "music_id": "93",
+    "music_name": "Warmth",
+    "music_description": "Warmth from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/11-warmth.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "41",
+    "node_type": "Music",
+    "node_name": "Floating Trees",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "42"
+    ],
+    "node_album_links_previous": [
+      "40"
+    ],
+    "music_id": "94",
+    "music_name": "Floating Trees",
+    "music_description": "Floating Trees from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/12-floating trees.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "42",
+    "node_type": "Music",
+    "node_name": "Aria Math",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "43"
+    ],
+    "node_album_links_previous": [
+      "41"
+    ],
+    "music_id": "95",
+    "music_name": "Aria Math",
+    "music_description": "Aria Math from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/13-aria math.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "43",
+    "node_type": "Music",
+    "node_name": "Kyoto",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "44"
+    ],
+    "node_album_links_previous": [
+      "42"
+    ],
+    "music_id": "96",
+    "music_name": "Kyoto",
+    "music_description": "Kyoto from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/14-kyoto.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "44",
+    "node_type": "Music",
+    "node_name": "Ballad Of The Cats",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "45"
+    ],
+    "node_album_links_previous": [
+      "43"
+    ],
+    "music_id": "97",
+    "music_name": "Ballad Of The Cats",
+    "music_description": "Ballad Of The Cats from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/15-ballad of the cats.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "45",
+    "node_type": "Music",
+    "node_name": "Taswell",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "46"
+    ],
+    "node_album_links_previous": [
+      "44"
+    ],
+    "music_id": "98",
+    "music_name": "Taswell",
+    "music_description": "Taswell from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/16-taswell.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "46",
+    "node_type": "Music",
+    "node_name": "Beginning 2",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "47"
+    ],
+    "node_album_links_previous": [
+      "45"
+    ],
+    "music_id": "99",
+    "music_name": "Beginning 2",
+    "music_description": "Beginning 2 from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/17-beginning 2.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "47",
+    "node_type": "Music",
+    "node_name": "Dreiton",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "48"
+    ],
+    "node_album_links_previous": [
+      "46"
+    ],
+    "music_id": "100",
+    "music_name": "Dreiton",
+    "music_description": "Dreiton from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/18-dreiton.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "48",
+    "node_type": "Music",
+    "node_name": "The End",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "49"
+    ],
+    "node_album_links_previous": [
+      "47"
+    ],
+    "music_id": "101",
+    "music_name": "The End",
+    "music_description": "The End from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/19-the end.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "49",
+    "node_type": "Music",
+    "node_name": "Chirp",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "50"
+    ],
+    "node_album_links_previous": [
+      "48"
+    ],
+    "music_id": "102",
+    "music_name": "Chirp",
+    "music_description": "Chirp from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/20-chirp.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "50",
+    "node_type": "Music",
+    "node_name": "Wait",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "51"
+    ],
+    "node_album_links_previous": [
+      "49"
+    ],
+    "music_id": "103",
+    "music_name": "Wait",
+    "music_description": "Wait from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/21-wait.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "51",
+    "node_type": "Music",
+    "node_name": "Mellohi",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "52"
+    ],
+    "node_album_links_previous": [
+      "50"
+    ],
+    "music_id": "104",
+    "music_name": "Mellohi",
+    "music_description": "Mellohi from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/22-mellohi.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "52",
+    "node_type": "Music",
+    "node_name": "Stal",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "53"
+    ],
+    "node_album_links_previous": [
+      "51"
+    ],
+    "music_id": "105",
+    "music_name": "Stal",
+    "music_description": "Stal from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/23-stal.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "53",
+    "node_type": "Music",
+    "node_name": "Strad",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "54"
+    ],
+    "node_album_links_previous": [
+      "52"
+    ],
+    "music_id": "106",
+    "music_name": "Strad",
+    "music_description": "Strad from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/24-strad.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "54",
+    "node_type": "Music",
+    "node_name": "Eleven",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "55"
+    ],
+    "node_album_links_previous": [
+      "53"
+    ],
+    "music_id": "107",
+    "music_name": "Eleven",
+    "music_description": "Eleven from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/25-eleven.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "55",
+    "node_type": "Music",
+    "node_name": "Ward",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "56"
+    ],
+    "node_album_links_previous": [
+      "54"
+    ],
+    "music_id": "108",
+    "music_name": "Ward",
+    "music_description": "Ward from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/26-ward.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "56",
+    "node_type": "Music",
+    "node_name": "Mall",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "57"
+    ],
+    "node_album_links_previous": [
+      "55"
+    ],
+    "music_id": "109",
+    "music_name": "Mall",
+    "music_description": "Mall from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/27-mall.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "57",
+    "node_type": "Music",
+    "node_name": "Blocks",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "58"
+    ],
+    "node_album_links_previous": [
+      "56"
+    ],
+    "music_id": "110",
+    "music_name": "Blocks",
+    "music_description": "Blocks from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/28-blocks.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "58",
+    "node_type": "Music",
+    "node_name": "Far",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "59"
+    ],
+    "node_album_links_previous": [
+      "57"
+    ],
+    "music_id": "111",
+    "music_name": "Far",
+    "music_description": "Far from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/29-far.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "59",
+    "node_type": "Music",
+    "node_name": "Intro",
+    "node_color": "#F28705",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "2"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [],
+    "node_album_links_previous": [
+      "58"
+    ],
+    "music_id": "112",
+    "music_name": "Intro",
+    "music_description": "Intro from C418",
+    "music_author": "C418",
+    "music_cover_url": "http://localhost:9000/music-cover/c418/volume-beta.jpg",
+    "music_url": "http://localhost:9000/music/c418/volume-beta/30-intro.mp3",
+    "music_album": "Volume Beta",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "60",
+    "node_type": "Music",
+    "node_name": "Brutal",
+    "node_color": "#7775BF",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "3"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "61"
+    ],
+    "node_album_links_previous": [],
+    "music_id": "48",
+    "music_name": "Brutal",
+    "music_description": "Brutal from Olivia Rodrigo",
+    "music_author": "Olivia Rodrigo",
+    "music_cover_url": "http://localhost:9000/music-cover/olivia-rodrigo/sour.png",
+    "music_url": "http://localhost:9000/music/olivia-rodrigo/sour/01-brutal.mp3",
+    "music_album": "Sour",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "61",
+    "node_type": "Music",
+    "node_name": "Traitor",
+    "node_color": "#7775BF",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "3"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "62"
+    ],
+    "node_album_links_previous": [
+      "60"
+    ],
+    "music_id": "49",
+    "music_name": "Traitor",
+    "music_description": "Traitor from Olivia Rodrigo",
+    "music_author": "Olivia Rodrigo",
+    "music_cover_url": "http://localhost:9000/music-cover/olivia-rodrigo/sour.png",
+    "music_url": "http://localhost:9000/music/olivia-rodrigo/sour/02-traitor.mp3",
+    "music_album": "Sour",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "62",
+    "node_type": "Music",
+    "node_name": "Drivers License",
+    "node_color": "#7775BF",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "3"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "63"
+    ],
+    "node_album_links_previous": [
+      "61"
+    ],
+    "music_id": "50",
+    "music_name": "Drivers License",
+    "music_description": "Drivers License from Olivia Rodrigo",
+    "music_author": "Olivia Rodrigo",
+    "music_cover_url": "http://localhost:9000/music-cover/olivia-rodrigo/sour.png",
+    "music_url": "http://localhost:9000/music/olivia-rodrigo/sour/03-drivers-license.mp3",
+    "music_album": "Sour",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "63",
+    "node_type": "Music",
+    "node_name": "1 Step Forward 3 Steps Back",
+    "node_color": "#7775BF",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "3"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "64"
+    ],
+    "node_album_links_previous": [
+      "62"
+    ],
+    "music_id": "51",
+    "music_name": "1 Step Forward 3 Steps Back",
+    "music_description": "1 Step Forward 3 Steps Back from Olivia Rodrigo",
+    "music_author": "Olivia Rodrigo",
+    "music_cover_url": "http://localhost:9000/music-cover/olivia-rodrigo/sour.png",
+    "music_url": "http://localhost:9000/music/olivia-rodrigo/sour/04-1-step-forward-3-steps-back.mp3",
+    "music_album": "Sour",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "64",
+    "node_type": "Music",
+    "node_name": "Deja Vu",
+    "node_color": "#7775BF",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "3"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "65"
+    ],
+    "node_album_links_previous": [
+      "63"
+    ],
+    "music_id": "52",
+    "music_name": "Deja Vu",
+    "music_description": "Deja Vu from Olivia Rodrigo",
+    "music_author": "Olivia Rodrigo",
+    "music_cover_url": "http://localhost:9000/music-cover/olivia-rodrigo/sour.png",
+    "music_url": "http://localhost:9000/music/olivia-rodrigo/sour/05-deja-vu.mp3",
+    "music_album": "Sour",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "65",
+    "node_type": "Music",
+    "node_name": "Good 4 U",
+    "node_color": "#7775BF",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "3"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "66"
+    ],
+    "node_album_links_previous": [
+      "64"
+    ],
+    "music_id": "53",
+    "music_name": "Good 4 U",
+    "music_description": "Good 4 U from Olivia Rodrigo",
+    "music_author": "Olivia Rodrigo",
+    "music_cover_url": "http://localhost:9000/music-cover/olivia-rodrigo/sour.png",
+    "music_url": "http://localhost:9000/music/olivia-rodrigo/sour/06-good-4-u.mp3",
+    "music_album": "Sour",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "66",
+    "node_type": "Music",
+    "node_name": "Enough For You",
+    "node_color": "#7775BF",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "3"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "67"
+    ],
+    "node_album_links_previous": [
+      "65"
+    ],
+    "music_id": "54",
+    "music_name": "Enough For You",
+    "music_description": "Enough For You from Olivia Rodrigo",
+    "music_author": "Olivia Rodrigo",
+    "music_cover_url": "http://localhost:9000/music-cover/olivia-rodrigo/sour.png",
+    "music_url": "http://localhost:9000/music/olivia-rodrigo/sour/07-enough-for-you.mp3",
+    "music_album": "Sour",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "67",
+    "node_type": "Music",
+    "node_name": "Happier",
+    "node_color": "#7775BF",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "3"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "68"
+    ],
+    "node_album_links_previous": [
+      "66"
+    ],
+    "music_id": "55",
+    "music_name": "Happier",
+    "music_description": "Happier from Olivia Rodrigo",
+    "music_author": "Olivia Rodrigo",
+    "music_cover_url": "http://localhost:9000/music-cover/olivia-rodrigo/sour.png",
+    "music_url": "http://localhost:9000/music/olivia-rodrigo/sour/08-happier.mp3",
+    "music_album": "Sour",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "68",
+    "node_type": "Music",
+    "node_name": "Jealousy Jealousy",
+    "node_color": "#7775BF",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "3"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "69"
+    ],
+    "node_album_links_previous": [
+      "67"
+    ],
+    "music_id": "56",
+    "music_name": "Jealousy Jealousy",
+    "music_description": "Jealousy Jealousy from Olivia Rodrigo",
+    "music_author": "Olivia Rodrigo",
+    "music_cover_url": "http://localhost:9000/music-cover/olivia-rodrigo/sour.png",
+    "music_url": "http://localhost:9000/music/olivia-rodrigo/sour/09-jealousy-jealousy.mp3",
+    "music_album": "Sour",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "69",
+    "node_type": "Music",
+    "node_name": "Favorite Crime",
+    "node_color": "#7775BF",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "3"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "70"
+    ],
+    "node_album_links_previous": [
+      "68"
+    ],
+    "music_id": "57",
+    "music_name": "Favorite Crime",
+    "music_description": "Favorite Crime from Olivia Rodrigo",
+    "music_author": "Olivia Rodrigo",
+    "music_cover_url": "http://localhost:9000/music-cover/olivia-rodrigo/sour.png",
+    "music_url": "http://localhost:9000/music/olivia-rodrigo/sour/10-favorite-crime.mp3",
+    "music_album": "Sour",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "70",
+    "node_type": "Music",
+    "node_name": "Hope Ur Ok",
+    "node_color": "#7775BF",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "3"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [],
+    "node_album_links_previous": [
+      "69"
+    ],
+    "music_id": "58",
+    "music_name": "Hope Ur Ok",
+    "music_description": "Hope Ur Ok from Olivia Rodrigo",
+    "music_author": "Olivia Rodrigo",
+    "music_cover_url": "http://localhost:9000/music-cover/olivia-rodrigo/sour.png",
+    "music_url": "http://localhost:9000/music/olivia-rodrigo/sour/11-hope-ur-ok.mp3",
+    "music_album": "Sour",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "71",
+    "node_type": "Music",
+    "node_name": "Brinca Acuario",
+    "node_color": "#04ADBF",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "72"
+    ],
+    "node_album_links_previous": [],
+    "music_id": "1",
+    "music_name": "Brinca Acuario",
+    "music_description": "Brinca Acuario from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/astropical.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/astropical/01-brinca-acuario.mp3",
+    "music_album": "Astropical",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "72",
+    "node_type": "Music",
+    "node_name": "Siento Virgo",
+    "node_color": "#04ADBF",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "73"
+    ],
+    "node_album_links_previous": [
+      "71"
+    ],
+    "music_id": "2",
+    "music_name": "Siento Virgo",
+    "music_description": "Siento Virgo from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/astropical.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/astropical/02-siento-virgo.mp3",
+    "music_album": "Astropical",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "73",
+    "node_type": "Music",
+    "node_name": "Me Pasa Piscis",
+    "node_color": "#04ADBF",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "74"
+    ],
+    "node_album_links_previous": [
+      "72"
+    ],
+    "music_id": "3",
+    "music_name": "Me Pasa Piscis",
+    "music_description": "Me Pasa Piscis from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/astropical.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/astropical/03-me-pasa-piscis.mp3",
+    "music_album": "Astropical",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "74",
+    "node_type": "Music",
+    "node_name": "Otro Nivel Capricornio",
+    "node_color": "#04ADBF",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "75"
+    ],
+    "node_album_links_previous": [
+      "73"
+    ],
+    "music_id": "4",
+    "music_name": "Otro Nivel Capricornio",
+    "music_description": "Otro Nivel Capricornio from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/astropical.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/astropical/04-otro-nivel-capricornio.mp3",
+    "music_album": "Astropical",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "75",
+    "node_type": "Music",
+    "node_name": "Una Noche En Caracas Tauro",
+    "node_color": "#04ADBF",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "76"
+    ],
+    "node_album_links_previous": [
+      "74"
+    ],
+    "music_id": "5",
+    "music_name": "Una Noche En Caracas Tauro",
+    "music_description": "Una Noche En Caracas Tauro from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/astropical.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/astropical/05-una-noche-en-caracas-tauro.mp3",
+    "music_album": "Astropical",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "76",
+    "node_type": "Music",
+    "node_name": "Happy Libra",
+    "node_color": "#04ADBF",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "77"
+    ],
+    "node_album_links_previous": [
+      "75"
+    ],
+    "music_id": "6",
+    "music_name": "Happy Libra",
+    "music_description": "Happy Libra from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/astropical.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/astropical/06-happy-libra.mp3",
+    "music_album": "Astropical",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "77",
+    "node_type": "Music",
+    "node_name": "Calentita Aries",
+    "node_color": "#04ADBF",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "78"
+    ],
+    "node_album_links_previous": [
+      "76"
+    ],
+    "music_id": "7",
+    "music_name": "Calentita Aries",
+    "music_description": "Calentita Aries from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/astropical.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/astropical/07-calentita-aries.mp3",
+    "music_album": "Astropical",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "78",
+    "node_type": "Music",
+    "node_name": "El Lobo Cancer",
+    "node_color": "#04ADBF",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "79"
+    ],
+    "node_album_links_previous": [
+      "77"
+    ],
+    "music_id": "8",
+    "music_name": "El Lobo Cancer",
+    "music_description": "El Lobo Cancer from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/astropical.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/astropical/08-el-lobo-cancer.mp3",
+    "music_album": "Astropical",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "79",
+    "node_type": "Music",
+    "node_name": "Llego El Verano Sagitario",
+    "node_color": "#04ADBF",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "80"
+    ],
+    "node_album_links_previous": [
+      "78"
+    ],
+    "music_id": "9",
+    "music_name": "Llego El Verano Sagitario",
+    "music_description": "Llego El Verano Sagitario from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/astropical.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/astropical/09-llego-el-verano-sagitario.mp3",
+    "music_album": "Astropical",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "80",
+    "node_type": "Music",
+    "node_name": "Quien Me Mando Geminis",
+    "node_color": "#04ADBF",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "81"
+    ],
+    "node_album_links_previous": [
+      "79"
+    ],
+    "music_id": "10",
+    "music_name": "Quien Me Mando Geminis",
+    "music_description": "Quien Me Mando Geminis from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/astropical.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/astropical/10-quien-me-mando-geminis.mp3",
+    "music_album": "Astropical",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "81",
+    "node_type": "Music",
+    "node_name": "Corazon Adentro Escorpio",
+    "node_color": "#04ADBF",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "82"
+    ],
+    "node_album_links_previous": [
+      "80"
+    ],
+    "music_id": "11",
+    "music_name": "Corazon Adentro Escorpio",
+    "music_description": "Corazon Adentro Escorpio from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/astropical.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/astropical/11-corazon-adentro-escorpio.mp3",
+    "music_album": "Astropical",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "82",
+    "node_type": "Music",
+    "node_name": "Fogata Leo",
+    "node_color": "#04ADBF",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [],
+    "node_album_links_previous": [
+      "81"
+    ],
+    "music_id": "12",
+    "music_name": "Fogata Leo",
+    "music_description": "Fogata Leo from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/astropical.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/astropical/12-fogata-leo.mp3",
+    "music_album": "Astropical",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "83",
+    "node_type": "Music",
+    "node_name": "Nada Malo",
+    "node_color": "#D9BF41",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "84"
+    ],
+    "node_album_links_previous": [],
+    "music_id": "26",
+    "music_name": "Nada Malo",
+    "music_description": "Nada Malo from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/quien-trae-las-cornetas.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/quien-trae-las-cornetas/01-nada-malo.mp3",
+    "music_album": "Quien Trae Las Cornetas",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "84",
+    "node_type": "Music",
+    "node_name": "Dame Un Break",
+    "node_color": "#D9BF41",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "85"
+    ],
+    "node_album_links_previous": [
+      "83"
+    ],
+    "music_id": "27",
+    "music_name": "Dame Un Break",
+    "music_description": "Dame Un Break from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/quien-trae-las-cornetas.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/quien-trae-las-cornetas/02-dame-un-break.mp3",
+    "music_album": "Quien Trae Las Cornetas",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "85",
+    "node_type": "Music",
+    "node_name": "Binikini",
+    "node_color": "#D9BF41",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "86"
+    ],
+    "node_album_links_previous": [
+      "84"
+    ],
+    "music_id": "28",
+    "music_name": "Binikini",
+    "music_description": "Binikini from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/quien-trae-las-cornetas.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/quien-trae-las-cornetas/03-binikini.mp3",
+    "music_album": "Quien Trae Las Cornetas",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "86",
+    "node_type": "Music",
+    "node_name": "Besos Ricos",
+    "node_color": "#D9BF41",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "87"
+    ],
+    "node_album_links_previous": [
+      "85"
+    ],
+    "music_id": "29",
+    "music_name": "Besos Ricos",
+    "music_description": "Besos Ricos from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/quien-trae-las-cornetas.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/quien-trae-las-cornetas/04-besos-ricos.mp3",
+    "music_album": "Quien Trae Las Cornetas",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "87",
+    "node_type": "Music",
+    "node_name": "Taki",
+    "node_color": "#D9BF41",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "88"
+    ],
+    "node_album_links_previous": [
+      "86"
+    ],
+    "music_id": "30",
+    "music_name": "Taki",
+    "music_description": "Taki from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/quien-trae-las-cornetas.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/quien-trae-las-cornetas/05-taki.mp3",
+    "music_album": "Quien Trae Las Cornetas",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "88",
+    "node_type": "Music",
+    "node_name": "911",
+    "node_color": "#D9BF41",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "89"
+    ],
+    "node_album_links_previous": [
+      "87"
+    ],
+    "music_id": "31",
+    "music_name": "911",
+    "music_description": "911 from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/quien-trae-las-cornetas.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/quien-trae-las-cornetas/06-911.mp3",
+    "music_album": "Quien Trae Las Cornetas",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "89",
+    "node_type": "Music",
+    "node_name": "Bebe",
+    "node_color": "#D9BF41",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "90"
+    ],
+    "node_album_links_previous": [
+      "88"
+    ],
+    "music_id": "32",
+    "music_name": "Bebe",
+    "music_description": "Bebe from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/quien-trae-las-cornetas.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/quien-trae-las-cornetas/07-bebe.mp3",
+    "music_album": "Quien Trae Las Cornetas",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "90",
+    "node_type": "Music",
+    "node_name": "Alquilame La Lancha",
+    "node_color": "#D9BF41",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "91"
+    ],
+    "node_album_links_previous": [
+      "89"
+    ],
+    "music_id": "33",
+    "music_name": "Alquilame La Lancha",
+    "music_description": "Alquilame La Lancha from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/quien-trae-las-cornetas.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/quien-trae-las-cornetas/08-alquilame-la-lancha.mp3",
+    "music_album": "Quien Trae Las Cornetas",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "91",
+    "node_type": "Music",
+    "node_name": "Feriado",
+    "node_color": "#D9BF41",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "92"
+    ],
+    "node_album_links_previous": [
+      "90"
+    ],
+    "music_id": "34",
+    "music_name": "Feriado",
+    "music_description": "Feriado from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/quien-trae-las-cornetas.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/quien-trae-las-cornetas/09-feriado.mp3",
+    "music_album": "Quien Trae Las Cornetas",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "92",
+    "node_type": "Music",
+    "node_name": "Tqm",
+    "node_color": "#D9BF41",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "93"
+    ],
+    "node_album_links_previous": [
+      "91"
+    ],
+    "music_id": "35",
+    "music_name": "Tqm",
+    "music_description": "Tqm from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/quien-trae-las-cornetas.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/quien-trae-las-cornetas/10-tqm.mp3",
+    "music_album": "Quien Trae Las Cornetas",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "93",
+    "node_type": "Music",
+    "node_name": "Sonidos De La Sabana",
+    "node_color": "#D9BF41",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "94"
+    ],
+    "node_album_links_previous": [
+      "92"
+    ],
+    "music_id": "36",
+    "music_name": "Sonidos De La Sabana",
+    "music_description": "Sonidos De La Sabana from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/quien-trae-las-cornetas.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/quien-trae-las-cornetas/11-sonidos-de-la-sabana.mp3",
+    "music_album": "Quien Trae Las Cornetas",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "94",
+    "node_type": "Music",
+    "node_name": "Miel",
+    "node_color": "#D9BF41",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "95"
+    ],
+    "node_album_links_previous": [
+      "93"
+    ],
+    "music_id": "37",
+    "music_name": "Miel",
+    "music_description": "Miel from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/quien-trae-las-cornetas.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/quien-trae-las-cornetas/12-miel.mp3",
+    "music_album": "Quien Trae Las Cornetas",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "95",
+    "node_type": "Music",
+    "node_name": "Se Te Nota",
+    "node_color": "#D9BF41",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "96"
+    ],
+    "node_album_links_previous": [
+      "94"
+    ],
+    "music_id": "38",
+    "music_name": "Se Te Nota",
+    "music_description": "Se Te Nota from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/quien-trae-las-cornetas.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/quien-trae-las-cornetas/13-se-te-nota.mp3",
+    "music_album": "Quien Trae Las Cornetas",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "96",
+    "node_type": "Music",
+    "node_name": "Brindo",
+    "node_color": "#D9BF41",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "97"
+    ],
+    "node_album_links_previous": [
+      "95"
+    ],
+    "music_id": "39",
+    "music_name": "Brindo",
+    "music_description": "Brindo from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/quien-trae-las-cornetas.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/quien-trae-las-cornetas/14-brindo.mp3",
+    "music_album": "Quien Trae Las Cornetas",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "97",
+    "node_type": "Music",
+    "node_name": "Hora Loca",
+    "node_color": "#D9BF41",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "98"
+    ],
+    "node_album_links_previous": [
+      "96"
+    ],
+    "music_id": "40",
+    "music_name": "Hora Loca",
+    "music_description": "Hora Loca from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/quien-trae-las-cornetas.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/quien-trae-las-cornetas/15-hora-loca.mp3",
+    "music_album": "Quien Trae Las Cornetas",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "98",
+    "node_type": "Music",
+    "node_name": "Consciencia",
+    "node_color": "#D9BF41",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "99"
+    ],
+    "node_album_links_previous": [
+      "97"
+    ],
+    "music_id": "41",
+    "music_name": "Consciencia",
+    "music_description": "Consciencia from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/quien-trae-las-cornetas.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/quien-trae-las-cornetas/16-consciencia.mp3",
+    "music_album": "Quien Trae Las Cornetas",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "99",
+    "node_type": "Music",
+    "node_name": "Lo Mejor",
+    "node_color": "#D9BF41",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "100"
+    ],
+    "node_album_links_previous": [
+      "98"
+    ],
+    "music_id": "42",
+    "music_name": "Lo Mejor",
+    "music_description": "Lo Mejor from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/quien-trae-las-cornetas.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/quien-trae-las-cornetas/17-lo-mejor.mp3",
+    "music_album": "Quien Trae Las Cornetas",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "100",
+    "node_type": "Music",
+    "node_name": "Colchones Tambores Y Refrigeradores",
+    "node_color": "#D9BF41",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "101"
+    ],
+    "node_album_links_previous": [
+      "99"
+    ],
+    "music_id": "43",
+    "music_name": "Colchones Tambores Y Refrigeradores",
+    "music_description": "Colchones Tambores Y Refrigeradores from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/quien-trae-las-cornetas.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/quien-trae-las-cornetas/18-colchones-tambores-y-refrigeradores.mp3",
+    "music_album": "Quien Trae Las Cornetas",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "101",
+    "node_type": "Music",
+    "node_name": "La Tormenta",
+    "node_color": "#D9BF41",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "102"
+    ],
+    "node_album_links_previous": [
+      "100"
+    ],
+    "music_id": "44",
+    "music_name": "La Tormenta",
+    "music_description": "La Tormenta from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/quien-trae-las-cornetas.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/quien-trae-las-cornetas/19-la-tormenta.mp3",
+    "music_album": "Quien Trae Las Cornetas",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "102",
+    "node_type": "Music",
+    "node_name": "Parece",
+    "node_color": "#D9BF41",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "103"
+    ],
+    "node_album_links_previous": [
+      "101"
+    ],
+    "music_id": "45",
+    "music_name": "Parece",
+    "music_description": "Parece from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/quien-trae-las-cornetas.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/quien-trae-las-cornetas/20-parece.mp3",
+    "music_album": "Quien Trae Las Cornetas",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "103",
+    "node_type": "Music",
+    "node_name": "Cabarete",
+    "node_color": "#D9BF41",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "104"
+    ],
+    "node_album_links_previous": [
+      "102"
+    ],
+    "music_id": "46",
+    "music_name": "Cabarete",
+    "music_description": "Cabarete from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/quien-trae-las-cornetas.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/quien-trae-las-cornetas/21-cabarete.mp3",
+    "music_album": "Quien Trae Las Cornetas",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "104",
+    "node_type": "Music",
+    "node_name": "Soy Tu Papa",
+    "node_color": "#D9BF41",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "4"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [],
+    "node_album_links_previous": [
+      "103"
+    ],
+    "music_id": "47",
+    "music_name": "Soy Tu Papa",
+    "music_description": "Soy Tu Papa from Rawayana",
+    "music_author": "Rawayana",
+    "music_cover_url": "http://localhost:9000/music-cover/rawayana/quien-trae-las-cornetas.jpg",
+    "music_url": "http://localhost:9000/music/rawayana/quien-trae-las-cornetas/22-soy-tu-papa.mp3",
+    "music_album": "Quien Trae Las Cornetas",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "105",
+    "node_type": "Music",
+    "node_name": "Let It Happen",
+    "node_color": "#52378C",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "5"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "106"
+    ],
+    "node_album_links_previous": [],
+    "music_id": "13",
+    "music_name": "Let It Happen",
+    "music_description": "Let It Happen from Tame Impala",
+    "music_author": "Tame Impala",
+    "music_cover_url": "http://localhost:9000/music-cover/tame-impala/currents.jpg",
+    "music_url": "http://localhost:9000/music/tame-impala/currents/01-let-it-happen.mp3",
+    "music_album": "Currents",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "106",
+    "node_type": "Music",
+    "node_name": "Nangs",
+    "node_color": "#52378C",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "5"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "107"
+    ],
+    "node_album_links_previous": [
+      "105"
+    ],
+    "music_id": "14",
+    "music_name": "Nangs",
+    "music_description": "Nangs from Tame Impala",
+    "music_author": "Tame Impala",
+    "music_cover_url": "http://localhost:9000/music-cover/tame-impala/currents.jpg",
+    "music_url": "http://localhost:9000/music/tame-impala/currents/02-nangs.mp3",
+    "music_album": "Currents",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "107",
+    "node_type": "Music",
+    "node_name": "The Moment",
+    "node_color": "#52378C",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "5"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "108"
+    ],
+    "node_album_links_previous": [
+      "106"
+    ],
+    "music_id": "15",
+    "music_name": "The Moment",
+    "music_description": "The Moment from Tame Impala",
+    "music_author": "Tame Impala",
+    "music_cover_url": "http://localhost:9000/music-cover/tame-impala/currents.jpg",
+    "music_url": "http://localhost:9000/music/tame-impala/currents/03-the-moment.mp3",
+    "music_album": "Currents",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "108",
+    "node_type": "Music",
+    "node_name": "Eventually",
+    "node_color": "#52378C",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "5"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "109"
+    ],
+    "node_album_links_previous": [
+      "107"
+    ],
+    "music_id": "16",
+    "music_name": "Eventually",
+    "music_description": "Eventually from Tame Impala",
+    "music_author": "Tame Impala",
+    "music_cover_url": "http://localhost:9000/music-cover/tame-impala/currents.jpg",
+    "music_url": "http://localhost:9000/music/tame-impala/currents/05-eventually.mp3",
+    "music_album": "Currents",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "109",
+    "node_type": "Music",
+    "node_name": "Gossip",
+    "node_color": "#52378C",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "5"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "110"
+    ],
+    "node_album_links_previous": [
+      "108"
+    ],
+    "music_id": "17",
+    "music_name": "Gossip",
+    "music_description": "Gossip from Tame Impala",
+    "music_author": "Tame Impala",
+    "music_cover_url": "http://localhost:9000/music-cover/tame-impala/currents.jpg",
+    "music_url": "http://localhost:9000/music/tame-impala/currents/06-gossip.mp3",
+    "music_album": "Currents",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "110",
+    "node_type": "Music",
+    "node_name": "The Less I Know The Better",
+    "node_color": "#52378C",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "5"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "111"
+    ],
+    "node_album_links_previous": [
+      "109"
+    ],
+    "music_id": "18",
+    "music_name": "The Less I Know The Better",
+    "music_description": "The Less I Know The Better from Tame Impala",
+    "music_author": "Tame Impala",
+    "music_cover_url": "http://localhost:9000/music-cover/tame-impala/currents.jpg",
+    "music_url": "http://localhost:9000/music/tame-impala/currents/07-the-less-i-know-the-better.mp3",
+    "music_album": "Currents",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "111",
+    "node_type": "Music",
+    "node_name": "Past Life",
+    "node_color": "#52378C",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "5"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "112"
+    ],
+    "node_album_links_previous": [
+      "110"
+    ],
+    "music_id": "19",
+    "music_name": "Past Life",
+    "music_description": "Past Life from Tame Impala",
+    "music_author": "Tame Impala",
+    "music_cover_url": "http://localhost:9000/music-cover/tame-impala/currents.jpg",
+    "music_url": "http://localhost:9000/music/tame-impala/currents/08-past-life.mp3",
+    "music_album": "Currents",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "112",
+    "node_type": "Music",
+    "node_name": "Disciples",
+    "node_color": "#52378C",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "5"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "113"
+    ],
+    "node_album_links_previous": [
+      "111"
+    ],
+    "music_id": "20",
+    "music_name": "Disciples",
+    "music_description": "Disciples from Tame Impala",
+    "music_author": "Tame Impala",
+    "music_cover_url": "http://localhost:9000/music-cover/tame-impala/currents.jpg",
+    "music_url": "http://localhost:9000/music/tame-impala/currents/09-disciples.mp3",
+    "music_album": "Currents",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "113",
+    "node_type": "Music",
+    "node_name": "Cause I M A Man",
+    "node_color": "#52378C",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "5"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "114"
+    ],
+    "node_album_links_previous": [
+      "112"
+    ],
+    "music_id": "21",
+    "music_name": "Cause I M A Man",
+    "music_description": "Cause I M A Man from Tame Impala",
+    "music_author": "Tame Impala",
+    "music_cover_url": "http://localhost:9000/music-cover/tame-impala/currents.jpg",
+    "music_url": "http://localhost:9000/music/tame-impala/currents/10-cause-i-m-a-man.mp3",
+    "music_album": "Currents",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "114",
+    "node_type": "Music",
+    "node_name": "Reality In Motion",
+    "node_color": "#52378C",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "5"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "115"
+    ],
+    "node_album_links_previous": [
+      "113"
+    ],
+    "music_id": "22",
+    "music_name": "Reality In Motion",
+    "music_description": "Reality In Motion from Tame Impala",
+    "music_author": "Tame Impala",
+    "music_cover_url": "http://localhost:9000/music-cover/tame-impala/currents.jpg",
+    "music_url": "http://localhost:9000/music/tame-impala/currents/11-reality-in-motion.mp3",
+    "music_album": "Currents",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "115",
+    "node_type": "Music",
+    "node_name": "Love Paranoia",
+    "node_color": "#52378C",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "5"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "116"
+    ],
+    "node_album_links_previous": [
+      "114"
+    ],
+    "music_id": "23",
+    "music_name": "Love Paranoia",
+    "music_description": "Love Paranoia from Tame Impala",
+    "music_author": "Tame Impala",
+    "music_cover_url": "http://localhost:9000/music-cover/tame-impala/currents.jpg",
+    "music_url": "http://localhost:9000/music/tame-impala/currents/12-love-paranoia.mp3",
+    "music_album": "Currents",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "116",
+    "node_type": "Music",
+    "node_name": "New Person Same Old Mistakes",
+    "node_color": "#52378C",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "5"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [
+      "117"
+    ],
+    "node_album_links_previous": [
+      "115"
+    ],
+    "music_id": "24",
+    "music_name": "New Person Same Old Mistakes",
+    "music_description": "New Person Same Old Mistakes from Tame Impala",
+    "music_author": "Tame Impala",
+    "music_cover_url": "http://localhost:9000/music-cover/tame-impala/currents.jpg",
+    "music_url": "http://localhost:9000/music/tame-impala/currents/13-new-person-same-old-mistakes.mp3",
+    "music_album": "Currents",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+  {
+    "node_id": "117",
+    "node_type": "Music",
+    "node_name": "Yes I M Changing",
+    "node_color": "#52378C",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [
+      "5"
+    ],
+    "node_author_links_previous": [],
+    "node_album_links_next": [],
+    "node_album_links_previous": [
+      "116"
+    ],
+    "music_id": "25",
+    "music_name": "Yes I M Changing",
+    "music_description": "Yes I M Changing from Tame Impala",
+    "music_author": "Tame Impala",
+    "music_cover_url": "http://localhost:9000/music-cover/tame-impala/currents.jpg",
+    "music_url": "http://localhost:9000/music/tame-impala/currents/yes-i-m-changing.mp3",
+    "music_album": "Currents",
+    "likes": 0,
+    "views": 0,
+    "shares": 0,
+    "comments": 0
+  },
+   {
+    "node_id": "118",
+    "node_type": "Author",
+    "node_name": "admin",
+    "node_color": "#FF0000",
+    "node_music_links_next": [],
+    "node_music_links_previous": [],
+    "node_tag_links_next": [],
+    "node_tag_links_previous": [],
+    "node_author_links_next": [],
+    "node_author_links_previous": [],
+    "node_album_links_next": [],
+    "node_album_links_previous": [],
+    "author_id": "5",
+    "author_name": "admin",
+    "author_real_name": "Administrator User",
+    "author_description": "Test user",
+    "author_profile_picture": "http://localhost:9000/profile-picture/admin.jpg",
+    "node_music_likes": ["115","40", "116" ]
+  }
+]
