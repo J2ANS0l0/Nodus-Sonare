@@ -1,0 +1,76 @@
+name: CI
+
+# Every push to main runs the pipeline with default values; it can also be launched by hand.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: backend
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up uv (Python version comes from backend/.python-version)
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          cache-dependency-glob: backend/uv.lock
+
+      - name: Install dependencies (exactly as locked)
+        run: uv sync --locked
+
+      - name: Ruff
+        run: uv run ruff check app scripts tests --output-format=github
+
+  unit:
+    name: Unit tests + coverage gate
+    needs: lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up uv (Python version comes from backend/.python-version)
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          cache-dependency-glob: backend/uv.lock
+
+      - name: Install dependencies (exactly as locked)
+        run: uv sync --locked
+
+      # Threshold and measured modules live in pyproject.toml ([tool.coverage.*]): below 90% this step fails.
+      - name: Pytest (unit) with coverage gate
+        run: >
+          uv run pytest tests/unit
+          --cov --cov-report=term-missing --cov-report=xml:reports/coverage.xml
+          --junitxml=reports/unit-junit.xml
+
+      - name: Coverage summary
+        if: always()
+        run: |
+          {
+            echo "### Unit tests"
+            python3 -c "import xml.etree.ElementTree as E; s=E.parse('reports/unit-junit.xml').getroot().find('testsuite'); print(f\"- tests: {s.get('tests')}, failures: {s.get('failures')}, errors: {s.get('errors')}, skipped: {s.get('skipped')}\")"
+            python3 -c "import xml.etree.ElementTree as E; r=E.parse('reports/coverage.xml').getroot(); print(f\"- line coverage: {float(r.get('line-rate'))*100:.1f}%, branch coverage: {float(r.get('branch-rate'))*100:.1f}%\")"
+          } >> "$GITHUB_STEP_SUMMARY" || echo "No reports to summarize"
+
+      - name: Upload unit reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-reports-${{ github.sha }}
+          path: backend/reports/
+          if-no-files-found: ignore
