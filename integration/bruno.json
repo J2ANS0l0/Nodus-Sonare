@@ -1,0 +1,6 @@
+{
+  "version": "1",
+  "name": "Nodus Sonare - integracion",
+  "type": "collection",
+  "ignore": ["node_modules", ".git", "fixtures", "lib"]
+}

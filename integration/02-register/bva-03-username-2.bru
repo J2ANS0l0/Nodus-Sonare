@@ -1,0 +1,48 @@
+meta {
+  name: REG-BVA-03 · username 2 caracteres → no se rechaza por longitud
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/api/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "{{email}}",
+    "username": "{{username}}",
+    "password": "{{password}}"
+  }
+}
+
+script:pre-request {
+  const fx = require("./lib/fixtures");
+  bru.setVar("email", `it_${fx.suffix()}@example.com`);
+  bru.setVar("username", fx.twoChars());
+  bru.setVar("password", fx.PASSWORD);
+}
+
+tests {
+  test("2 characters pass the length rule (201, or 409 if that name was already taken)", function() {
+    const status = res.getStatus();
+    expect([201, 409]).to.include(status);
+    if (status === 409) expect(res.getBody().error).to.equal("Username already taken");
+  });
+}
+
+docs {
+  # REG-BVA-03 · username 2 caracteres → no se rechaza por longitud
+
+  **Técnica:** BVA
+
+  **Cubre:** Límite inferior del servicio, lado válido (2).
+
+  **Esperado:** 201; o 409 `Username already taken` si ese nombre ya existía en el ambiente
+
+  Límites de `username`: el schema exige 1–40 caracteres (fuera → 422) y el servicio 2–40 (1 → 400). Cada lado de cada límite da un código distinto.
+
+  El caso elige 2 caracteres entre letras minúsculas y dígitos (36² = 1 296 nombres; los usernames no distinguen mayúsculas), así que en un ambiente persistente el nombre aleatorio puede estar tomado. El 409 por duplicado también demuestra que el username pasó la regla de longitud; un 400 o un 422 harían fallar el caso. Así el caso no queda intermitente (ver DECISIONES.md).
+}

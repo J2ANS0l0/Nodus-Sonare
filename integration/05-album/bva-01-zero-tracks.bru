@@ -1,0 +1,52 @@
+meta {
+  name: ALB-BVA-01 · 0 pistas → 422
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/album/upload
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "album_name": "Album {{suffix}}",
+    "author_name": "Integration",
+    "tracks": []
+  }
+}
+
+script:pre-request {
+  const fx = require("./lib/fixtures");
+  const u = await fx.newUser(bru);
+  bru.setVar("token", u.token);
+  bru.setVar("authorNodeId", u.nodeId);
+  bru.setVar("suffix", fx.suffix());
+}
+
+tests {
+  test("status 422", function() {
+    expect(res.getStatus()).to.equal(422);
+  });
+
+  test("error body {\"error\": ...}", function() {
+    expect(res.getBody()).to.have.property("error").that.is.a("string");
+    expect(res.getBody().error).to.match(/tracks/);
+  });
+}
+
+docs {
+  # ALB-BVA-01 · 0 pistas → 422
+
+  **Técnica:** BVA
+
+  **Cubre:** Límite inferior de `tracks` (min 1), lado inválido (0).
+
+  **Esperado:** 422
+}

@@ -1,0 +1,50 @@
+meta {
+  name: LIKE-EP-04 · nodo Author (no Music) → 400
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/like
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "music_node_id": "{{targetNodeId}}"
+  }
+}
+
+script:pre-request {
+  const fx = require("./lib/fixtures");
+  const u = await fx.newUser(bru);
+  bru.setVar("token", u.token);
+  bru.setVar("authorNodeId", u.nodeId);
+  bru.setVar("targetNodeId", u.nodeId);
+}
+
+tests {
+  test("status 400", function() {
+    expect(res.getStatus()).to.equal(400);
+  });
+
+  test("error body {\"error\": ...}", function() {
+    expect(res.getBody()).to.have.property("error").that.is.a("string");
+    expect(res.getBody().error).to.match(/must reference a Music node/);
+  });
+}
+
+docs {
+  # LIKE-EP-04 · nodo Author (no Music) → 400
+
+  **Técnica:** EP
+
+  **Cubre:** Partición inválida: el nodo existe pero es de tipo Author.
+
+  **Esperado:** 400
+}

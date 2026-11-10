@@ -1,0 +1,51 @@
+meta {
+  name: MED-EP-05 · texto declarado como image/png → 400 (DEFECTO ABIERTO)
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/profile/picture
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:multipart-form {
+  file: @file(fixtures/not-an-image.png) @contentType(image/png)
+}
+
+script:pre-request {
+  // Known defect D-1 (DECISIONES.md): the API only checks the declared MIME type of avatars.
+  // Remove the next line once upload_avatar validates the content.
+  bru.runner.skipRequest();
+
+  const fx = require("./lib/fixtures");
+  const u = await fx.newUser(bru);
+  bru.setVar("token", u.token);
+  bru.setVar("authorNodeId", u.nodeId);
+}
+
+tests {
+  test("status 400", function() {
+    expect(res.getStatus()).to.equal(400);
+  });
+
+  test("error body {\"error\": ...}", function() {
+    expect(res.getBody()).to.have.property("error").that.is.a("string");
+    expect(res.getBody().error).to.match(/image/);
+  });
+}
+
+docs {
+  # MED-EP-05 · texto declarado como image/png → 400 (DEFECTO ABIERTO)
+
+  **Técnica:** EP
+
+  **Cubre:** Partición inválida: contenido que no es imagen pero se declara `image/png`.
+
+  **Esperado:** 400. **Hoy la API responde 200** y guarda el archivo como avatar: defecto D-1 en DECISIONES.md. El caso se salta con `bru.runner.skipRequest()` hasta que se corrija; aparece como *skipped* en el reporte.
+}

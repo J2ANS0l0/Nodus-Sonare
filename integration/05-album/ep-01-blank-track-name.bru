@@ -1,0 +1,52 @@
+meta {
+  name: ALB-EP-01 · pista con nombre en blanco → 400
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/album/upload
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "album_name": "Album {{suffix}}",
+    "author_name": "Integration",
+    "tracks": [{ "name": "   ", "url": "it://x" }]
+  }
+}
+
+script:pre-request {
+  const fx = require("./lib/fixtures");
+  const u = await fx.newUser(bru);
+  bru.setVar("token", u.token);
+  bru.setVar("authorNodeId", u.nodeId);
+  bru.setVar("suffix", fx.suffix());
+}
+
+tests {
+  test("status 400", function() {
+    expect(res.getStatus()).to.equal(400);
+  });
+
+  test("error body {\"error\": ...}", function() {
+    expect(res.getBody()).to.have.property("error").that.is.a("string");
+    expect(res.getBody().error).to.match(/Every track needs a name/);
+  });
+}
+
+docs {
+  # ALB-EP-01 · pista con nombre en blanco → 400
+
+  **Técnica:** EP
+
+  **Cubre:** Partición inválida de `tracks[].name`: solo espacios.
+
+  **Esperado:** 400
+}

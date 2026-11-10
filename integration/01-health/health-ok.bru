@@ -1,0 +1,31 @@
+meta {
+  name: HEA-EP-01 · health → 200
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/health
+  body: none
+  auth: none
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("status ok", function() {
+    expect(res.getBody()).to.eql({ status: "ok" });
+  });
+}
+
+docs {
+  # HEA-EP-01 · health → 200
+
+  **Técnica:** EP (smoke)
+
+  **Cubre:** Partición válida: la API está arriba y responde en el ambiente elegido.
+
+  **Esperado:** 200 `{"status":"ok"}`
+}

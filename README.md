@@ -59,6 +59,34 @@ Las pruebas unitarias viven en `backend/tests/unit/` y no necesitan Docker: usan
 (`backend/tests/unit/fakes.py`). El pipeline de GitHub Actions está en `.github/workflows/ci.yml` y las decisiones
 de diseño en [`DECISIONES.md`](DECISIONES.md).
 
+### Pruebas de integración (Bruno)
+
+Pruebas de caja negra contra la API **en ejecución**, con [Bruno](https://docs.usebruno.com/). La colección está en
+[`integration/`](integration/) (archivos `.bru` versionados) y el CLI está fijado en `package.json`
+(`@usebruno/cli` 4.2.1, versión exacta). Necesitan Docker, la infraestructura inicializada y el backend corriendo:
+
+```bash
+docker compose -f docker/docker-compose.yml up -d   # Silo + DynamoDB Local
+npm run infra:init                                  # tablas y buckets (solo la primera vez)
+npm run server                                      # API en http://localhost:5002
+# En otra terminal: corre los 57 casos contra el ambiente dev (http://localhost:5002)
+npm run test:integration
+# Contra otro ambiente de integration/environments/ (staging = http://localhost:5003)
+BRUNO_ENV=staging npm run test:integration
+# Un solo caso o una carpeta (desde integration/)
+cd integration && npx bru run 07-profile --env dev
+```
+
+- Reportes: `reports/integration-junit.xml` (JUnit, para el CI) y `reports/integration.html`. El comando sale con
+  código 1 si algún caso falla.
+- No hace falta vaciar la base: cada caso registra su propio usuario con un sufijo aleatorio
+  (`integration/lib/fixtures.js`), así que la suite se puede repetir contra un ambiente con datos.
+- Cada caso dice en su bloque `docs` la técnica que lo produjo (EP, BVA o tabla de decisión + regla) y qué cubre.
+  Se puede ver en la app de escritorio de Bruno abriendo la carpeta `integration/`. El inventario completo está en
+  [`DECISIONES.md`](DECISIONES.md#2-pruebas-de-integración).
+- `08-media/ep-05-picture-fake-png` se salta a propósito: documenta el defecto abierto D-1 (la foto de perfil no valida
+  el contenido del archivo).
+
 ## Datos
 
 ```bash

@@ -1,0 +1,44 @@
+meta {
+  name: LOG-EP-04 · usuario inexistente → 401 (mismo mensaje)
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "{{identifier}}",
+    "password": "{{password}}"
+  }
+}
+
+script:pre-request {
+  const fx = require("./lib/fixtures");
+  bru.setVar("identifier", `ghost_${fx.suffix()}`);
+  bru.setVar("password", fx.PASSWORD);
+}
+
+tests {
+  test("status 401", function() {
+    expect(res.getStatus()).to.equal(401);
+  });
+
+  test("same message for wrong password and unknown user", function() {
+    expect(res.getBody()).to.eql({ error: "Invalid credentials" });
+  });
+}
+
+docs {
+  # LOG-EP-04 · usuario inexistente → 401 (mismo mensaje)
+
+  **Técnica:** EP
+
+  **Cubre:** Partición inválida: usuario que no existe. El mensaje es idéntico al de LOG-EP-03, así la API no revela qué usuarios existen.
+
+  **Esperado:** 401 `Invalid credentials`
+}

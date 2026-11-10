@@ -1,0 +1,48 @@
+meta {
+  name: REG-EP-04 · username repetido → 409
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "{{email}}",
+    "username": "{{username}}",
+    "password": "{{password}}"
+  }
+}
+
+script:pre-request {
+  const fx = require("./lib/fixtures");
+  const existing = await fx.newUser(bru);
+  bru.setVar("email", `it_${fx.suffix()}@example.com`);
+  bru.setVar("username", existing.username);
+  bru.setVar("password", fx.PASSWORD);
+}
+
+tests {
+  test("status 409", function() {
+    expect(res.getStatus()).to.equal(409);
+  });
+
+  test("error body {\"error\": ...}", function() {
+    expect(res.getBody()).to.have.property("error").that.is.a("string");
+    expect(res.getBody().error).to.match(/Username already taken/);
+  });
+}
+
+docs {
+  # REG-EP-04 · username repetido → 409
+
+  **Técnica:** EP
+
+  **Cubre:** Partición inválida: username que ya existe (el pre-request lo registra), con email nuevo.
+
+  **Esperado:** 409 `Username already taken`
+}

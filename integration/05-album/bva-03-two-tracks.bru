@@ -1,0 +1,57 @@
+meta {
+  name: ALB-BVA-03 · 2 pistas → 201 enlazadas
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/album/upload
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "album_name": "Album {{suffix}}",
+    "author_name": "Integration",
+    "tracks": [
+      { "name": "First", "url": "it://1" },
+      { "name": "Second", "url": "it://2" }
+    ]
+  }
+}
+
+script:pre-request {
+  const fx = require("./lib/fixtures");
+  const u = await fx.newUser(bru);
+  bru.setVar("token", u.token);
+  bru.setVar("authorNodeId", u.nodeId);
+  bru.setVar("suffix", fx.suffix());
+}
+
+tests {
+  test("status 201", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+
+  test("tracks are chained in album order", function() {
+    const [first, second] = res.getBody().nodes;
+    expect(res.getBody().count).to.equal(2);
+    expect(first.node_album_links_next).to.eql([second.node_id]);
+    expect(second.node_album_links_previous).to.eql([first.node_id]);
+  });
+}
+
+docs {
+  # ALB-BVA-03 · 2 pistas → 201 enlazadas
+
+  **Técnica:** BVA
+
+  **Cubre:** Primer valor por encima del mínimo (2): ya hay enlaces de álbum entre pistas.
+
+  **Esperado:** 201
+}

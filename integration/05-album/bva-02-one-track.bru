@@ -1,0 +1,57 @@
+meta {
+  name: ALB-BVA-02 · 1 pista → 201
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/album/upload
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "album_name": "Album {{suffix}}",
+    "author_name": "Integration",
+    "tracks": [{ "name": "Solo", "url": "it://solo" }]
+  }
+}
+
+script:pre-request {
+  const fx = require("./lib/fixtures");
+  const u = await fx.newUser(bru);
+  bru.setVar("token", u.token);
+  bru.setVar("authorNodeId", u.nodeId);
+  bru.setVar("suffix", fx.suffix());
+}
+
+tests {
+  test("status 201", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+
+  test("one Music node linked to the author, with no album neighbours", function() {
+    const body = res.getBody();
+    expect(body.count).to.equal(1);
+    const node = body.nodes[0];
+    expect(node.node_type).to.equal("Music");
+    expect(node.node_author_links_next).to.eql([bru.getVar("authorNodeId")]);
+    expect(node.node_album_links_next).to.eql([]);
+    expect(node.node_album_links_previous).to.eql([]);
+  });
+}
+
+docs {
+  # ALB-BVA-02 · 1 pista → 201
+
+  **Técnica:** BVA
+
+  **Cubre:** Límite inferior de `tracks`, lado válido (1).
+
+  **Esperado:** 201, `count = 1`
+}
