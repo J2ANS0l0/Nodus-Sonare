@@ -27,6 +27,8 @@ npm install
 cd backend && uv sync && cd ..
 # Crea el archivo de configuración del backend (luego cambia JWT_SECRET por un valor aleatorio)
 cp backend/.env.example backend/.env
+# Crea el usuario y la clave de Silo (los mismos valores que S3_ACCESS_KEY / S3_SECRET_KEY de backend/.env)
+cp docker/.env.example docker/.env
 # Crea y levanta los contenedores de Silo, DynamoDB y DynamoDB Admin
 docker compose -f docker/docker-compose.yml up -d
 # Crea la tabla de usuarios (SQLite), la tabla de nodos (DynamoDB) y los buckets (Silo), vacíos
