@@ -4,10 +4,10 @@ Justificación de las decisiones de calidad del proyecto. Cada decisión es una 
 del curso, la evidencia en el repositorio o en el pipeline y la fuente. Las referencias completas están al final
 en formato IEEE.
 
-> Estado: capas **unitaria** e **integración** implementadas; dos recorridos **end-to-end** (smoke y
-> buscar-y-reproducir, con Playwright y page objects) implementados; pipeline con Lint, Unitarias, Build, Despliegue en
-> dos ambientes, Integración y correo. Faltan el tercer recorrido end-to-end y la etapa end-to-end del pipeline. Los
-> números de build se anotan aquí y en `EVIDENCIA.md`.
+> Estado: capas **unitaria** e **integración** implementadas; los tres recorridos **end-to-end** (smoke,
+> buscar-y-reproducir y editar perfil, con Playwright y page objects) implementados; pipeline con Lint, Unitarias, Build,
+> Despliegue en dos ambientes, Integración y correo. Falta la etapa end-to-end del pipeline. Los números de build se
+> anotan aquí y en `EVIDENCIA.md`.
 
 ## 1. Pruebas unitarias
 
@@ -134,8 +134,8 @@ de `integration/`. 58 casos: 32 de partición de equivalencia, 18 de valores lí
 
 ## 3. Pruebas end-to-end
 
-Dos de los tres recorridos que pide el proyecto: el **smoke** (3.1 a 3.4) y **buscar y reproducir** (3.5). El tercero
-se agrega con los mismos page objects.
+Los tres recorridos que pide el proyecto: el **smoke** (3.1 a 3.4), **buscar y reproducir** (3.5 y 3.6) y **editar el
+perfil** (3.7), con los mismos page objects.
 
 ### 3.1 Herramienta y alcance del smoke
 
@@ -196,6 +196,16 @@ se agrega con los mismos page objects.
 | Concepto | **Flaky test** y aislamiento: una prueba que depende de que otra haya corrido antes pasa o falla según el orden. **SOLID – Responsabilidad única (S)** en `CatalogSeed`: preparar datos es una clase aparte de los page objects, que solo describen pantallas. |
 | Evidencia | `e2e/support/catalog_seed.ts` (`ensure_track`); anotación `seed` del reporte (`"Nodo Semilla E2E" created` o `existing`). Segunda corrida sobre la misma base en verde y sin duplicar la pista. |
 | Fuente | [14], [15] |
+
+### 3.7 Tercer recorrido: iniciar sesión y editar el perfil
+
+| Campo | Contenido |
+|---|---|
+| Decisión | `e2e/tests/edit_profile.spec.ts`, etiqueta `@regression`: inicia sesión como *Profile Tester* → *Profile* → *[ Change Profile Picture ]* y elige `e2e/fixtures/avatar.png` en el selector de archivos → escribe una descripción → elige otro color de la paleta → *Save Changes* → cierra sesión, vuelve a entrar y comprueba en *Profile* que la foto, la descripción y el color siguen ahí. La cuenta se crea por API en un `beforeAll` con `AccountSeed` (idempotente), porque el recorrido empieza con login y el registro ya lo cubren los otros dos. La descripción lleva la fecha y hora de la corrida y el color es siempre uno distinto al actual (`ProfilePage.choose_another_color`), así un guardado fallido nunca pasa en verde por el valor que dejó la corrida anterior. La foto se verifica con su URL y con que el navegador la cargó (`naturalWidth > 0`). |
+| Alternativa | **Verificar solo que el overlay se cerró**: no prueba que el backend guardó nada. **Volver a abrir *Profile* sin cerrar sesión**: el formulario lee el estado local de la app, que ya se actualizó con la respuesta, y no prueba la persistencia. **`setInputFiles` directo sobre el `<input>` oculto**: más corto, pero no pasa por el botón que usa el usuario. **Valores fijos de descripción y color**: desde la segunda corrida la verificación pasa aunque el guardado falle. **Registrar la cuenta por la interfaz**: repite lo que ya prueban los otros recorridos y alarga este. |
+| Concepto | **Pirámide de pruebas**: un recorrido de regresión sobre una funcionalidad que los otros no tocan (el perfil). **SOLID – Responsabilidad única (S)** en `ProfilePage` (solo describe el overlay de perfil) y en `AccountSeed`, que se separó de `CatalogSeed`: crear cuentas y publicar pistas cambian por razones distintas, y ahora `CatalogSeed` usa `AccountSeed` en vez de tener su propia copia del registro. **Flaky test**: valores únicos por corrida en vez de datos que dependen de la corrida anterior. |
+| Evidencia | `e2e/tests/edit_profile.spec.ts`, `e2e/pages/profile_page.ts`, `e2e/support/account_seed.ts`. Corrida local: `1 passed (5.6s)`; suite completa dos veces seguidas: `3 passed`. Build con la etapa end-to-end: _anotar número de build_. |
+| Fuente | [14], [15], [16] |
 
 ## 4. Pipeline
 
@@ -272,7 +282,7 @@ se agrega con los mismos page objects.
 ## 5. Sugerencias de IA
 
 El grupo usó Claude (Anthropic) como asistente durante la implementación de las capas unitaria (1–5), de integración
-(6–11) y end-to-end (12–14), del pipeline (15–22) y del segundo recorrido end-to-end (23–25). Estas son sugerencias
+(6–11) y end-to-end (12–14), del pipeline (15–22) y del segundo y tercer recorrido end-to-end (23–27). Estas son sugerencias
 que la IA propuso y que el grupo discutió antes de aceptarlas o rechazarlas.
 
 | # | Sugerencia de la IA | Decisión del grupo | Razón | Prueba o build que la respalda |
@@ -302,6 +312,8 @@ que la IA propuso y que el grupo discutió antes de aceptarlas o rechazarlas.
 | 23 | **Sembrar por API** la pista que busca el segundo recorrido, en vez de buscar el álbum que sube el smoke. | **Aceptada**. Se descartó depender del smoke. | Con `--grep @regression` o en otro orden, el smoke no corre antes y el nodo no existiría en un ambiente vacío. | `e2e/support/catalog_seed.ts`; `npm run test:e2e:regression` en verde corriendo solo. |
 | 24 | Hacer el sembrado **idempotente** (revisar el stream antes de publicar) en vez de usar un nombre de pista aleatorio. | **Aceptada**. Se descartó el nombre aleatorio. | El nombre fijo permite buscar un texto conocido en la demo, y revisar antes evita duplicados que romperían la búsqueda de un único resultado. | Suite completa dos veces seguidas sobre la misma base: `2 passed`, sin pistas duplicadas. |
 | 25 | Terminar el recorrido apenas Enter reproduce la pista, sin hacer clic en el nodo. | **Rechazada**. El recorrido hace clic en el nodo buscado. | El usuario reproduce con un clic; la reproducción automática solo ocurre con una única coincidencia, y depender de ella dejaría sin probar el gesto real. | `e2e/tests/search_and_play.spec.ts` (paso *play the searched node*). |
+| 26 | Comprobar la persistencia **cerrando sesión y volviendo a entrar** antes de revisar el perfil. | **Aceptada**. Se descartó reabrir *Profile* en la misma sesión. | En la misma sesión el formulario muestra el estado local que la app ya actualizó con la respuesta; solo una sesión nueva lee lo que guardó el backend. | `e2e/tests/edit_profile.spec.ts` (paso *the changes survive a new session*). |
+| 27 | Separar la creación de cuentas de `CatalogSeed` en una clase **`AccountSeed`** para reutilizarla en el tercer recorrido. | **Aceptada**. Se descartó copiar el registro en el nuevo spec. | Una sola implementación del "registrar o entrar"; si cambia el endpoint, se toca un archivo. | `e2e/support/account_seed.ts`; la suite completa (incluido el sembrado del segundo recorrido) en verde después del cambio. |
 
 ## Referencias
 

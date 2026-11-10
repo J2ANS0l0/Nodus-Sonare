@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { expect, type APIRequestContext } from '@playwright/test';
+import { AccountSeed } from './account_seed';
 import type { UserData } from './test_data';
 
 interface RawNode {
@@ -21,10 +22,14 @@ export interface SeedTrack {
  * each test can run alone, in any order, against an empty environment.
  */
 export class CatalogSeed {
+  private readonly accounts: AccountSeed;
+
   constructor(
     private readonly api: APIRequestContext,
     private readonly base_url: string,
-  ) {}
+  ) {
+    this.accounts = new AccountSeed(api);
+  }
 
   /** First event of the SSE stream: the full node list the app would draw. */
   async nodes(): Promise<RawNode[]> {
@@ -58,7 +63,7 @@ export class CatalogSeed {
     expect(existing.length, `Music nodes named "${track.name}"`).toBeLessThanOrEqual(1);
     if (existing.length === 1) return 'existing';
 
-    const token = await this.token_for(publisher);
+    const token = await this.accounts.token_for(publisher);
     const headers = { Authorization: `Bearer ${token}` };
 
     const upload = await this.api.post('/api/upload/music', {
@@ -81,16 +86,5 @@ export class CatalogSeed {
     });
     expect(album.status(), 'POST /api/album/upload').toBe(201);
     return 'created';
-  }
-
-  /** Registers the user; when it already exists (409), logs in. Returns the JWT. */
-  private async token_for(user: UserData): Promise<string> {
-    const register = await this.api.post('/api/register', { data: user });
-    if (register.status() === 201) return (await register.json()).token;
-    expect(register.status(), 'register publisher (201 or 409)').toBe(409);
-
-    const login = await this.api.post('/api/login', { data: { username: user.username, password: user.password } });
-    expect(login.status(), 'login publisher').toBe(200);
-    return (await login.json()).token;
   }
 }

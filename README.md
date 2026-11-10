@@ -122,6 +122,10 @@ E2E_BASE_URL=http://localhost:3001 E2E_BROWSER=firefox npm run test:e2e
   en él y comprueba que el reproductor la toca. La pista no depende del smoke: un `beforeAll` la publica por API con el
   usuario *Seed Artist* (`e2e/support/catalog_seed.ts`) solo si todavía no existe, así que el recorrido corre solo, en
   cualquier orden y contra una base vacía.
+- **Editar perfil** (`e2e/tests/edit_profile.spec.ts`, `@regression`): inicia sesión como *Profile Tester*
+  (`profile.tester@example.com` / `ProfileTester1234`, creado por API en un `beforeAll` si no existe), abre *Profile*,
+  cambia la foto con *[ Change Profile Picture ]* (`e2e/fixtures/avatar.png`), escribe una descripción, elige otro color
+  de la paleta y guarda; después cierra sesión, vuelve a entrar y comprueba que los tres cambios se guardaron.
 - `album/` tiene dos pistas **sintéticas** de 12 s (acordes de senos generados con ffmpeg, sin derechos de terceros),
   con tags ID3 (`artist` Feeling Blew, `album` Ensayos Sinteticos, `genre` Demo, `track` 1/2 y 2/2). Para
   regenerarlas: `ffmpeg -f lavfi -i "aevalsrc=0.3*sin(2*PI*220*t):s=44100:d=12" -ac 2 -c:a libmp3lame -b:a 128k
