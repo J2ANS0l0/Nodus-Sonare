@@ -2,6 +2,9 @@ meta {
   name: MED-EP-01 · audio MP3 → 201 en el bucket music
   type: http
   seq: 1
+  tags: [
+    smoke
+  ]
 }
 
 post {
@@ -32,8 +35,10 @@ tests {
 
   test("stored in the music bucket with .mp3 extension", function() {
     const body = res.getBody();
-    expect(body.bucket).to.equal("music");
+    // Bucket names depend on the environment ("music" locally, "<env>-music" when deployed)
+    expect(body.bucket).to.match(/(^|-)music$/);
     expect(body.key).to.match(/\.mp3$/);
+    expect(body.url).to.include(`/${body.bucket}/${body.key}`);
   });
 
   test("the stored file can be downloaded from Silo", async function() {

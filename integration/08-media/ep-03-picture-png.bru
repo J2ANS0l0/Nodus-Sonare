@@ -32,7 +32,8 @@ tests {
 
   test("avatar url saved in the user and in the Author node", function() {
     const body = res.getBody();
-    expect(body.user.avatar_url).to.match(/\/profile-picture\/.+\.png$/);
+    // Bucket name depends on the environment ("profile-picture" or "<env>-profile-picture")
+    expect(body.user.avatar_url).to.match(/\/([a-z]+-)?profile-picture\/.+\.png$/);
     expect(body.node.author_profile_picture).to.equal(body.user.avatar_url);
   });
 }
