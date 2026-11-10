@@ -44,11 +44,13 @@ miden `app/api`. El build mandó el correo de falla (job *Correo si falla*: succ
 |---|---|---|---|
 | [#9](https://github.com/J2ANS0l0/Nodus-Sonare/actions/runs/42771896536) | **staging** (http://localhost:5003), suite smoke, lanzado a mano | `65ae0d3aae42e5cee5244f737f6d13cf04d49bbf` | `{"version":"65ae0d3aae42e5cee5244f737f6d13cf04d49bbf","environment":"staging"}` |
 | [#10](https://github.com/J2ANS0l0/Nodus-Sonare/actions/runs/42772193293) | **dev** (http://localhost:5002), suite regression, push a `main` | `ff8bbe47b43412dcbbdca6732053920884e7c590` | `{"version":"ff8bbe47b43412dcbbdca6732053920884e7c590","environment":"dev"}` |
-| _pendiente_ | staging con la etapa end-to-end | | |
+| [#19](https://github.com/J2ANS0l0/Nodus-Sonare/actions/runs/42777723410) | **staging** (http://localhost:5003), suite smoke, **firefox**, lanzado a mano, con End-to-end | `db278bfc7eebf278f5890a5ec0792472618b75cb` | `{"version":"db278bfc7eebf278f5890a5ec0792472618b75cb","environment":"staging"}` |
+| [#17](https://github.com/J2ANS0l0/Nodus-Sonare/actions/runs/42776939755) | **dev** (http://localhost:5002), suite regression, chromium, push a `main`, con End-to-end | `d338d179d0d9cea098700895846a5a0a0b342e56` | `{"version":"d338d179d0d9cea098700895846a5a0a0b342e56","environment":"dev"}` |
 
-La diferencia entre ambientes se ve en el nombre del build (`env=staging · suite=smoke` contra `env=dev ·
-suite=regression`), en la URL probada y en la respuesta de la instancia, y en el número de casos de integración:
-7 con `smoke` y 58 con `regression`.
+La diferencia entre ambientes y parámetros se ve en el nombre del build (`env=staging · suite=smoke · browser=firefox`
+contra `env=dev · suite=regression · browser=chromium`), en la URL probada y en la respuesta de la instancia, en el
+número de casos de integración (7 con `smoke`, 58 con `regression`) y en los recorridos end-to-end (`1 passed` en
+Firefox con `smoke` en el #19; `3 passed` en Chromium con `regression` en el #17).
 
 ## Otros builds
 
@@ -57,7 +59,8 @@ suite=regression`), en la URL probada y en la respuesta de la instancia, y en el
 | #7 | ❌ rojo | `49a8cd3…` | Falla del propio pipeline: Bruno pasó (7/7) pero no pudo escribir los reportes porque `reports/` no existe en un checkout limpio. Corregido en `580b43f` (`mkdir -p reports`). También mandó el correo |
 | [#13](https://github.com/J2ANS0l0/Nodus-Sonare/actions/runs/42773388581) | ✅ verde | `be312586f2348ddbb7c573a21d06a5925cbb359b` | Segundo recorrido end-to-end (todavía sin etapa end-to-end en el pipeline) |
 | #16 | ✅ verde | `337b612…` | Tercer recorrido end-to-end (todavía sin etapa end-to-end en el pipeline) |
-| _pendiente_ | ✅ verde | | **Build verde del commit entregado, con todas las etapas, incluida End-to-end** |
+| [#17](https://github.com/J2ANS0l0/Nodus-Sonare/actions/runs/42776939755) | ✅ verde | `d338d179d0d9cea098700895846a5a0a0b342e56` | **Primer build con las 7 etapas**, incluida End-to-end (dev, regression, chromium): `3 passed (20.3s)`. Total 3 min 5 s |
+| [#18](https://github.com/J2ANS0l0/Nodus-Sonare/actions/runs/42777387393) | ✅ verde | `db278bfc7eebf278f5890a5ec0792472618b75cb` | Todas las etapas en verde con valores por defecto, en el commit que agregó esta evidencia |
 
 ## Pruebas por capa
 
@@ -84,4 +87,6 @@ suite=regression`), en la URL probada y en la respuesta de la instancia, y en el
 | [`09b-build-9-staging-despliegue.png`](evidencia/09b-build-9-staging-despliegue.png) | #9 | Imagen `nodus-sonare:65ae0d3…`; URL probada `http://localhost:5003/api/version` y respuesta `{"version":"65ae0d3…","environment":"staging"}` |
 | [`10-build-15-etapas.png`](evidencia/10-build-15-etapas.png) | #15 | Verde después del revert de la cobertura, commit `a132f85` |
 | [`11-commits-main.png`](evidencia/11-commits-main.png) | — | Historial de `main` con los SHA de los builds #10 a #16 y su estado de CI |
-| _pendiente_ | final | Build verde final con la etapa End-to-end |
+| [`12-build-17-etapas.png`](evidencia/12-build-17-etapas.png) | #17 | Las 7 etapas en verde, incluida *End-to-end (dev, regression, chromium)*; commit `d338d17`; 3 min 5 s |
+| [`13-build-19-staging-firefox-etapas.png`](evidencia/13-build-19-staging-firefox-etapas.png) | #19 | Lanzado a mano con `env=staging · suite=smoke · browser=firefox`; todas las etapas en verde; commit `db278bf` |
+| [`13b-build-19-e2e-pasos.png`](evidencia/13b-build-19-e2e-pasos.png) | #19 | Pasos de *End-to-end (staging, smoke, firefox)*: instala Firefox, verifica la instancia, vacía los datos de staging y corre Playwright |
