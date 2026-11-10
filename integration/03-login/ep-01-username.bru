@@ -1,0 +1,49 @@
+meta {
+  name: LOG-EP-01 · username y contraseña correctos → 200
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "{{identifier}}",
+    "password": "{{password}}"
+  }
+}
+
+script:pre-request {
+  const fx = require("./lib/fixtures");
+  const u = await fx.newUser(bru);
+  bru.setVar("expectedUser", u.username);
+  bru.setVar("identifier", u.username);
+  bru.setVar("password", u.password);
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("returns a token and the user's Author node", function() {
+    const body = res.getBody();
+    expect(body.token).to.be.a("string").and.not.be.empty;
+    expect(body.user.username).to.equal(bru.getVar("expectedUser"));
+    expect(body.node.author_id).to.equal(body.user.id);
+  });
+}
+
+docs {
+  # LOG-EP-01 · username y contraseña correctos → 200
+
+  **Técnica:** EP
+
+  **Cubre:** Partición válida: identificador = username existente, contraseña correcta.
+
+  **Esperado:** 200
+}

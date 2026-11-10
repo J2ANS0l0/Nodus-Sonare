@@ -1,0 +1,44 @@
+meta {
+  name: AUTH-EP-02 · token inválido → 401
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/album/upload
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer not.a.real-token
+}
+
+body:json {
+  {
+    "album_name": "Auth probe",
+    "author_name": "Integration",
+    "tracks": [{ "name": "T", "url": "it://t" }]
+  }
+}
+
+tests {
+  test("status 401", function() {
+    expect(res.getStatus()).to.equal(401);
+  });
+
+  test("error body {\"error\": ...}", function() {
+    expect(res.getBody()).to.have.property("error").that.is.a("string");
+    expect(res.getBody().error).to.match(/Invalid access token/);
+  });
+}
+
+docs {
+  # AUTH-EP-02 · token inválido → 401
+
+  **Técnica:** EP
+
+  **Cubre:** Partición inválida del token: presente con esquema Bearer pero no es un JWT firmado por la API.
+
+  **Esperado:** 401 `Invalid access token`
+}

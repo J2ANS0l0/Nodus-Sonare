@@ -1,0 +1,18 @@
+auth {
+  mode: none
+}
+
+docs {
+  # Nodus Sonare - pruebas de integración (caja negra)
+
+  Cada request es un caso independiente contra la API en ejecución (`{{baseUrl}}` del ambiente elegido).
+  Nunca importa código del backend: solo HTTP.
+
+  - **Técnica**: el bloque `docs` de cada caso indica la técnica que lo produjo
+    (EP = partición de equivalencia, BVA = análisis de valores límite, DT = tabla de decisión + regla)
+    y qué partición, límite o regla cubre.
+  - **Aislamiento**: el `script:pre-request` de cada caso crea sus propios datos (usuario con sufijo aleatorio,
+    álbum, like) con `lib/fixtures.js`. No hay reset de base: la suite es repetible contra un ambiente persistente
+    y cada `.bru` puede correrse solo.
+  - **Aserciones**: en el bloque `tests` (chai). Todos los errores de la API tienen la forma `{"error": "..."}`.
+}

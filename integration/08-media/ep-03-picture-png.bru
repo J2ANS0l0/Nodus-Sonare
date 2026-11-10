@@ -1,0 +1,48 @@
+meta {
+  name: MED-EP-03 · imagen PNG como foto de perfil → 200
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/profile/picture
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:multipart-form {
+  file: @file(fixtures/pixel.png) @contentType(image/png)
+}
+
+script:pre-request {
+  const fx = require("./lib/fixtures");
+  const u = await fx.newUser(bru);
+  bru.setVar("token", u.token);
+  bru.setVar("authorNodeId", u.nodeId);
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("avatar url saved in the user and in the Author node", function() {
+    const body = res.getBody();
+    expect(body.user.avatar_url).to.match(/\/profile-picture\/.+\.png$/);
+    expect(body.node.author_profile_picture).to.equal(body.user.avatar_url);
+  });
+}
+
+docs {
+  # MED-EP-03 · imagen PNG como foto de perfil → 200
+
+  **Técnica:** EP
+
+  **Cubre:** Partición válida de tipo de imagen (`image/png`, un PNG real de 1×1 en `fixtures/pixel.png`).
+
+  **Esperado:** 200; `avatar_url` en el usuario y en el nodo Author
+}

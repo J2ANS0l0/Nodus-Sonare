@@ -1,0 +1,48 @@
+meta {
+  name: REG-EP-05 · username repetido con otras mayúsculas → 409
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "{{email}}",
+    "username": "{{username}}",
+    "password": "{{password}}"
+  }
+}
+
+script:pre-request {
+  const fx = require("./lib/fixtures");
+  const existing = await fx.newUser(bru);
+  bru.setVar("email", `it_${fx.suffix()}@example.com`);
+  bru.setVar("username", existing.username.toUpperCase());
+  bru.setVar("password", fx.PASSWORD);
+}
+
+tests {
+  test("status 409", function() {
+    expect(res.getStatus()).to.equal(409);
+  });
+
+  test("error body {\"error\": ...}", function() {
+    expect(res.getBody()).to.have.property("error").that.is.a("string");
+    expect(res.getBody().error).to.match(/Username already taken/);
+  });
+}
+
+docs {
+  # REG-EP-05 · username repetido con otras mayúsculas → 409
+
+  **Técnica:** EP
+
+  **Cubre:** Partición inválida: el mismo username en MAYÚSCULAS. Los usernames no distinguen mayúsculas.
+
+  **Esperado:** 409 `Username already taken`
+}

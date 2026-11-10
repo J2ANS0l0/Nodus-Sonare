@@ -1,0 +1,51 @@
+meta {
+  name: REG-EP-01 · datos válidos → 201
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "{{email}}",
+    "username": "{{username}}",
+    "password": "{{password}}"
+  }
+}
+
+script:pre-request {
+  const fx = require("./lib/fixtures");
+  bru.setVar("email", `it_${fx.suffix()}@example.com`);
+  bru.setVar("username", `it_${fx.suffix()}`);
+  bru.setVar("password", fx.PASSWORD);
+}
+
+tests {
+  test("status 201", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+
+  test("returns token, user and Author node linked to the user", function() {
+    const body = res.getBody();
+    expect(body.token).to.be.a("string").and.not.be.empty;
+    expect(body.user.username).to.equal(bru.getVar("username"));
+    expect(body.user).to.not.have.property("password_hash");
+    expect(body.node.node_type).to.equal("Author");
+    expect(body.node.author_id).to.equal(body.user.id);
+  });
+}
+
+docs {
+  # REG-EP-01 · datos válidos → 201
+
+  **Técnica:** EP
+
+  **Cubre:** Partición válida: email bien formado, username 2–40 con caracteres permitidos, contraseña de 6 caracteres a 72 bytes, sin duplicados.
+
+  **Esperado:** 201 con `token`, `user` (sin hash) y nodo `Author` con `author_id == user.id`
+}

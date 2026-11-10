@@ -1,0 +1,36 @@
+meta {
+  name: MED-EP-06 · subir audio sin token → 401
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/upload/music
+  body: multipartForm
+  auth: none
+}
+
+body:multipart-form {
+  file: @file(fixtures/silence.mp3) @contentType(audio/mpeg)
+}
+
+tests {
+  test("status 401", function() {
+    expect(res.getStatus()).to.equal(401);
+  });
+
+  test("error body {\"error\": ...}", function() {
+    expect(res.getBody()).to.have.property("error").that.is.a("string");
+    expect(res.getBody().error).to.match(/Missing access token/);
+  });
+}
+
+docs {
+  # MED-EP-06 · subir audio sin token → 401
+
+  **Técnica:** EP
+
+  **Cubre:** Partición inválida del token en un endpoint multipart.
+
+  **Esperado:** 401
+}

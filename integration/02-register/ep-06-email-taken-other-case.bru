@@ -1,0 +1,48 @@
+meta {
+  name: REG-EP-06 · email repetido con otras mayúsculas → 409
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "{{email}}",
+    "username": "{{username}}",
+    "password": "{{password}}"
+  }
+}
+
+script:pre-request {
+  const fx = require("./lib/fixtures");
+  const existing = await fx.newUser(bru);
+  bru.setVar("email", existing.email.toUpperCase());
+  bru.setVar("username", `it_${fx.suffix()}`);
+  bru.setVar("password", fx.PASSWORD);
+}
+
+tests {
+  test("status 409", function() {
+    expect(res.getStatus()).to.equal(409);
+  });
+
+  test("error body {\"error\": ...}", function() {
+    expect(res.getBody()).to.have.property("error").that.is.a("string");
+    expect(res.getBody().error).to.match(/Email already registered/);
+  });
+}
+
+docs {
+  # REG-EP-06 · email repetido con otras mayúsculas → 409
+
+  **Técnica:** EP
+
+  **Cubre:** Partición inválida: email ya registrado escrito en MAYÚSCULAS, con username nuevo.
+
+  **Esperado:** 409 `Email already registered`
+}

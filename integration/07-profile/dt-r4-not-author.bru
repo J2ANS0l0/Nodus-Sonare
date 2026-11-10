@@ -1,0 +1,64 @@
+meta {
+  name: PRO-DT-R4 · nodo que no es Author → 403
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/profile/update
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "node_id": "{{targetNodeId}}",
+    "node_name": "Renamed"
+  }
+}
+
+script:pre-request {
+  const fx = require("./lib/fixtures");
+  const u = await fx.newUser(bru);
+  bru.setVar("token", u.token);
+  bru.setVar("authorNodeId", u.nodeId);
+  const [musicId] = await fx.newAlbum(bru, u.token, 1);
+  bru.setVar("targetNodeId", musicId);
+}
+
+tests {
+  test("status 403", function() {
+    expect(res.getStatus()).to.equal(403);
+  });
+
+  test("error body {\"error\": ...}", function() {
+    expect(res.getBody()).to.have.property("error").that.is.a("string");
+    expect(res.getBody().error).to.match(/only edit your own profile/);
+  });
+}
+
+docs {
+  # PRO-DT-R4 · nodo que no es Author → 403
+
+  **Técnica:** DT, regla R4
+
+  **Cubre:** C1 = S, C2 = S, C3 = N: un nodo Music que el mismo usuario subió.
+
+  **Esperado:** 403
+
+  Tabla de decisión de `POST /api/profile/update` (`-` = no importa):
+
+  | Condición / acción | R1 | R2 | R3 | R4 | R5 | R6 | R7 | R8 |
+  |---|---|---|---|---|---|---|---|---|
+  | C1 token válido | N | S | S | S | S | S | S | S |
+  | C2 el nodo existe | - | N | S | S | S | S | S | S |
+  | C3 el nodo es Author | - | - | S | N | S | S | S | S |
+  | C4 el nodo es del usuario | - | - | N | - | S | S | S | S |
+  | C5 `node_color` | - | - | - | - | fuera de paleta | de paleta (MAYÚS) | ausente | ausente |
+  | C6 `node_name` | - | - | - | - | ausente | ausente | en blanco | no vacío |
+  | **Resultado** | 401 | 404 | 403 | 403 | 400 | 200, color en minúsculas | 400 | 200, cambios guardados |
+}

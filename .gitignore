@@ -147,3 +147,6 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# Integration test reports (Bruno JUnit/HTML)
+/reports/

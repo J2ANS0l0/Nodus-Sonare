@@ -1,0 +1,53 @@
+meta {
+  name: MED-EP-01 · audio MP3 → 201 en el bucket music
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/upload/music
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:multipart-form {
+  file: @file(fixtures/silence.mp3) @contentType(audio/mpeg)
+}
+
+script:pre-request {
+  const fx = require("./lib/fixtures");
+  const u = await fx.newUser(bru);
+  bru.setVar("token", u.token);
+  bru.setVar("authorNodeId", u.nodeId);
+}
+
+tests {
+  test("status 201", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+
+  test("stored in the music bucket with .mp3 extension", function() {
+    const body = res.getBody();
+    expect(body.bucket).to.equal("music");
+    expect(body.key).to.match(/\.mp3$/);
+  });
+
+  test("the stored file can be downloaded from Silo", async function() {
+    const file = await bru.sendRequest({ method: "GET", url: res.getBody().url });
+    expect(file.status).to.equal(200);
+  });
+}
+
+docs {
+  # MED-EP-01 · audio MP3 → 201 en el bucket music
+
+  **Técnica:** EP
+
+  **Cubre:** Partición válida de tipo de audio (`audio/mpeg`, un MP3 real de 0,1 s en `fixtures/silence.mp3`). Ejercita Silo: el archivo se descarga desde la URL pública devuelta.
+
+  **Esperado:** 201; `GET url` → 200
+}

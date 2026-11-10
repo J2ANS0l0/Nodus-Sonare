@@ -1,0 +1,50 @@
+meta {
+  name: LIKE-EP-01 · nodo Music sin like → 200 y se agrega
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/like
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "music_node_id": "{{targetNodeId}}"
+  }
+}
+
+script:pre-request {
+  const fx = require("./lib/fixtures");
+  const u = await fx.newUser(bru);
+  bru.setVar("token", u.token);
+  bru.setVar("authorNodeId", u.nodeId);
+  const [musicId] = await fx.newAlbum(bru, u.token, 1);
+  bru.setVar("targetNodeId", musicId);
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("the node is now in likes", function() {
+    expect(res.getBody().likes).to.include(bru.getVar("targetNodeId"));
+  });
+}
+
+docs {
+  # LIKE-EP-01 · nodo Music sin like → 200 y se agrega
+
+  **Técnica:** EP
+
+  **Cubre:** Partición válida: nodo Music que el usuario todavía no ha marcado.
+
+  **Esperado:** 200, `likes` contiene el id
+}

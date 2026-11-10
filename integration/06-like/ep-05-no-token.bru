@@ -1,0 +1,43 @@
+meta {
+  name: LIKE-EP-05 · sin token → 401
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/like
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "music_node_id": "{{targetNodeId}}"
+  }
+}
+
+script:pre-request {
+  const fx = require("./lib/fixtures");
+  bru.setVar("targetNodeId", "1");
+}
+
+tests {
+  test("status 401", function() {
+    expect(res.getStatus()).to.equal(401);
+  });
+
+  test("error body {\"error\": ...}", function() {
+    expect(res.getBody()).to.have.property("error").that.is.a("string");
+    expect(res.getBody().error).to.match(/Missing access token/);
+  });
+}
+
+docs {
+  # LIKE-EP-05 · sin token → 401
+
+  **Técnica:** EP
+
+  **Cubre:** Partición inválida: sin header Authorization.
+
+  **Esperado:** 401
+}

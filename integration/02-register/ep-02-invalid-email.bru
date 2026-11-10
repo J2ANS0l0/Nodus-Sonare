@@ -1,0 +1,47 @@
+meta {
+  name: REG-EP-02 · email mal formado → 422
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "{{email}}",
+    "username": "{{username}}",
+    "password": "{{password}}"
+  }
+}
+
+script:pre-request {
+  const fx = require("./lib/fixtures");
+  bru.setVar("email", "not-an-email");
+  bru.setVar("username", `it_${fx.suffix()}`);
+  bru.setVar("password", fx.PASSWORD);
+}
+
+tests {
+  test("status 422", function() {
+    expect(res.getStatus()).to.equal(422);
+  });
+
+  test("error body {\"error\": ...}", function() {
+    expect(res.getBody()).to.have.property("error").that.is.a("string");
+    expect(res.getBody().error).to.match(/email/);
+  });
+}
+
+docs {
+  # REG-EP-02 · email mal formado → 422
+
+  **Técnica:** EP
+
+  **Cubre:** Partición inválida de `email` (sin @): la rechaza el schema.
+
+  **Esperado:** 422
+}

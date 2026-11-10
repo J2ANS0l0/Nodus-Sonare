@@ -1,0 +1,45 @@
+meta {
+  name: LOG-EP-05 · identificador vacío → 422
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "{{identifier}}",
+    "password": "{{password}}"
+  }
+}
+
+script:pre-request {
+  const fx = require("./lib/fixtures");
+  bru.setVar("identifier", "");
+  bru.setVar("password", fx.PASSWORD);
+}
+
+tests {
+  test("status 422", function() {
+    expect(res.getStatus()).to.equal(422);
+  });
+
+  test("error body {\"error\": ...}", function() {
+    expect(res.getBody()).to.have.property("error").that.is.a("string");
+    expect(res.getBody().error).to.match(/username/);
+  });
+}
+
+docs {
+  # LOG-EP-05 · identificador vacío → 422
+
+  **Técnica:** EP
+
+  **Cubre:** Partición inválida: identificador vacío (lo rechaza el schema).
+
+  **Esperado:** 422
+}

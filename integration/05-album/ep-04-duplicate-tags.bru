@@ -1,0 +1,52 @@
+meta {
+  name: ALB-EP-04 · tags repetidos se guardan una vez → 201
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/api/album/upload
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "album_name": "Album {{suffix}}",
+    "author_name": "Integration",
+    "general_tag": "it-{{suffix}}-a, it-{{suffix}}-a, it-{{suffix}}-b",
+    "tracks": [{ "name": "T", "url": "it://t" }]
+  }
+}
+
+script:pre-request {
+  const fx = require("./lib/fixtures");
+  const u = await fx.newUser(bru);
+  bru.setVar("token", u.token);
+  bru.setVar("authorNodeId", u.nodeId);
+  bru.setVar("suffix", fx.suffix());
+}
+
+tests {
+  test("status 201", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+
+  test("duplicated tag names produce a single tag link each", function() {
+    expect(res.getBody().nodes[0].node_tag_links_next).to.have.lengthOf(2);
+  });
+}
+
+docs {
+  # ALB-EP-04 · tags repetidos se guardan una vez → 201
+
+  **Técnica:** EP
+
+  **Cubre:** Partición válida de `general_tag` con nombres repetidos (lista separada por comas). Los tags llevan un sufijo único para no reutilizar tags de otras corridas.
+
+  **Esperado:** 201 y la pista enlaza 2 tags, no 3
+}

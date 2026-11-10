@@ -1,0 +1,50 @@
+meta {
+  name: AUTH-EP-03 · esquema distinto de Bearer → 401
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/album/upload
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Basic {{token}}
+}
+
+body:json {
+  {
+    "album_name": "Auth probe",
+    "author_name": "Integration",
+    "tracks": [{ "name": "T", "url": "it://t" }]
+  }
+}
+
+script:pre-request {
+  const fx = require("./lib/fixtures");
+  const u = await fx.newUser(bru);
+  bru.setVar("token", u.token);
+}
+
+tests {
+  test("status 401", function() {
+    expect(res.getStatus()).to.equal(401);
+  });
+
+  test("error body {\"error\": ...}", function() {
+    expect(res.getBody()).to.have.property("error").that.is.a("string");
+    expect(res.getBody().error).to.match(/Missing access token/);
+  });
+}
+
+docs {
+  # AUTH-EP-03 · esquema distinto de Bearer → 401
+
+  **Técnica:** EP
+
+  **Cubre:** Partición inválida del token: un token válido enviado con esquema `Basic`.
+
+  **Esperado:** 401 `Missing access token`
+}

@@ -1,0 +1,76 @@
+meta {
+  name: PRO-DT-R8 · cambios válidos → 200 y quedan guardados
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/api/profile/update
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "node_id": "{{targetNodeId}}",
+    "node_name": "  Nuevo nombre  ",
+    "author_description": "{{description}}"
+  }
+}
+
+script:pre-request {
+  const fx = require("./lib/fixtures");
+  const u = await fx.newUser(bru);
+  bru.setVar("token", u.token);
+  bru.setVar("authorNodeId", u.nodeId);
+  bru.setVar("targetNodeId", u.nodeId);
+  bru.setVar("username", u.username);
+  bru.setVar("password", u.password);
+  bru.setVar("description", "bio " + fx.suffix());
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("name is trimmed and the description saved", function() {
+    const node = res.getBody().node;
+    expect(node.node_name).to.equal("Nuevo nombre");
+    expect(node.author_description).to.equal(bru.getVar("description"));
+  });
+
+  test("changes persist: a new login returns them (DynamoDB node + SQLite bio)", async function() {
+    const fx = require("./lib/fixtures");
+    const again = await fx.login(bru, bru.getVar("username"), bru.getVar("password"));
+    expect(again.status).to.equal(200);
+    expect(again.data.node.node_name).to.equal("Nuevo nombre");
+    expect(again.data.user.bio).to.equal(bru.getVar("description"));
+  });
+}
+
+docs {
+  # PRO-DT-R8 · cambios válidos → 200 y quedan guardados
+
+  **Técnica:** DT, regla R8
+
+  **Cubre:** Propio nodo Author con C6 = nombre no vacío (con espacios alrededor) y una descripción nueva.
+
+  **Esperado:** 200; el nombre se guarda sin espacios y un login posterior devuelve el nodo y la `bio` actualizados
+
+  Tabla de decisión de `POST /api/profile/update` (`-` = no importa):
+
+  | Condición / acción | R1 | R2 | R3 | R4 | R5 | R6 | R7 | R8 |
+  |---|---|---|---|---|---|---|---|---|
+  | C1 token válido | N | S | S | S | S | S | S | S |
+  | C2 el nodo existe | - | N | S | S | S | S | S | S |
+  | C3 el nodo es Author | - | - | S | N | S | S | S | S |
+  | C4 el nodo es del usuario | - | - | N | - | S | S | S | S |
+  | C5 `node_color` | - | - | - | - | fuera de paleta | de paleta (MAYÚS) | ausente | ausente |
+  | C6 `node_name` | - | - | - | - | ausente | ausente | en blanco | no vacío |
+  | **Resultado** | 401 | 404 | 403 | 403 | 400 | 200, color en minúsculas | 400 | 200, cambios guardados |
+}

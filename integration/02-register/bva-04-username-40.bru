@@ -1,0 +1,48 @@
+meta {
+  name: REG-BVA-04 · username 40 caracteres → 201
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/api/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "{{email}}",
+    "username": "{{username}}",
+    "password": "{{password}}"
+  }
+}
+
+script:pre-request {
+  const fx = require("./lib/fixtures");
+  bru.setVar("email", `it_${fx.suffix()}@example.com`);
+  bru.setVar("username", fx.uniqueName(40));
+  bru.setVar("password", fx.PASSWORD);
+}
+
+tests {
+  test("status 201", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+
+  test("username kept with 40 characters", function() {
+    expect(res.getBody().user.username).to.have.lengthOf(40);
+  });
+}
+
+docs {
+  # REG-BVA-04 · username 40 caracteres → 201
+
+  **Técnica:** BVA
+
+  **Cubre:** Límite superior (schema y servicio), lado válido (40).
+
+  **Esperado:** 201
+
+  Límites de `username`: el schema exige 1–40 caracteres (fuera → 422) y el servicio 2–40 (1 → 400). Cada lado de cada límite da un código distinto.
+}

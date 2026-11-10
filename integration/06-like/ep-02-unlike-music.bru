@@ -1,0 +1,51 @@
+meta {
+  name: LIKE-EP-02 · nodo Music ya con like → 200 y se quita
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/like
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "music_node_id": "{{targetNodeId}}"
+  }
+}
+
+script:pre-request {
+  const fx = require("./lib/fixtures");
+  const u = await fx.newUser(bru);
+  bru.setVar("token", u.token);
+  bru.setVar("authorNodeId", u.nodeId);
+  const [musicId] = await fx.newAlbum(bru, u.token, 1);
+  await fx.like(bru, u.token, musicId);
+  bru.setVar("targetNodeId", musicId);
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("the like is toggled off", function() {
+    expect(res.getBody().likes).to.not.include(bru.getVar("targetNodeId"));
+  });
+}
+
+docs {
+  # LIKE-EP-02 · nodo Music ya con like → 200 y se quita
+
+  **Técnica:** EP
+
+  **Cubre:** Partición válida: nodo Music que el usuario ya marcó (el pre-request le da like). El endpoint alterna.
+
+  **Esperado:** 200, `likes` ya no contiene el id
+}
