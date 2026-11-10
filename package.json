@@ -9,7 +9,6 @@
     "start": "concurrently \"npm run server\" \"npm run dev\"",
     "infra:up": "docker compose -f docker/docker-compose.yml up -d",
     "infra:init": "cd backend && uv run python -m scripts.init_infra",
-    "test:backend": "cd backend && uv run pytest -q",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },

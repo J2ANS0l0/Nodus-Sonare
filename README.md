@@ -42,8 +42,6 @@ npm start
 npm run server
 # Levanta solo el frontend
 npm run dev
-# Corre los tests del backend (no requiere Docker)
-npm run test:backend
 # Compila el frontend para producción
 npm run build
 ```

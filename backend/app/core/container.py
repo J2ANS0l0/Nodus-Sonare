@@ -40,7 +40,7 @@ def build_container(
     cover_extractor: CoverExtractor | None = None,
     image_processor: ImageProcessor | None = None,
 ) -> Container:
-    """Wire every service. Repositories/storage can be injected (e.g. in-memory fakes for tests)."""
+    """Wire every service. Repositories/storage can be injected to swap implementations."""
     users = users or SqliteUserRepository(settings.sqlite_path)
     nodes = nodes or DynamoNodeRepository(
         table_name=settings.dynamodb_table,

@@ -19,8 +19,6 @@ uv run python -m scripts.init_infra
 uv run python -m scripts.init_infra --reset
 # Levanta la API en el puerto 5002 con recarga automática
 uv run uvicorn app.main:app --port 5002 --reload
-# Corre los tests con fakes en memoria (no requiere Docker)
-uv run pytest -q
 ```
 Consola de Silo: http://localhost:9001 · Admin de DynamoDB: http://localhost:8003 · Swagger: http://localhost:5002/docs
 
@@ -57,7 +55,7 @@ app/
 - **S**: cada servicio/adaptador tiene una sola responsabilidad (p. ej. `MediaService` valida y sube archivos, `ProfileService` gestiona el perfil).
 - **O/L**: nuevos backends (AWS S3 real, DynamoDB en la nube, Postgres…) se agregan implementando el mismo puerto, sin tocar servicios.
 - **I**: puertos pequeños y específicos (usuarios, nodos, storage, hashing, tokens).
-- **D**: los servicios dependen de `interfaces/`; solo `core/container.py` conoce las clases concretas. Los tests inyectan fakes en memoria.
+- **D**: los servicios dependen de `interfaces/`; solo `core/container.py` conoce las clases concretas y permite inyectar otras implementaciones.
 
 ### Cover y color de cada canción
 
