@@ -7,6 +7,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.api.errors import register_error_handlers
 from app.api.routers import auth, media, nodes, profile
@@ -44,6 +45,15 @@ def create_app(settings: Settings | None = None, container: Container | None = N
     @app.get("/api/health", tags=["health"])
     def health() -> dict[str, str]:
         return {"status": "ok"}
+
+    @app.get("/api/version", tags=["health"])
+    def version() -> dict[str, str]:
+        """Which artifact (commit SHA) is running and in which environment; the pipeline checks it after deploy."""
+        return {"version": settings.app_version, "environment": settings.app_env}
+
+    # Mounted last so every /api route above takes precedence over the static files.
+    if settings.frontend_dist is not None:
+        app.mount("/", StaticFiles(directory=settings.frontend_dist, html=True), name="frontend")
 
     return app
 

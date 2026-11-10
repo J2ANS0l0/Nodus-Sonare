@@ -1,17 +1,53 @@
 name: CI
 
-# Every push to main runs the pipeline with default values; it can also be launched by hand.
+# Every push to main runs the whole pipeline with the default values below; it can also be launched by hand
+# (Actions > CI > Run workflow) choosing the parameters. Pull requests only run Lint + Unit tests: the
+# self-hosted runner never executes code from a pull request (the repository is public).
 on:
   push:
     branches: [main]
   pull_request:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: Ambiente donde se despliega y se prueba
+        type: choice
+        options: [dev, staging]
+        default: dev
+      suite:
+        description: "Suite de integración y end-to-end (smoke: solo los casos marcados smoke)"
+        type: choice
+        options: [regression, smoke]
+        default: regression
+      browser:
+        description: Navegador de las pruebas end-to-end
+        type: choice
+        options: [chromium, firefox, webkit]
+        default: chromium
+      recipients:
+        description: Destinatarios del correo si el build falla (separados por coma)
+        type: string
+        default: philipfalla@ufm.edu,J2AN.S0l0@gmail.com
+
+run-name: >-
+  ${{ github.event_name == 'pull_request' && format('PR #{0} · lint + unit', github.event.number)
+  || format('{0} · env={1} · suite={2} · browser={3}', github.event_name, inputs.environment || 'dev',
+  inputs.suite || 'regression', inputs.browser || 'chromium') }}
 
 permissions:
   contents: read
 
+# Parameters with their defaults (a push to main has no inputs, so it falls back to these values).
+env:
+  ENVIRONMENT: ${{ inputs.environment || 'dev' }}
+  SUITE: ${{ inputs.suite || 'regression' }}
+  BROWSER: ${{ inputs.browser || 'chromium' }}
+  RECIPIENTS: ${{ inputs.recipients || 'philipfalla@ufm.edu,J2AN.S0l0@gmail.com' }}
+
+# `shell: bash` makes GitHub run steps with `-eo pipefail`, so a failure inside a pipe (`deploy.sh | tee`) fails the step.
 defaults:
   run:
+    shell: bash
     working-directory: backend
 
 jobs:
@@ -74,3 +110,133 @@ jobs:
           name: unit-reports-${{ github.sha }}
           path: backend/reports/
           if-no-files-found: ignore
+
+  # ---------------------------------------------------------------------------------------------------------
+  # From here on the jobs run on the group's self-hosted runner (labels: self-hosted, nodus), where Docker,
+  # the image and the deployed environments live between jobs. Never on pull requests.
+  # ---------------------------------------------------------------------------------------------------------
+  build:
+    name: Build del artefacto
+    needs: unit
+    if: github.event_name != 'pull_request'
+    runs-on: [self-hosted, nodus]
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v4
+
+      # The only build of this pipeline run: every environment deploys this same image.
+      - name: Build image nodus-sonare:${{ github.sha }}
+        run: docker build --build-arg GIT_SHA=${{ github.sha }} -t nodus-sonare:${{ github.sha }} .
+
+      - name: Artifact summary
+        run: |
+          ID=$(docker image inspect -f '{{.Id}}' nodus-sonare:${{ github.sha }})
+          echo "Image nodus-sonare:${{ github.sha }} ($ID)"
+          {
+            echo "### Artefacto"
+            echo "- imagen: \`nodus-sonare:${{ github.sha }}\`"
+            echo "- id: \`$ID\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  deploy:
+    name: Despliegue (${{ inputs.environment || 'dev' }})
+    needs: build
+    runs-on: [self-hosted, nodus]
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v4
+
+      # Starts the container of the chosen environment and fails if GET /api/version does not answer this commit.
+      - name: Deploy nodus-sonare:${{ github.sha }} to ${{ env.ENVIRONMENT }}
+        run: deploy/deploy.sh "$ENVIRONMENT" "${{ github.sha }}" | tee deploy.log
+
+      - name: Deployment summary
+        run: |
+          {
+            echo "### Despliegue: $ENVIRONMENT"
+            echo '```'
+            grep -E '^(URL tested|Response|OK)' deploy.log
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  integration:
+    name: Integración (${{ inputs.environment || 'dev' }}, ${{ inputs.suite || 'regression' }})
+    needs: deploy
+    runs-on: [self-hosted, nodus]
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Bruno CLI (version pinned in package-lock.json)
+        run: npm ci --no-audit --no-fund
+
+      - name: Instance under test
+        run: |
+          PORT=$(grep -E '^HOST_PORT=' "deploy/env/$ENVIRONMENT.env" | cut -d= -f2)
+          deploy/check-version.sh "http://localhost:$PORT" "$ENVIRONMENT" "${{ github.sha }}"
+
+      - name: Bruno (${{ env.SUITE }})
+        run: |
+          TAGS=$([ "$SUITE" = smoke ] && echo "--tags=smoke" || true)
+          echo "Environment: $ENVIRONMENT, suite: $SUITE ${TAGS:+($TAGS)}"
+          BRUNO_ENV="$ENVIRONMENT" npm run test:integration -- --env-var "expectedVersion=${{ github.sha }}" ${TAGS:+"$TAGS"}
+
+      - name: Integration summary
+        if: always()
+        run: |
+          python3 - <<'EOF' >> "$GITHUB_STEP_SUMMARY" || echo "No report to summarize"
+          import os, xml.etree.ElementTree as ET
+          suites = ET.parse("reports/integration-junit.xml").getroot().findall("testsuite")
+          total = lambda attr: sum(int(s.get(attr, 0)) for s in suites)
+          print(f"### Integración ({os.environ['ENVIRONMENT']}, suite {os.environ['SUITE']})")
+          print(f"- casos: {len(suites)}, tests: {total('tests')}, fallas: {total('failures')}, "
+                f"errores: {total('errors')}, saltados: {total('skipped')}")
+          EOF
+
+      - name: Upload integration reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-reports-${{ env.ENVIRONMENT }}-${{ github.sha }}
+          path: reports/
+          if-no-files-found: ignore
+
+  # End-to-end (Playwright) stage: see "Agregar la etapa end-to-end" in README.md. When it exists, add `e2e`
+  # to the `needs` of `notify` below.
+
+  notify:
+    name: Correo si falla
+    needs: [lint, unit, build, deploy, integration]
+    if: failure() || cancelled()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v4
+
+      # SMTP server and port are not secret; the credentials come from repository secrets as environment
+      # variables and GitHub masks them in the log.
+      - name: Send failure e-mail
+        env:
+          SMTP_HOST: smtp.gmail.com
+          SMTP_PORT: "465"
+          SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          MAIL_TO: ${{ env.RECIPIENTS }}
+          BUILD_NUMBER: ${{ github.run_number }}
+          COMMIT: ${{ github.sha }}
+          BRANCH: ${{ github.head_ref || github.ref_name }}
+          LOG_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          NEEDS_JSON: ${{ toJSON(needs) }}
+        run: python3 .github/scripts/notify_failure.py

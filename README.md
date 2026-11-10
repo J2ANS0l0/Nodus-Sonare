@@ -69,7 +69,7 @@ Pruebas de caja negra contra la API **en ejecución**, con [Bruno](https://docs.
 docker compose -f docker/docker-compose.yml up -d   # Silo + DynamoDB Local
 npm run infra:init                                  # tablas y buckets (solo la primera vez)
 npm run server                                      # API en http://localhost:5002
-# En otra terminal: corre los 57 casos contra el ambiente dev (http://localhost:5002)
+# En otra terminal: corre los 58 casos contra el ambiente dev (http://localhost:5002)
 npm run test:integration
 # Contra otro ambiente de integration/environments/ (staging = http://localhost:5003)
 BRUNO_ENV=staging npm run test:integration
@@ -124,6 +124,95 @@ E2E_BASE_URL=http://localhost:3001 E2E_BROWSER=firefox npm run test:e2e
   [Datos](#datos)). En local, cada repetición sube el álbum otra vez.
 - Reportes: `reports/e2e-junit.xml` y `reports/e2e-html/`. Si una prueba falla quedan traza, captura y video en
   `test-results/`.
+
+## Pipeline (GitHub Actions)
+
+`.github/workflows/ci.yml`. Cada etapa es un job y, si una falla, las siguientes no corren:
+
+```
+Lint → Unitarias + cobertura → Build del artefacto → Despliegue → Integración → (End-to-end)
+                                                                          ↘ si algo falla o se cuelga: Correo
+```
+
+| Etapa | Dónde corre | Qué hace |
+|---|---|---|
+| Lint, Unitarias | `ubuntu-latest` (también en pull requests) | Ruff; pytest con la puerta de cobertura del 90 % |
+| Build | runner self-hosted | Construye **una sola vez** la imagen `nodus-sonare:<sha>` (API + UI compilada); el SHA queda dentro de la imagen |
+| Despliegue | runner self-hosted | `deploy/deploy.sh <ambiente> <sha>`: levanta el contenedor del ambiente elegido y **falla si `GET /api/version` no responde el SHA del commit** |
+| Integración | runner self-hosted | Colección Bruno contra la instancia desplegada (la suite elegida); JUnit + HTML como artefacto |
+| Correo | `ubuntu-latest` | Si una etapa falla o supera su `timeout-minutes`, manda el correo de la falla |
+
+Cada push a `main` corre todo con los valores por defecto. Los pull requests solo corren Lint y Unitarias: el runner
+self-hosted nunca ejecuta código de un PR (el repositorio es público).
+
+### Ambientes
+
+Los dos ambientes corren **la misma imagen** con otra configuración (`deploy/env/<ambiente>.env`):
+
+| Ambiente | URL (UI + API) | Datos |
+|---|---|---|
+| `dev` | http://localhost:5002 | tabla `node_dev`, buckets `dev-*`, volumen `nodus-dev-data` (SQLite) |
+| `staging` | http://localhost:5003 | tabla `node_staging`, buckets `staging-*`, volumen `nodus-staging-data` (SQLite) |
+
+`GET /api/version` responde `{"version": "<sha>", "environment": "<ambiente>"}`. Para desplegar a mano:
+
+```bash
+SHA=$(git rev-parse HEAD)
+docker build --build-arg GIT_SHA=$SHA -t nodus-sonare:$SHA .
+deploy/deploy.sh staging $SHA          # o dev
+```
+
+> El ambiente `dev` usa el puerto 5002, el mismo de `npm run server`: no tengas el backend local levantado mientras
+> el pipeline despliega `dev`.
+
+### Parámetros (Actions → CI → Run workflow)
+
+| Parámetro | Valores (defecto en **negrita**) | Efecto |
+|---|---|---|
+| `environment` | **dev**, staging | Ambiente donde se despliega y se prueba; se ve en el nombre del build, en la URL probada y en la respuesta de `/api/version` |
+| `suite` | **regression**, smoke | `smoke` corre solo los casos con tag `smoke` (7 de integración, `bru run --tags=smoke`) y los recorridos `@smoke` de end-to-end |
+| `browser` | **chromium**, firefox, webkit | Navegador de las pruebas end-to-end |
+| `recipients` | **philipfalla@ufm.edu,J2AN.S0l0@gmail.com** | Destinatarios del correo si el build falla |
+
+Desde la terminal: `gh workflow run ci.yml -f environment=staging -f suite=smoke -f recipients=alguien@ejemplo.com`.
+
+### Correo
+
+El job `notify` corre `.github/scripts/notify_failure.py` con el número de build, el commit, el ambiente, la etapa que
+falló y el enlace al log. El servidor es `smtp.gmail.com:465` (SSL). Las credenciales vienen de los secrets
+`SMTP_USERNAME` y `SMTP_PASSWORD` como variables de entorno; no están en el repositorio y GitHub las oculta en el log.
+
+### Runner self-hosted
+
+Build, Despliegue e Integración corren en un runner self-hosted con las etiquetas `self-hosted, nodus`, que necesita
+Docker, Node 20+ y Python 3 en el `PATH`. Para arrancarlo: `cd ~/actions-runner && ./run.sh` (debe decir
+`Listening for Jobs`). Si está apagado, esos jobs quedan en cola.
+
+### Agregar la etapa end-to-end
+
+El job de Playwright va después de `integration` en `ci.yml`, en el mismo runner, contra la URL del ambiente elegido:
+
+```yaml
+  e2e:
+    name: End-to-end (${{ inputs.environment || 'dev' }}, ${{ inputs.browser || 'chromium' }})
+    needs: integration
+    runs-on: [self-hosted, nodus]
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v4
+      # 1. npm ci y `npx playwright install "$BROWSER"` (el navegador queda en caché en el runner).
+      # 2. CI=true hace que el 409 del usuario fijo del smoke falle (E2E_REUSE_USER=0): vaciar antes los datos
+      #    del ambiente desplegado, p. ej. `docker exec "nodus-$ENVIRONMENT" python -m scripts.init_infra --reset`
+      #    (usa la tabla, los buckets y el SQLite de ese contenedor).
+      # 3. E2E_BASE_URL=http://localhost:<HOST_PORT de deploy/env/$ENVIRONMENT.env> E2E_BROWSER="$BROWSER"
+      #    npx playwright test, con `--grep @smoke` si SUITE=smoke.
+      # 4. Subir reports/e2e-junit.xml, reports/e2e-html/ y test-results/ como artefacto (if: always()).
+```
+
+Y agregar `e2e` a `needs` del job `notify`, para que el correo también cubra esa etapa.
 
 ## Datos
 

@@ -1,0 +1,4 @@
+# Custom label of the group's self-hosted runner (see README: "Runner self-hosted")
+self-hosted-runner:
+  labels:
+    - nodus

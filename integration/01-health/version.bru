@@ -1,0 +1,43 @@
+meta {
+  name: HEA-EP-03 · version → 200 con el ambiente probado
+  type: http
+  seq: 3
+  tags: [
+    smoke
+  ]
+}
+
+get {
+  url: {{baseUrl}}/api/version
+  body: none
+  auth: none
+}
+
+tests {
+  test("status 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("the instance reports the environment selected for this run", function() {
+    expect(res.getBody().environment).to.equal(bru.getEnvVar("envName"));
+  });
+
+  test("the instance reports a version (the expected commit when the pipeline passes it)", function() {
+    const version = res.getBody().version;
+    expect(version).to.be.a("string").and.not.be.empty;
+    const expected = bru.getEnvVar("expectedVersion");
+    if (expected) expect(version).to.equal(expected);
+  });
+}
+
+docs {
+  # HEA-EP-03 · version → 200 con el ambiente probado
+
+  **Técnica:** EP (smoke)
+
+  **Cubre:** Partición válida: la instancia contra la que corre la suite es la del ambiente elegido
+  (`environment` = `envName` del ambiente de Bruno). Si el pipeline pasa `--env-var expectedVersion=<sha>`,
+  también comprueba que corre el artefacto de ese commit.
+
+  **Esperado:** 200 `{"version": "<sha>", "environment": "<envName>"}`
+}
