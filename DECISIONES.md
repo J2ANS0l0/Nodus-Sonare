@@ -4,10 +4,10 @@ Justificación de las decisiones de calidad del proyecto. Cada decisión es una 
 del curso, la evidencia en el repositorio o en el pipeline y la fuente. Las referencias completas están al final
 en formato IEEE.
 
-> Estado: capas **unitaria** e **integración** implementadas; primer recorrido **end-to-end** (smoke, con Playwright y
-> page objects) implementado; pipeline con Lint, Unitarias, Build, Despliegue en dos ambientes, Integración y correo.
-> Faltan los otros dos recorridos end-to-end y la etapa end-to-end del pipeline. Los números de build se anotan aquí y
-> en `EVIDENCIA.md`.
+> Estado: capas **unitaria** e **integración** implementadas; dos recorridos **end-to-end** (smoke y
+> buscar-y-reproducir, con Playwright y page objects) implementados; pipeline con Lint, Unitarias, Build, Despliegue en
+> dos ambientes, Integración y correo. Faltan el tercer recorrido end-to-end y la etapa end-to-end del pipeline. Los
+> números de build se anotan aquí y en `EVIDENCIA.md`.
 
 ## 1. Pruebas unitarias
 
@@ -134,7 +134,8 @@ de `integration/`. 58 casos: 32 de partición de equivalencia, 18 de valores lí
 
 ## 3. Pruebas end-to-end
 
-Primer recorrido de los tres que pide el proyecto: el **smoke**. Los otros dos se agregan con los mismos page objects.
+Dos de los tres recorridos que pide el proyecto: el **smoke** (3.1 a 3.4) y **buscar y reproducir** (3.5). El tercero
+se agrega con los mismos page objects.
 
 ### 3.1 Herramienta y alcance del smoke
 
@@ -175,6 +176,26 @@ Primer recorrido de los tres que pide el proyecto: el **smoke**. Los otros dos s
 | Concepto | **Flaky test** (no se esconden con reintentos) y **gate**: si el registro se rompe, el smoke lo detecta en cada build. |
 | Evidencia | `e2e/support/test_data.ts` (`REUSE_EXISTING_USER`), `e2e/pages/login_page.ts` (`register_or_login`). Con el usuario ya creado, `E2E_REUSE_USER=0 npm run test:e2e:smoke` falla con `Expected: 201, Received: 409`; sin la variable, pasa. |
 | Fuente | [14] |
+
+### 3.5 Segundo recorrido: buscar un nodo existente y reproducirlo
+
+| Campo | Contenido |
+|---|---|
+| Decisión | `e2e/tests/search_and_play.spec.ts`, etiqueta `@regression` (no `@smoke`): registra a *Smoke* (`SmokeTest@gmail.com`) → home con el stream en vivo → *Explore*, donde comprueba que se ven los nodos existentes → *Search*, escribe *Nodo Semilla E2E* y presiona Enter → verifica que el grafo queda con un solo nodo → clic en el nodo → el reproductor muestra esa pista y su autor y está sonando. Se corre con `npm run test:e2e:regression`. Usa los page objects del smoke (`LoginPage`, `SideNav`, `GraphPage`, `PlayerBar`) y uno nuevo, `SearchBar`. |
+| Alternativa | **Meterlo en el smoke**: el smoke se alarga y deja de ser una prueba rápida del camino crítico. **Buscar el álbum que sube el smoke**: el recorrido dependería del orden de ejecución y fallaría al correrlo solo o con `--grep @regression`. **Confiar en que Enter ya reproduce la pista** (la app reproduce sola cuando hay una única coincidencia de tipo *Music*): no prueba el gesto que hace el usuario, y con dos coincidencias el recorrido pasaría sin reproducir nada. |
+| Concepto | **Pirámide de pruebas**: un segundo recorrido de regresión, más angosto que el smoke, cubre una funcionalidad que el smoke no toca (la búsqueda). **SOLID – Responsabilidad única (S)** en `SearchBar`: el buscador es un overlay propio; si sus selectores vivieran en `GraphPage`, un cambio en el buscador obligaría a editar la clase del grafo que usan todos los recorridos. |
+| Evidencia | `e2e/tests/search_and_play.spec.ts`, `e2e/pages/search_bar.ts`. Corrida local: `1 passed (3.9s)`; suite completa dos veces seguidas: `2 passed (11.7s)`. Build con la etapa end-to-end: _anotar número de build_. |
+| Fuente | [15], [16] |
+
+### 3.6 Precondición sembrada por API e idempotente
+
+| Campo | Contenido |
+|---|---|
+| Decisión | "Buscar un nodo existente" necesita que exista un nodo, y un ambiente recién desplegado o reseteado (`init_infra --reset`) no tiene ninguno; uno que ya corrió builds sí los tiene. Un `beforeAll` usa `CatalogSeed` (`e2e/support/catalog_seed.ts`): lee la lista de nodos del primer evento del stream SSE (`/api/nodes/stream`) y, solo si no hay una pista llamada *Nodo Semilla E2E*, registra (o entra con) el usuario *Seed Artist* y la publica con `POST /api/upload/music` y `POST /api/album/upload`. Si encuentra más de una pista con ese nombre, falla, porque la búsqueda ya no daría un único resultado. La interfaz solo se usa para lo que el recorrido verifica. |
+| Alternativa | **Sembrar por la interfaz** (*Post*): lento y repite lo que ya prueba el smoke; una falla en *Post* rompería también este recorrido. **Datos precargados en la base**: un reset los borra, y un archivo de datos se desincroniza del esquema. **Un nombre de pista aleatorio por corrida**: evita duplicados, pero llena la base local de pistas basura en cada repetición. |
+| Concepto | **Flaky test** y aislamiento: una prueba que depende de que otra haya corrido antes pasa o falla según el orden. **SOLID – Responsabilidad única (S)** en `CatalogSeed`: preparar datos es una clase aparte de los page objects, que solo describen pantallas. |
+| Evidencia | `e2e/support/catalog_seed.ts` (`ensure_track`); anotación `seed` del reporte (`"Nodo Semilla E2E" created` o `existing`). Segunda corrida sobre la misma base en verde y sin duplicar la pista. |
+| Fuente | [14], [15] |
 
 ## 4. Pipeline
 
@@ -251,8 +272,8 @@ Primer recorrido de los tres que pide el proyecto: el **smoke**. Los otros dos s
 ## 5. Sugerencias de IA
 
 El grupo usó Claude (Anthropic) como asistente durante la implementación de las capas unitaria (1–5), de integración
-(6–11) y end-to-end (12–14), y del pipeline (15–22). Estas son sugerencias que la IA propuso y que el grupo discutió
-antes de aceptarlas o rechazarlas.
+(6–11) y end-to-end (12–14), del pipeline (15–22) y del segundo recorrido end-to-end (23–25). Estas son sugerencias
+que la IA propuso y que el grupo discutió antes de aceptarlas o rechazarlas.
 
 | # | Sugerencia de la IA | Decisión del grupo | Razón | Prueba o build que la respalda |
 |---|---|---|---|---|
@@ -278,6 +299,9 @@ antes de aceptarlas o rechazarlas.
 | 20 | Mandar el correo con un **script propio con `smtplib`** que lee todo de variables de entorno. | **Aceptada**. Se descartó la acción `dawidd6/action-send-mail`. | Cumple el punto 7 de forma evidente y no le da la contraseña a código de terceros. | `.github/scripts/notify_failure.py` (`DRY_RUN=1`). Correo de un build en rojo: _anotar número_. |
 | 21 | Valor por defecto de `recipients`: **los correos de los dos integrantes**. | **Aceptada**. Se descartó "solo un integrante". | A los dos les llegan las fallas de `main`; en la demo se cambia por el del catedrático al lanzar el build. | `ci.yml` (`inputs.recipients.default`). |
 | 22 | Dejar la **etapa end-to-end para el integrante que escribe las pruebas Playwright**, con el pipeline preparado (`browser` declarado, instrucciones en el README). | **Aceptada**. Se descartó "dejar el job escrito por la IA". | Cada integrante toca el pipeline con commits propios y en la demo explica los suyos. | README, sección "Agregar la etapa end-to-end". |
+| 23 | **Sembrar por API** la pista que busca el segundo recorrido, en vez de buscar el álbum que sube el smoke. | **Aceptada**. Se descartó depender del smoke. | Con `--grep @regression` o en otro orden, el smoke no corre antes y el nodo no existiría en un ambiente vacío. | `e2e/support/catalog_seed.ts`; `npm run test:e2e:regression` en verde corriendo solo. |
+| 24 | Hacer el sembrado **idempotente** (revisar el stream antes de publicar) en vez de usar un nombre de pista aleatorio. | **Aceptada**. Se descartó el nombre aleatorio. | El nombre fijo permite buscar un texto conocido en la demo, y revisar antes evita duplicados que romperían la búsqueda de un único resultado. | Suite completa dos veces seguidas sobre la misma base: `2 passed`, sin pistas duplicadas. |
+| 25 | Terminar el recorrido apenas Enter reproduce la pista, sin hacer clic en el nodo. | **Rechazada**. El recorrido hace clic en el nodo buscado. | El usuario reproduce con un clic; la reproducción automática solo ocurre con una única coincidencia, y depender de ella dejaría sin probar el gesto real. | `e2e/tests/search_and_play.spec.ts` (paso *play the searched node*). |
 
 ## Referencias
 

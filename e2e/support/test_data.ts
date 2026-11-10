@@ -13,6 +13,25 @@ export const SMOKE_USER: UserData = {
   password: 'FeelingBlew1234',
 };
 
+// User of the "search and play" journey
+export const SEARCH_USER: UserData = {
+  email: 'SmokeTest@gmail.com',
+  username: 'Smoke',
+  password: 'Smoke1234',
+};
+
+// Precondition of the search journey: a track published by another user, seeded through the API
+export const SEED_PUBLISHER: UserData = {
+  email: 'seed.artist@example.com',
+  username: 'Seed Artist',
+  password: 'SeedArtist1234',
+};
+export const SEED_TRACK = {
+  name: 'Nodo Semilla E2E',
+  album: 'Semillas',
+  file: fileURLToPath(new URL('../../album/01 Primer Ensayo.mp3', import.meta.url)),
+};
+
 // Audio files dropped by the smoke test (repo root /album)
 export const ALBUM_DIR = fileURLToPath(new URL('../../album/', import.meta.url));
 export const SMOKE_GENERAL_TAG = 'Rock Alternativo';

@@ -56,6 +56,11 @@ export class PlayerBar {
     await expect(this.duration).not.toHaveText('0:00');
   }
 
+  async expect_playing_track(title: string, author: string): Promise<void> {
+    await expect(this.title).toHaveText(title);
+    await this.expect_playing_from(author);
+  }
+
   async current_title(): Promise<string> {
     return (await this.title.textContent()) ?? '';
   }

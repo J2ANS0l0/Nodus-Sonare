@@ -20,6 +20,15 @@ export class GraphPage {
     await expect(this.live_indicator).toBeVisible();
   }
 
+  /** Names of the nodes currently drawn in the graph. */
+  async node_names(): Promise<string[]> {
+    return this.labels.allTextContents();
+  }
+
+  async expect_node_count(count: number): Promise<void> {
+    await expect(this.labels).toHaveCount(count);
+  }
+
   async expect_node(name: string): Promise<void> {
     await expect(this.labels.filter({ hasText: new RegExp(`^${escape_regex(name)}$`) })).toHaveCount(1);
   }

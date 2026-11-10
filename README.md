@@ -109,13 +109,19 @@ E2E_BASE_URL=http://localhost:3001 E2E_BROWSER=firefox npm run test:e2e
 |---|---|---|
 | `E2E_BASE_URL` | `http://localhost:3000` | URL del frontend probado (el ambiente) |
 | `E2E_BROWSER` | `chromium` | `chromium`, `firefox` o `webkit` |
-| `E2E_REUSE_USER` | `1` en local, `0` con `CI` definida | Con `1`, si el usuario del smoke ya existe, el recorrido entra con login; con `0`, el 409 hace fallar la prueba |
+| `E2E_REUSE_USER` | `1` en local, `0` con `CI` definida | Con `1`, si el usuario del recorrido ya existe, el recorrido entra con login; con `0`, el 409 hace fallar la prueba |
 
 - Estructura: `playwright.config.ts`, page objects en `e2e/pages/`, datos y fuentes de archivos en `e2e/support/` y
   recorridos en `e2e/tests/`.
 - **Smoke** (`e2e/tests/smoke.spec.ts`, `@smoke`): registra a *Feeling Blew*, espera la home, en *Post* suelta los
   audios de `album/` y escribe el tag general *Rock Alternativo*, en *Explore* comprueba el tag, selecciona al autor,
   presiona random, adelanta el audio hasta el final (verifica el evento `ended`) y hace logout.
+- **Buscar y reproducir** (`e2e/tests/search_and_play.spec.ts`, `@regression`, `npm run test:e2e:regression`):
+  registra a *Smoke* (`SmokeTest@gmail.com` / `Smoke1234`), espera la home, en *Explore* comprueba que se ven los nodos
+  existentes, en *Search* busca la pista *Nodo Semilla E2E*, verifica que el grafo queda solo con ese nodo, hace clic
+  en él y comprueba que el reproductor la toca. La pista no depende del smoke: un `beforeAll` la publica por API con el
+  usuario *Seed Artist* (`e2e/support/catalog_seed.ts`) solo si todavía no existe, así que el recorrido corre solo, en
+  cualquier orden y contra una base vacía.
 - `album/` tiene dos pistas **sintéticas** de 12 s (acordes de senos generados con ffmpeg, sin derechos de terceros),
   con tags ID3 (`artist` Feeling Blew, `album` Ensayos Sinteticos, `genre` Demo, `track` 1/2 y 2/2). Para
   regenerarlas: `ffmpeg -f lavfi -i "aevalsrc=0.3*sin(2*PI*220*t):s=44100:d=12" -ac 2 -c:a libmp3lame -b:a 128k
