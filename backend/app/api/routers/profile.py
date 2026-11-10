@@ -1,9 +1,24 @@
 from fastapi import APIRouter, File, UploadFile
 
 from app.api.dependencies import ContainerDep, CurrentUser, to_incoming_file
-from app.api.schemas import LikeRequest, LikeResponse, NodeResponse, ProfilePictureResponse, ProfileUpdateRequest, UserOut
+from app.api.schemas import (
+    LikeRequest,
+    LikeResponse,
+    NodeResponse,
+    PaletteResponse,
+    ProfilePictureResponse,
+    ProfileUpdateRequest,
+    UserOut,
+)
+from app.domain.palette import NODE_PALETTE
 
 router = APIRouter(prefix="/api", tags=["profile"])
+
+
+@router.get("/palette", response_model=PaletteResponse)
+def palette() -> PaletteResponse:
+    """Colors a node can have (taken from paleta.jpeg)."""
+    return PaletteResponse(colors=list(NODE_PALETTE))
 
 
 @router.post("/profile/update", response_model=NodeResponse)

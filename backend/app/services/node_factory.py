@@ -1,8 +1,8 @@
 """Helpers that build nodes with the canonical RawNode shape."""
-import random
 from typing import Any, Iterable
 
 from app.domain.entities import NODE_LINK_FIELDS, Node
+from app.domain.palette import random_palette_color
 
 
 def empty_node(node_id: str, node_type: str, name: str, color: str) -> Node:
@@ -13,7 +13,8 @@ def empty_node(node_id: str, node_type: str, name: str, color: str) -> Node:
 
 
 def random_color() -> str:
-    return f"#{random.randint(0, 0xFFFFFF):06x}"
+    """Every node color comes from the palette of paleta.jpeg."""
+    return random_palette_color()
 
 
 def max_numeric(nodes: Iterable[Node], field: str) -> int:

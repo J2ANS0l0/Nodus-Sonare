@@ -16,6 +16,15 @@ export default function Profile({ user_node, on_update, on_close }: ProfileProps
   const [node_color, set_node_color] = useState(user_node.node_color || '#000000');
   const [error, set_error] = useState('');
   const [loading, set_loading] = useState(false);
+  const [palette, set_palette] = useState<string[]>([]);
+
+  // Node colors are limited to the palette served by the backend
+  useEffect(() => {
+    fetch('/api/palette')
+      .then(res => res.json())
+      .then(data => set_palette(data.colors || []))
+      .catch(() => set_error('Could not load the color palette'));
+  }, []);
   const file_input_ref = useRef<HTMLInputElement>(null);
 
   const handle_picture_change = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -131,12 +140,20 @@ export default function Profile({ user_node, on_update, on_close }: ProfileProps
               </div>
               <div className="form_group">
                 <label>Node Color</label>
-                <input 
-                  type="color" 
-                  value={node_color} 
-                  onChange={(e) => set_node_color(e.target.value)} 
-                  className="color_picker"
-                />
+                <div className="color_palette" role="radiogroup" aria-label="Node color">
+                  {palette.map(color => (
+                    <button
+                      key={color}
+                      type="button"
+                      role="radio"
+                      aria-checked={node_color.toLowerCase() === color.toLowerCase()}
+                      title={color}
+                      className={`color_swatch ${node_color.toLowerCase() === color.toLowerCase() ? 'selected' : ''}`}
+                      style={{ backgroundColor: color }}
+                      onClick={() => set_node_color(color)}
+                    />
+                  ))}
+                </div>
               </div>
               
               {error && <p className="error_msg">{error}</p>}

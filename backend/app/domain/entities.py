@@ -59,14 +59,6 @@ class EmbeddedImage:
 
 
 @dataclass(frozen=True)
-class Artwork:
-    """A cover stored in the bucket plus its most relevant color."""
-
-    cover: StoredObject
-    color: str  # "#rrggbb"
-
-
-@dataclass(frozen=True)
 class TrackUpload:
     audio: StoredObject
-    artwork: Artwork | None
+    cover: StoredObject | None  # artwork embedded in the audio, if any

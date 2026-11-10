@@ -65,15 +65,12 @@ class ProfileUpdateRequest(BaseModel):
     node_name: str | None = None
     author_name: str | None = None
     author_description: str | None = None
-    node_color: str | None = Field(default=None, pattern=r"^#[0-9A-Fa-f]{3,8}$")
+    node_color: str | None = None  # must be one of the palette colors (GET /api/palette)
 
 
 class NodeResponse(BaseModel):
     message: str
     node: dict[str, Any]
-
-
-HEX_COLOR = r"^#[0-9A-Fa-f]{6}$"
 
 
 class TrackIn(BaseModel):
@@ -84,7 +81,6 @@ class TrackIn(BaseModel):
     description: str = ""
     tag: str = ""
     cover_url: str = ""  # cover extracted from this audio file (see /api/upload/music)
-    color: str | None = Field(default=None, pattern=HEX_COLOR)  # dominant color of that cover
 
 
 class AlbumUploadRequest(BaseModel):
@@ -113,4 +109,7 @@ class MusicUploadResponse(BaseModel):
     key: str
     url: str
     cover_url: str | None = None  # artwork embedded in the audio, stored in the music-cover bucket
-    color: str | None = None      # most relevant color of that artwork
+
+
+class PaletteResponse(BaseModel):
+    colors: list[str]

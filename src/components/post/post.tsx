@@ -155,14 +155,14 @@ export default function Post({ username, on_close, on_success }: PostProps) {
 
     try {
       // Upload audio files to the Silo bucket (a few at a time) and send their public URLs
-      const uploads: { url: string; cover_url?: string | null; color?: string | null }[] = new Array(tracks.length);
+      const uploads: { url: string; cover_url?: string | null }[] = new Array(tracks.length);
       let cursor = 0;
       let done = 0;
       const worker = async () => {
         while (cursor < tracks.length) {
           const index = cursor++;
           const data = await upload_file('/api/upload/music', tracks[index].file!);
-          uploads[index] = data; // includes the cover embedded in the audio and its dominant color
+          uploads[index] = data; // includes the cover embedded in the audio
           set_progress({ done: ++done, total: tracks.length });
         }
       };
@@ -174,7 +174,6 @@ export default function Post({ username, on_close, on_success }: PostProps) {
         description: t.description,
         tag: t.tag,
         cover_url: uploads[i].cover_url || '',
-        color: uploads[i].color || undefined,
       }));
 
       const response = await fetch('/api/album/upload', {

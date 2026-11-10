@@ -1,11 +1,11 @@
-"""Turns the artwork embedded in an audio file into a stored cover + node color."""
+"""Stores the artwork embedded in an audio file as the track cover."""
 import hashlib
 import io
 import logging
 import mimetypes
 from typing import BinaryIO
 
-from app.domain.entities import Artwork, User
+from app.domain.entities import StoredObject, User
 from app.interfaces.media import CoverExtractor, ImageProcessor
 from app.interfaces.storage import ObjectStorage
 
@@ -19,7 +19,7 @@ class ArtworkService:
         self._storage = storage
         self._cover_bucket = cover_bucket
 
-    def from_audio(self, user: User, stream: BinaryIO, filename: str) -> Artwork | None:
+    def from_audio(self, user: User, stream: BinaryIO, filename: str) -> StoredObject | None:
         embedded = self._extractor.extract(stream, filename)
         if embedded is None:
             return None
@@ -32,5 +32,4 @@ class ArtworkService:
         digest = hashlib.sha256(image.data).hexdigest()[:32]
         extension = mimetypes.guess_extension(image.mime) or ".img"
         key = f"{user.id}/{digest}{extension}"
-        cover = self._storage.upload(self._cover_bucket, key, io.BytesIO(image.data), image.mime)
-        return Artwork(cover=cover, color=self._images.dominant_color(image))
+        return self._storage.upload(self._cover_bucket, key, io.BytesIO(image.data), image.mime)

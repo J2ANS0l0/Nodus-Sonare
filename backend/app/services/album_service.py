@@ -6,8 +6,6 @@ from app.domain.exceptions import NotFoundError, ValidationError
 from app.interfaces.repositories import NodeRepository
 from app.services.node_factory import empty_node, max_numeric, random_color
 
-DEFAULT_MUSIC_COLOR = "#F28705"
-
 
 @dataclass(frozen=True)
 class TrackInput:
@@ -16,7 +14,6 @@ class TrackInput:
     description: str = ""
     tag: str = ""
     cover_url: str = ""        # artwork embedded in this track's audio file
-    color: str | None = None   # dominant color of that artwork
 
 
 def _split_tags(raw: str | None) -> list[str]:
@@ -94,9 +91,8 @@ class AlbumService:
             next_music_id += 1
             track_tag_ids = list(dict.fromkeys(general_tag_ids + tag_ids_for(_split_tags(track.tag))))
 
-            # Each track keeps its own artwork and takes its node color from it
-            color = track.color or author.get("node_color") or DEFAULT_MUSIC_COLOR
-            node = empty_node(node_id, "Music", track.name.strip(), color)
+            # Each track keeps its own artwork; its node color is picked at random from the palette
+            node = empty_node(node_id, "Music", track.name.strip(), random_color())
             node["node_tag_links_next"] = track_tag_ids
             node["node_author_links_next"] = [author_id]
             node["node_album_links_next"] = [music_ids[index + 1]] if index + 1 < len(music_ids) else []

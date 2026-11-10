@@ -14,7 +14,3 @@ class ImageProcessor(Protocol):
     def normalize(self, image: EmbeddedImage) -> EmbeddedImage | None:
         """Validate the image and return it in a web-friendly format (None if it is not a valid image)."""
         ...
-
-    def dominant_color(self, image: EmbeddedImage) -> str:
-        """Most relevant color of the image as '#rrggbb'."""
-        ...

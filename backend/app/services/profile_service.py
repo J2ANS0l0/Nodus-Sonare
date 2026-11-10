@@ -3,6 +3,7 @@ import logging
 
 from app.domain.entities import IncomingFile, Node, User
 from app.domain.exceptions import NotFoundError, PermissionDeniedError, ValidationError
+from app.domain.palette import is_palette_color
 from app.interfaces.repositories import NodeRepository, UserRepository
 from app.services.media_service import MediaService
 
@@ -29,6 +30,12 @@ class ProfileService:
             raise NotFoundError("Node not found")
         if node.get("node_type") != "Author" or node.get("author_id") != user.id:
             raise PermissionDeniedError("You can only edit your own profile")
+
+        color = changes.get("node_color")
+        if color is not None and not is_palette_color(color):
+            raise ValidationError("Node color must be one of the palette colors")
+        if color is not None:
+            changes = {**changes, "node_color": color.lower()}
 
         for field in EDITABLE_FIELDS:
             value = changes.get(field)

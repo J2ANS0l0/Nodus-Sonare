@@ -31,12 +31,12 @@ class MediaService:
         self._max_image = max_image_size
 
     def upload_track(self, user: User, file: IncomingFile) -> TrackUpload:
-        """Store the audio and, when it has embedded artwork, its cover and dominant color."""
+        """Store the audio and, when it has embedded artwork, its cover."""
         content_type = self._check(file, AUDIO_TYPES, self._max_audio, "audio")
-        artwork = self._artwork.from_audio(user, file.stream, file.filename)
+        cover = self._artwork.from_audio(user, file.stream, file.filename)
         file.stream.seek(0)
         audio = self._storage.upload(self._music_bucket, self._key(user, file, content_type), file.stream, content_type)
-        return TrackUpload(audio=audio, artwork=artwork)
+        return TrackUpload(audio=audio, cover=cover)
 
     def upload_avatar(self, user: User, file: IncomingFile) -> StoredObject:
         content_type = self._check(file, IMAGE_TYPES, self._max_image, "image")

@@ -14,8 +14,7 @@ def upload_music_file(user: CurrentUser, container: ContainerDep, file: UploadFi
         bucket=result.audio.bucket,
         key=result.audio.key,
         url=result.audio.url,
-        cover_url=result.artwork.cover.url if result.artwork else None,
-        color=result.artwork.color if result.artwork else None,
+        cover_url=result.cover.url if result.cover else None,
     )
 
 
@@ -27,7 +26,7 @@ def upload_album(body: AlbumUploadRequest, user: CurrentUser, container: Contain
         author_name=body.author_name,
         general_tag=body.general_tag,
         tracks=[
-            TrackInput(name=t.name, url=t.url, description=t.description, tag=t.tag, cover_url=t.cover_url, color=t.color)
+            TrackInput(name=t.name, url=t.url, description=t.description, tag=t.tag, cover_url=t.cover_url)
             for t in body.tracks
         ],
     )

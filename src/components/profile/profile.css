@@ -200,15 +200,30 @@
   border-color: var(--profile_input_focus_border);
 }
 
-.profile_container .color_picker {
+.profile_container .color_palette {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  padding: 4px 2px;
+}
+
+.profile_container .color_swatch {
   width: 100%;
-  height: 38px; /* Reduced from 45px */
-  padding: 2px;
-  border: 1px solid var(--profile_input_border);
-  background: var(--profile_input_bg);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px solid transparent;
   cursor: pointer;
-  border-radius: 4px;
-  box-sizing: border-box;
+  padding: 0;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.profile_container .color_swatch:hover {
+  transform: scale(1.1);
+}
+
+.profile_container .color_swatch.selected {
+  border-color: white;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.35);
 }
 
 .profile_container .profile_actions {
