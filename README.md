@@ -46,6 +46,19 @@ npm run dev
 npm run build
 ```
 
+## Pruebas y calidad
+
+```bash
+# Lint del backend (reglas fijadas en backend/pyproject.toml)
+npm run lint:backend
+# Pruebas unitarias con cobertura; falla si la cobertura de app/domain + app/services baja de 90 %
+npm run test:unit
+```
+
+Las pruebas unitarias viven en `backend/tests/unit/` y no necesitan Docker: usan fakes en memoria de los puertos
+(`backend/tests/unit/fakes.py`). El pipeline de GitHub Actions está en `.github/workflows/ci.yml` y las decisiones
+de diseño en [`DECISIONES.md`](DECISIONES.md).
+
 ## Datos
 
 ```bash

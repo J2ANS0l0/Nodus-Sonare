@@ -12,6 +12,15 @@ IMAGE_TYPES = {"image/jpeg", "image/png", "image/webp", "image/gif"}
 AUDIO_TYPES = {"audio/mpeg", "audio/mp3", "audio/wav", "audio/x-wav", "audio/ogg", "audio/flac", "audio/x-flac",
                "audio/mp4", "audio/x-m4a", "audio/aac", "audio/webm"}
 
+# Explicit extension per accepted type: mimetypes.guess_extension() returns None for several of them
+# (audio/wav, audio/flac, ...) and its answers vary between Windows and Linux.
+EXTENSIONS = {
+    "image/jpeg": ".jpg", "image/png": ".png", "image/webp": ".webp", "image/gif": ".gif",
+    "audio/mpeg": ".mp3", "audio/mp3": ".mp3", "audio/wav": ".wav", "audio/x-wav": ".wav", "audio/ogg": ".ogg",
+    "audio/flac": ".flac", "audio/x-flac": ".flac", "audio/mp4": ".m4a", "audio/x-m4a": ".m4a",
+    "audio/aac": ".aac", "audio/webm": ".webm",
+}
+
 
 class MediaService:
     def __init__(
@@ -59,5 +68,5 @@ class MediaService:
 
     @staticmethod
     def _key(user: User, file: IncomingFile, content_type: str) -> str:
-        suffix = PurePath(file.filename).suffix.lower() or (mimetypes.guess_extension(content_type) or "")
+        suffix = PurePath(file.filename).suffix.lower() or EXTENSIONS.get(content_type, "")
         return f"{user.id}/{uuid.uuid4().hex}{suffix}"
