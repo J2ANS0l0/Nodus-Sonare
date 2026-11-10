@@ -10,15 +10,20 @@ Un usuario de SQLite se enlaza con su nodo `Author` en DynamoDB mediante `author
 
 ## Puesta en marcha
 
-```bash
-npm run infra:up      # docker compose: silo (9000/9001), dynamodb (8002), dynamodb-admin (8003)
-cp backend/.env.example backend/.env   # y cambia JWT_SECRET
-npm run infra:init    # crea tabla users, tabla node + seed de data/nodes.json, buckets
-npm start             # backend :5002 + frontend :3000 (vite hace proxy de /api)
-npm run test:backend  # pytest con fakes en memoria (no requiere Docker)
-```
+Ver los comandos completos (instalación, Docker, datos) en el [README principal](../README.md).
 
-`uv run python -m scripts.init_infra --reseed` sobrescribe los nodos con `data/nodes.json`.
+```bash
+# Crea la tabla users, la tabla node y los buckets, todos vacíos
+uv run python -m scripts.init_infra
+# Vacía usuarios, nodos y archivos (app nueva)
+uv run python -m scripts.init_infra --reset
+# Carga el grafo de ejemplo de data/nodes.json
+uv run python -m scripts.init_infra --seed
+# Levanta la API en el puerto 5002 con recarga automática
+uv run uvicorn app.main:app --port 5002 --reload
+# Corre los tests con fakes en memoria (no requiere Docker)
+uv run pytest -q
+```
 Consola de Silo: http://localhost:9001 · Admin de DynamoDB: http://localhost:8003 · Swagger: http://localhost:5002/docs
 
 ## Endpoints

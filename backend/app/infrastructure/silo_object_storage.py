@@ -41,6 +41,21 @@ class SiloObjectStorage:
             }
             self._client.put_bucket_policy(Bucket=bucket, Policy=json.dumps(policy))
 
+    def empty_bucket(self, bucket: str) -> int:
+        """Administrative helper: delete every object in the bucket. Returns how many were removed."""
+        removed = 0
+        try:
+            paginator = self._client.get_paginator("list_objects_v2")
+            for page in paginator.paginate(Bucket=bucket):
+                keys = [{"Key": o["Key"]} for o in page.get("Contents", [])]
+                if keys:
+                    self._client.delete_objects(Bucket=bucket, Delete={"Objects": keys})
+                    removed += len(keys)
+        except ClientError as exc:
+            if exc.response["Error"]["Code"] not in ("NoSuchBucket", "404"):
+                raise
+        return removed
+
     def upload(self, bucket: str, key: str, data: BinaryIO, content_type: str) -> StoredObject:
         self._client.upload_fileobj(data, bucket, key, ExtraArgs={"ContentType": content_type})
         return StoredObject(bucket=bucket, key=key, url=self.public_url(bucket, key))

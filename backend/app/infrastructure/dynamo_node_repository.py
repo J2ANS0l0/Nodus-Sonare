@@ -59,6 +59,14 @@ class DynamoNodeRepository:
         table.wait_until_exists()
         return True
 
+    def drop_table(self) -> bool:
+        """Delete the table if it exists. Returns True when it was deleted."""
+        if self._table_name not in self._resource.meta.client.list_tables()["TableNames"]:
+            return False
+        self._table.delete()
+        self._table.wait_until_not_exists()
+        return True
+
     # --- queries ----------------------------------------------------------------------------
     def _scan(self, **kwargs: Any) -> list[Node]:
         items: list[Node] = []

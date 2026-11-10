@@ -307,3 +307,88 @@
   margin-top: 0.8rem;
   text-align: center;
 }
+
+/* ---------- Bulk drag & drop ---------- */
+.post_container .post_card {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.post_container .post_card.dragging {
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15), 0 0 40px rgba(255, 255, 255, 0.08);
+}
+
+.post_container .section_actions,
+.post_container .track_controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.post_container .drop_zone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 22px 14px;
+  margin-bottom: 1rem;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.02);
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.post_container .drop_zone:hover,
+.post_container .drop_zone:focus-visible {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.post_container .drop_zone.active {
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.post_container .drop_zone_title {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.post_container .drop_zone_hint {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.post_container .drop_notice {
+  font-size: 0.72rem;
+  color: #6dbf8a;
+  margin: -0.4rem 0 1rem;
+  text-align: center;
+}
+
+.post_container .move_track_btn {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.75rem;
+  line-height: 1;
+  padding: 3px 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.post_container .move_track_btn:hover:not(:disabled) {
+  color: white;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.post_container .move_track_btn:disabled {
+  opacity: 0.25;
+  cursor: default;
+}

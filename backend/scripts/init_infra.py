@@ -1,10 +1,13 @@
 """Prepare local infrastructure.
 
   * SQLite: creates the users table
-  * DynamoDB: creates the `node` table and seeds it from data/nodes.json (only when empty, or with --reseed)
+  * DynamoDB: creates the `node` table (empty by default)
   * Silo: creates the buckets (music, music-cover, profile-picture) with anonymous read access
 
-Usage:  uv run python -m scripts.init_infra [--reseed]
+Usage:
+  uv run python -m scripts.init_infra            # create whatever is missing (keeps existing data)
+  uv run python -m scripts.init_infra --reset    # wipe users, nodes and files: a brand-new empty app
+  uv run python -m scripts.init_infra --seed     # also load the demo graph from data/nodes.json
 """
 import argparse
 import json
@@ -18,13 +21,12 @@ from app.infrastructure.sqlite_user_repository import SqliteUserRepository
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--reseed", action="store_true", help="overwrite nodes with data/nodes.json even if not empty")
+    parser.add_argument("--reset", action="store_true", help="delete all users, nodes and stored files first")
+    parser.add_argument("--seed", action="store_true", help="load demo nodes from data/nodes.json")
     args = parser.parse_args()
     settings = get_settings()
 
-    SqliteUserRepository(settings.sqlite_path)
-    print(f"[sqlite] users table ready at {settings.sqlite_path}")
-
+    users = SqliteUserRepository(settings.sqlite_path)
     nodes = DynamoNodeRepository(
         table_name=settings.dynamodb_table,
         endpoint_url=settings.dynamodb_endpoint,
@@ -32,16 +34,6 @@ def main() -> int:
         access_key=settings.aws_access_key_id,
         secret_key=settings.aws_secret_access_key,
     )
-    created = nodes.ensure_table()
-    print(f"[dynamodb] table '{settings.dynamodb_table}' {'created' if created else 'already exists'}")
-
-    if args.reseed or not nodes.list_all():
-        seed = json.loads(settings.nodes_seed_path.read_text(encoding="utf-8"))
-        nodes.save_many(seed)
-        print(f"[dynamodb] seeded {len(seed)} nodes from {settings.nodes_seed_path}")
-    else:
-        print("[dynamodb] table already has data, skipping seed (use --reseed to overwrite)")
-
     storage = SiloObjectStorage(
         endpoint_url=settings.s3_endpoint,
         public_endpoint=settings.s3_public_endpoint,
@@ -49,6 +41,25 @@ def main() -> int:
         secret_key=settings.s3_secret_key,
         region=settings.s3_region,
     )
+
+    if args.reset:
+        users.clear()
+        print("[sqlite] all users deleted")
+        if nodes.drop_table():
+            print(f"[dynamodb] table '{settings.dynamodb_table}' deleted")
+        for bucket in settings.buckets:
+            print(f"[silo] bucket '{bucket}': {storage.empty_bucket(bucket)} objects deleted")
+
+    print(f"[sqlite] users table ready at {settings.sqlite_path}")
+
+    created = nodes.ensure_table()
+    print(f"[dynamodb] table '{settings.dynamodb_table}' {'created' if created else 'already exists'}")
+
+    if args.seed:
+        seed = json.loads(settings.nodes_seed_path.read_text(encoding="utf-8"))
+        nodes.save_many(seed)
+        print(f"[dynamodb] seeded {len(seed)} nodes from {settings.nodes_seed_path}")
+
     for bucket in settings.buckets:
         storage.ensure_bucket(bucket, public_read=True)
         print(f"[silo] bucket '{bucket}' ready (public read)")

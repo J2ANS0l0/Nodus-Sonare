@@ -113,3 +113,8 @@ class SqliteUserRepository:
     def delete(self, user_id: str) -> None:
         with self._connect() as conn:
             conn.execute("DELETE FROM users WHERE id = ?", (user_id,))
+
+    def clear(self) -> None:
+        """Administrative helper: remove every user."""
+        with self._connect() as conn:
+            conn.execute("DELETE FROM users")
