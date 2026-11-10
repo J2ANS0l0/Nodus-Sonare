@@ -8,8 +8,8 @@ from app.infrastructure.pillow_image_processor import PillowImageProcessor
 from app.infrastructure.security import BcryptPasswordHasher, JwtTokenService
 from app.infrastructure.silo_object_storage import SiloObjectStorage
 from app.infrastructure.sqlite_user_repository import SqliteUserRepository
-from app.interfaces.repositories import NodeRepository, UserRepository
 from app.interfaces.media import CoverExtractor, ImageProcessor
+from app.interfaces.repositories import NodeRepository, UserRepository
 from app.interfaces.storage import ObjectStorage
 from app.services.album_service import AlbumService
 from app.services.artwork_service import ArtworkService

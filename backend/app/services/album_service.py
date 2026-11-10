@@ -87,7 +87,7 @@ class AlbumService:
         music_ids = [allocate_node_id() for _ in tracks]
 
         music_nodes: list[Node] = []
-        for index, (track, node_id) in enumerate(zip(tracks, music_ids)):
+        for index, (track, node_id) in enumerate(zip(tracks, music_ids, strict=True)):
             next_music_id += 1
             track_tag_ids = list(dict.fromkeys(general_tag_ids + tag_ids_for(_split_tags(track.tag))))
 
