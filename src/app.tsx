@@ -9,7 +9,7 @@ import CustomCursor from "./components/custom_cursor/custom_cursor";
 import { graph_config } from './graph_config'
 import type { NodeDatum, LinkDatum, RawNode } from './types/graph'
 import type { Music } from "./types/music";
-import { auth_headers } from './api/session'
+import { auth_headers, clear_token } from './api/session'
 
 const SHUFFLE_STEP_DELAY = 900; // ms between steps
 
@@ -377,6 +377,24 @@ export default function App() {
     }, 800);
   }, [])
 
+  const handle_logout = useCallback(() => {
+    clear_token()
+    // Unmounting the player stops the audio; the SSE effect closes the stream
+    set_is_logged_in(false)
+    set_username(null)
+    set_raw_nodes([])
+    set_current_track(null)
+    set_auto_play(false)
+    set_selected_node_id(null)
+    set_is_manual_selection(false)
+    set_is_comment_active(false)
+    set_history([])
+    set_search_query('')
+    set_active_tab('Home')
+    set_connected(false)
+    set_error(null)
+  }, [])
+
   const handle_nav_select = useCallback((item: NavItem) => {
     set_active_tab(item);
     if (item !== 'Search') {
@@ -506,7 +524,10 @@ export default function App() {
 
   useEffect(() => {
     if (!is_logged_in) return;
+    let stopped = false
+    let retry_timer: ReturnType<typeof setTimeout> | undefined
     const connect = () => {
+      if (stopped) return
       const es = new EventSource('/api/nodes/stream'); es_ref.current = es
       es.onopen = () => { set_connected(true); set_error(null) }
       es.onmessage = (event) => {
@@ -521,9 +542,10 @@ export default function App() {
           if (Array.isArray(incoming_nodes)) set_raw_nodes(incoming_nodes)
         } catch (e) { set_error('parse error') }
       }
-      es.onerror = () => { set_connected(false); set_error('connection error'); es.close(); setTimeout(connect, 2000) }
+      es.onerror = () => { set_connected(false); set_error('connection error'); es.close(); retry_timer = setTimeout(connect, 2000) }
     }
-    connect(); return () => { es_ref.current?.close() }
+    connect()
+    return () => { stopped = true; clearTimeout(retry_timer); es_ref.current?.close(); es_ref.current = null }
   }, [is_logged_in])
 
   useEffect(() => {
@@ -608,7 +630,7 @@ export default function App() {
             }}>{error}</div>
           )}
 
-          <SideNav active_tab={active_tab} on_select={handle_nav_select} />
+          <SideNav active_tab={active_tab} on_select={handle_nav_select} on_logout={handle_logout} />
 
           <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', zIndex: 100 }}>
             <PlayerBar 

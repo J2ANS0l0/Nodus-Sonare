@@ -7,9 +7,10 @@ export type NavItem = typeof NAV_ITEMS[number];
 interface SideNavProps {
   active_tab: NavItem;
   on_select?: (item: NavItem) => void;
+  on_logout?: () => void;
 }
 
-export default function SideNav({ active_tab, on_select }: SideNavProps) {
+export default function SideNav({ active_tab, on_select, on_logout }: SideNavProps) {
   const handle_click = (item: NavItem) => {
     on_select?.(item);
   };
@@ -25,6 +26,11 @@ export default function SideNav({ active_tab, on_select }: SideNavProps) {
           {item}
         </button>
       ))}
+      {on_logout && (
+        <button className="side_nav_item side_nav_logout" onClick={on_logout}>
+          Logout
+        </button>
+      )}
     </div>
   );
 }

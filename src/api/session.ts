@@ -26,3 +26,7 @@ export const upload_file = async (endpoint: string, file: File): Promise<any> =>
   if (!response.ok) throw new Error(data.error || 'Upload failed')
   return data
 }
+
+export const clear_token = () => {
+  try { sessionStorage.removeItem(TOKEN_KEY) } catch {}
+}

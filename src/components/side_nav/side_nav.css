@@ -31,3 +31,15 @@
   color: #000000;
   font-weight: 700;
 }
+
+.side_nav_logout {
+  margin-top: 8px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  color: #888888;
+  font-weight: 400;
+}
+
+.side_nav_logout:hover {
+  color: #cf6679;
+}
