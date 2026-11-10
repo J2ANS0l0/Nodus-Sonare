@@ -114,7 +114,7 @@ E2E_BASE_URL=http://localhost:3001 E2E_BROWSER=firefox npm run test:e2e
 - Estructura: `playwright.config.ts`, page objects en `e2e/pages/`, datos y fuentes de archivos en `e2e/support/` y
   recorridos en `e2e/tests/`.
 - **Smoke** (`e2e/tests/smoke.spec.ts`, `@smoke`): registra a *Feeling Blew*, espera la home, en *Post* suelta los
-  audios de `album/` y escribe el tag general *Rock Alternativo*, en *Explore* comprueba el tag, selecciona al autor,
+  audios de `album/` (en WebKit los elige con el input de archivos, porque no entrega los archivos de un drop simulado) y escribe el tag general *Rock Alternativo*, en *Explore* comprueba el tag, selecciona al autor,
   presiona random, adelanta el audio hasta el final (verifica el evento `ended`) y hace logout.
 - **Buscar y reproducir** (`e2e/tests/search_and_play.spec.ts`, `@regression`, `npm run test:e2e:regression`):
   registra a *Smoke* (`SmokeTest@gmail.com` / `Smoke1234`), espera la home, en *Explore* comprueba que se ven los nodos
@@ -140,7 +140,7 @@ E2E_BASE_URL=http://localhost:3001 E2E_BROWSER=firefox npm run test:e2e
 `.github/workflows/ci.yml`. Cada etapa es un job y, si una falla, las siguientes no corren:
 
 ```
-Lint → Unitarias + cobertura → Build del artefacto → Despliegue → Integración → (End-to-end)
+Lint → Unitarias + cobertura → Build del artefacto → Despliegue → Integración → End-to-end
                                                                           ↘ si algo falla o se cuelga: Correo
 ```
 
@@ -150,6 +150,7 @@ Lint → Unitarias + cobertura → Build del artefacto → Despliegue → Integr
 | Build | runner self-hosted | Construye **una sola vez** la imagen `nodus-sonare:<sha>` (API + UI compilada); el SHA queda dentro de la imagen |
 | Despliegue | runner self-hosted | `deploy/deploy.sh <ambiente> <sha>`: levanta el contenedor del ambiente elegido y **falla si `GET /api/version` no responde el SHA del commit** |
 | Integración | runner self-hosted | Colección Bruno contra la instancia desplegada (la suite elegida); JUnit + HTML como artefacto |
+| End-to-end | runner self-hosted | Vacía los datos del ambiente y corre Playwright contra la instancia desplegada (la suite y el navegador elegidos); JUnit + HTML + trazas como artefacto |
 | Correo | `ubuntu-latest` | Si una etapa falla o supera su `timeout-minutes`, manda el correo de la falla |
 
 Cada push a `main` corre todo con los valores por defecto. Los pull requests solo corren Lint y Unitarias: el runner
@@ -181,7 +182,7 @@ deploy/deploy.sh staging $SHA          # o dev
 |---|---|---|
 | `environment` | **dev**, staging | Ambiente donde se despliega y se prueba; se ve en el nombre del build, en la URL probada y en la respuesta de `/api/version` |
 | `suite` | **regression**, smoke | `smoke` corre solo los casos con tag `smoke` (7 de integración, `bru run --tags=smoke`) y los recorridos `@smoke` de end-to-end |
-| `browser` | **chromium**, firefox, webkit | Navegador de las pruebas end-to-end |
+| `browser` | **chromium**, firefox, webkit | Navegador de las pruebas end-to-end; se ve en el nombre del job, en el log y en el resumen |
 | `recipients` | **philipfalla@ufm.edu,J2AN.S0l0@gmail.com** | Destinatarios del correo si el build falla |
 
 Desde la terminal: `gh workflow run ci.yml -f environment=staging -f suite=smoke -f recipients=alguien@ejemplo.com`.
@@ -194,35 +195,26 @@ falló y el enlace al log. El servidor es `smtp.gmail.com:465` (SSL). Las creden
 
 ### Runner self-hosted
 
-Build, Despliegue e Integración corren en un runner self-hosted con las etiquetas `self-hosted, nodus`, que necesita
+Build, Despliegue, Integración y End-to-end corren en un runner self-hosted con las etiquetas `self-hosted, nodus`, que necesita
 Docker, Node 20+ y Python 3 en el `PATH`. Para arrancarlo: `cd ~/actions-runner && ./run.sh` (debe decir
 `Listening for Jobs`). Si está apagado, esos jobs quedan en cola.
 
-### Agregar la etapa end-to-end
+### Etapa end-to-end
 
-El job de Playwright va después de `integration` en `ci.yml`, en el mismo runner, contra la URL del ambiente elegido:
+El job `e2e` corre después de `integration`, en el mismo runner y contra la instancia del ambiente elegido
+(`E2E_BASE_URL=http://localhost:<HOST_PORT>`):
 
-```yaml
-  e2e:
-    name: End-to-end (${{ inputs.environment || 'dev' }}, ${{ inputs.browser || 'chromium' }})
-    needs: integration
-    runs-on: [self-hosted, nodus]
-    timeout-minutes: 15
-    defaults:
-      run:
-        working-directory: .
-    steps:
-      - uses: actions/checkout@v4
-      # 1. npm ci y `npx playwright install "$BROWSER"` (el navegador queda en caché en el runner).
-      # 2. CI=true hace que el 409 del usuario fijo del smoke falle (E2E_REUSE_USER=0): vaciar antes los datos
-      #    del ambiente desplegado, p. ej. `docker exec "nodus-$ENVIRONMENT" python -m scripts.init_infra --reset`
-      #    (usa la tabla, los buckets y el SQLite de ese contenedor).
-      # 3. E2E_BASE_URL=http://localhost:<HOST_PORT de deploy/env/$ENVIRONMENT.env> E2E_BROWSER="$BROWSER"
-      #    npx playwright test, con `--grep @smoke` si SUITE=smoke.
-      # 4. Subir reports/e2e-junit.xml, reports/e2e-html/ y test-results/ como artefacto (if: always()).
-```
+1. `npm ci` y `npx playwright install "$BROWSER"`: solo el navegador elegido, que queda en caché en el runner.
+2. `deploy/check-version.sh`: la instancia responde el SHA del commit y su ambiente (se ve en el log).
+3. **Vacía los datos del ambiente** (`docker exec nodus-<ambiente> python -m scripts.init_infra --reset`) y reinicia el
+   contenedor. En CI, `E2E_REUSE_USER=0`: si el usuario fijo de un recorrido ya existe, la prueba falla, así que cada
+   build prueba el registro de verdad.
+4. `npx playwright test` con `E2E_BROWSER=$BROWSER`, y `--grep=@smoke` si `suite=smoke`. El log muestra la URL, el
+   ambiente, la suite y el navegador.
+5. Publica el resumen (cuántas pruebas y cuáles fallaron) y sube `reports/e2e-junit.xml`, `reports/e2e-html/` y
+   `test-results/` (traza, captura y video de las fallas) como artefacto.
 
-Y agregar `e2e` a `needs` del job `notify`, para que el correo también cubra esa etapa.
+`timeout-minutes: 10`; si falla o se cuelga, `notify` manda el correo con la etapa *End-to-end*.
 
 ## Datos
 

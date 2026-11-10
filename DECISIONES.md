@@ -6,8 +6,8 @@ en formato IEEE.
 
 > Estado: capas **unitaria** e **integración** implementadas; los tres recorridos **end-to-end** (smoke,
 > buscar-y-reproducir y editar perfil, con Playwright y page objects) implementados; pipeline con Lint, Unitarias, Build,
-> Despliegue en dos ambientes, Integración y correo. Falta la etapa end-to-end del pipeline. Los números de build se
-> anotan aquí y en `EVIDENCIA.md`.
+> Despliegue en dos ambientes, Integración, End-to-end y correo. Los números de build se anotan aquí y en
+> `EVIDENCIA.md`.
 
 ## 1. Pruebas unitarias
 
@@ -151,7 +151,7 @@ perfil** (3.7), con los mismos page objects.
 
 | Campo | Contenido |
 |---|---|
-| Decisión | Un page object por pantalla o componente en `e2e/pages/`: `LoginPage`, `SideNav`, `PostPage`, `GraphPage` y `PlayerBar`. Los selectores viven solo ahí; la prueba habla en acciones del usuario (`post.add_tracks(...)`, `player.seek_to_end()`). **SRP** en `SideNav`: el menú lateral es su propia clase porque aparece en todas las pantallas con sesión; si cada page object tuviera sus propios botones de navegación, un cambio en el menú obligaría a editar todos. **OCP + DIP** en `PostPage.add_tracks(source: TrackSource)` (`e2e/support/track_sources.ts`): `PostPage` depende de la interfaz `TrackSource`, no de un gesto concreto. `DragAndDropSource` (la que usa el smoke) y `FilePickerSource` la implementan; una forma nueva de agregar pistas es una clase nueva y `PostPage` no cambia. Evita un `PostPage` con un `if (modo === 'drop') ... else ...` que crece con cada variante. |
+| Decisión | Un page object por pantalla o componente en `e2e/pages/`: `LoginPage`, `SideNav`, `PostPage`, `GraphPage` y `PlayerBar`. Los selectores viven solo ahí; la prueba habla en acciones del usuario (`post.add_tracks(...)`, `player.seek_to_end()`). **SRP** en `SideNav`: el menú lateral es su propia clase porque aparece en todas las pantallas con sesión; si cada page object tuviera sus propios botones de navegación, un cambio en el menú obligaría a editar todos. **OCP + DIP** en `PostPage.add_tracks(source: TrackSource)` (`e2e/support/track_sources.ts`): `PostPage` depende de la interfaz `TrackSource`, no de un gesto concreto. `DragAndDropSource` y `FilePickerSource` la implementan; una forma nueva de agregar pistas es una clase nueva y `PostPage` no cambia. El smoke usa las dos: `album_source_for` elige el drop en Chromium y Firefox y el input de archivos en WebKit, que no entrega los archivos de un `drop` sintético, y `PostPage` no tuvo que cambiar. Evita un `PostPage` con un `if (modo === 'drop') ... else ...` que crece con cada variante. |
 | Alternativa | **Selectores en la prueba**: menos archivos, pero un cambio de clase CSS rompe todas las pruebas que la usan. **Un solo page object `App`**: crece hasta mezclar login, formulario, grafo y reproductor. **Un método por gesto en `PostPage`** (`drop_files`, `pick_files`): funciona, pero cada variante nueva modifica la clase. |
 | Concepto | **SOLID – Responsabilidad única (S)** en `SideNav`; **SOLID – Abierto/cerrado (O)** e **Inversión de dependencias (D)** en `PostPage` + `TrackSource`. Recibir el `Page` por constructor no se cuenta como principio. |
 | Evidencia | `e2e/pages/side_nav.ts`, `e2e/pages/post_page.ts`, `e2e/support/track_sources.ts`. |
@@ -213,7 +213,7 @@ perfil** (3.7), con los mismos page objects.
 
 | Campo | Contenido |
 |---|---|
-| Decisión | `.github/workflows/ci.yml` tiene un job por etapa, encadenados con `needs`: **Lint → Unitarias + cobertura → Build del artefacto → Despliegue → Integración** (→ End-to-end, que agrega el otro integrante) y un job **Correo** (`notify`) con `if: failure() \|\| cancelled()`. Si una etapa falla, las siguientes quedan *skipped* y el build en rojo. Cada job tiene `timeout-minutes` (5–10); si una etapa se cuelga, GitHub la cancela y el correo también sale, porque `notify` corre con `cancelled()`. Lint y Unitarias corren en `ubuntu-latest` también en pull requests; de Build en adelante, solo en push a `main` y `workflow_dispatch`. Cada job publica su resumen en el *job summary* y sus reportes como artefacto. |
+| Decisión | `.github/workflows/ci.yml` tiene un job por etapa, encadenados con `needs`: **Lint → Unitarias + cobertura → Build del artefacto → Despliegue → Integración → End-to-end** y un job **Correo** (`notify`) con `if: failure() \|\| cancelled()`. Si una etapa falla, las siguientes quedan *skipped* y el build en rojo. Cada job tiene `timeout-minutes` (5–10); si una etapa se cuelga, GitHub la cancela y el correo también sale, porque `notify` corre con `cancelled()`. Lint y Unitarias corren en `ubuntu-latest` también en pull requests; de Build en adelante, solo en push a `main` y `workflow_dispatch`. Cada job publica su resumen en el *job summary* y sus reportes como artefacto. |
 | Alternativa | Un solo job con todos los pasos: en la interfaz no se ve qué etapa falló y no se puede reintentar una sola. Unitarias después del build: retrasa la retroalimentación de lo más barato. Integración antes del despliegue (con `TestClient` en proceso): ya no prueba el artefacto que se despliega. End-to-end antes que integración: es la etapa más lenta y frágil; si la API está rota, falla por una causa que integración señala con más precisión. |
 | Concepto | **Shift-left** (lo más barato y rápido primero: lint en segundos, unitarias en menos de 1 s), **pirámide de pruebas** (de la base a la punta), **gate** (cada etapa detiene a las siguientes), **config as code** (el pipeline vive en el repositorio). |
 | Evidencia | `.github/workflows/ci.yml` (validado con `actionlint`, sin hallazgos). Build verde con todas las etapas: _anotar número de build_. |
@@ -279,10 +279,20 @@ perfil** (3.7), con los mismos page objects.
 | Evidencia | `.github/scripts/notify_failure.py`. Prueba local con `DRY_RUN=1` (asunto `Build #12 en rojo: Build del artefacto (cancelada o superó su tiempo máximo) (staging)`). Prueba previa de las credenciales: un correo de prueba enviado por `smtp.gmail.com:465` llegó al buzón. Correo de un build en rojo: _anotar número de build_. |
 | Fuente | [19] |
 
+### 4.8 Etapa end-to-end
+
+| Campo | Contenido |
+|---|---|
+| Decisión | Job `e2e` en `ci.yml`, después de `integration`, en el runner self-hosted y contra la instancia desplegada del ambiente elegido (`E2E_BASE_URL=http://localhost:<HOST_PORT>`). Pasos: `npm ci` → `npx playwright install "$BROWSER"` (solo el navegador elegido, en caché en el runner) → `check-version.sh` (la instancia responde el SHA y el ambiente) → **vacía los datos del ambiente** con `init_infra --reset` dentro del contenedor y lo reinicia → `npx playwright test` con `E2E_BROWSER` y, si `suite=smoke`, `--grep=@smoke` → resumen con cada prueba y artefacto con JUnit, HTML y las trazas, capturas y videos de las fallas. `timeout-minutes: 10`, y `e2e` está en `needs` de `notify`, así el correo cubre esta etapa. |
+| Alternativa | **Correr las end-to-end en `ubuntu-latest`**: tendría que volver a construir y desplegar la app en ese job, y ya no probaría la instancia desplegada con el artefacto del build. **No vaciar los datos y usar `E2E_REUSE_USER=1` en CI**: desde el segundo build el registro deja de probarse (ver 3.4). **Instalar los tres navegadores en cada build**: más lento sin necesidad, el parámetro elige uno. **Vaciar los datos sin reiniciar**: el servidor sigue con la lista de nodos que tenía en memoria hasta su siguiente lectura. |
+| Concepto | **Pirámide de pruebas**: end-to-end es la última etapa, la más lenta y cara, y solo corre si pasaron las de abajo. **Gate**: si un recorrido falla, el build queda en rojo y llega el correo. **Config as code**: la etapa y sus parámetros están versionados en el workflow. |
+| Evidencia | `.github/workflows/ci.yml` (job `e2e`). Localmente: el paso de Playwright simulado con `suite=smoke` corre `1 passed`, con `regression` `3 passed`, en Chromium, Firefox y WebKit; `actionlint` sin avisos en el job. Build verde con la etapa: _anotar número_. Build en rojo en esta etapa con el correo: _anotar número_. |
+| Fuente | [9], [15] |
+
 ## 5. Sugerencias de IA
 
 El grupo usó Claude (Anthropic) como asistente durante la implementación de las capas unitaria (1–5), de integración
-(6–11) y end-to-end (12–14), del pipeline (15–22) y del segundo y tercer recorrido end-to-end (23–27). Estas son sugerencias
+(6–11) y end-to-end (12–14), del pipeline (15–22) y del segundo y tercer recorrido end-to-end y de la etapa end-to-end (23–29). Estas son sugerencias
 que la IA propuso y que el grupo discutió antes de aceptarlas o rechazarlas.
 
 | # | Sugerencia de la IA | Decisión del grupo | Razón | Prueba o build que la respalda |
@@ -314,6 +324,8 @@ que la IA propuso y que el grupo discutió antes de aceptarlas o rechazarlas.
 | 25 | Terminar el recorrido apenas Enter reproduce la pista, sin hacer clic en el nodo. | **Rechazada**. El recorrido hace clic en el nodo buscado. | El usuario reproduce con un clic; la reproducción automática solo ocurre con una única coincidencia, y depender de ella dejaría sin probar el gesto real. | `e2e/tests/search_and_play.spec.ts` (paso *play the searched node*). |
 | 26 | Comprobar la persistencia **cerrando sesión y volviendo a entrar** antes de revisar el perfil. | **Aceptada**. Se descartó reabrir *Profile* en la misma sesión. | En la misma sesión el formulario muestra el estado local que la app ya actualizó con la respuesta; solo una sesión nueva lee lo que guardó el backend. | `e2e/tests/edit_profile.spec.ts` (paso *the changes survive a new session*). |
 | 27 | Separar la creación de cuentas de `CatalogSeed` en una clase **`AccountSeed`** para reutilizarla en el tercer recorrido. | **Aceptada**. Se descartó copiar el registro en el nuevo spec. | Una sola implementación del "registrar o entrar"; si cambia el endpoint, se toca un archivo. | `e2e/support/account_seed.ts`; la suite completa (incluido el sembrado del segundo recorrido) en verde después del cambio. |
+| 28 | **Vaciar los datos del ambiente y reiniciar el contenedor** antes de las end-to-end, en vez de entrar con login cuando el usuario ya existe. | **Aceptada**. Se descartó `E2E_REUSE_USER=1` en CI. | Con los datos que dejan los builds anteriores, el registro solo se probaría en el primero; reiniciar evita que la app siga mostrando los nodos que tenía en memoria. | `ci.yml`, paso *Reset data* del job `e2e`. Build: _anotar número_. |
+| 29 | **Correr la suite local en los tres navegadores** del parámetro `browser` antes de dar por terminada la etapa. | **Aceptada**. Chromium y Firefox pasaban; en WebKit el smoke fallaba al soltar los archivos en *Post* (el `drop` sintético llega sin archivos). Se resolvió con `album_source_for`: en WebKit el smoke agrega las pistas con el input de archivos de la zona de drop (`FilePickerSource`). Se descartó quitar `webkit` del parámetro. | Un navegador ofrecido en el parámetro donde la suite no pasa daría un build en rojo que no es un defecto del sistema; el diseño con `TrackSource` permitió resolverlo sin tocar `PostPage`. | `E2E_BROWSER=chromium\|firefox\|webkit npx playwright test`: `3 passed` en los tres. |
 
 ## Referencias
 

@@ -77,3 +77,12 @@ export class FilePickerSource implements TrackSource {
     await drop_zone.locator('input[type="file"]').setInputFiles(this.files);
   }
 }
+
+/**
+ * Source used by the smoke for the album folder. WebKit does not deliver the files of a synthetic `drop`
+ * (the DataTransfer built in the page arrives empty), so there the files go through the drop zone's file input,
+ * which is the other way the user adds tracks. The new behavior is a new TrackSource; PostPage does not change.
+ */
+export function album_source_for(browser_name: string, dir: string): TrackSource {
+  return browser_name === 'webkit' ? new FilePickerSource(audio_files_in(dir)) : DragAndDropSource.from_folder(dir);
+}

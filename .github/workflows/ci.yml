@@ -210,12 +210,77 @@ jobs:
           path: reports/
           if-no-files-found: ignore
 
-  # End-to-end (Playwright) stage: see "Agregar la etapa end-to-end" in README.md. When it exists, add `e2e`
-  # to the `needs` of `notify` below.
+  e2e:
+    name: End-to-end (${{ inputs.environment || 'dev' }}, ${{ inputs.suite || 'regression' }}, ${{ inputs.browser || 'chromium' }})
+    needs: integration
+    runs-on: [self-hosted, nodus]
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Playwright (version pinned in package-lock.json)
+        run: npm ci --no-audit --no-fund
+
+      # Only the chosen browser; it stays cached on the runner between builds, so after the first build this is instant.
+      - name: Install browser ${{ env.BROWSER }}
+        run: npx playwright install "$BROWSER"
+
+      - name: Instance under test
+        run: |
+          PORT=$(grep -E '^HOST_PORT=' "deploy/env/$ENVIRONMENT.env" | cut -d= -f2)
+          echo "E2E_BASE_URL=http://localhost:$PORT" >> "$GITHUB_ENV"
+          deploy/check-version.sh "http://localhost:$PORT" "$ENVIRONMENT" "${{ github.sha }}"
+
+      # The journeys use fixed users (Feeling Blew, Smoke, ...). With CI=true a 409 "already taken" fails the test
+      # (E2E_REUSE_USER=0), so registration is really proven on every build: empty this environment's users, nodes
+      # and files first, then restart the instance so it starts from that clean state, and check it answers again.
+      - name: Reset ${{ env.ENVIRONMENT }} data
+        run: |
+          docker exec "nodus-$ENVIRONMENT" python -m scripts.init_infra --reset
+          docker restart "nodus-$ENVIRONMENT" >/dev/null
+          deploy/check-version.sh "$E2E_BASE_URL" "$ENVIRONMENT" "${{ github.sha }}"
+
+      - name: Playwright (${{ env.SUITE }}, ${{ env.BROWSER }})
+        run: |
+          GREP=""
+          if [ "$SUITE" = smoke ]; then GREP="--grep=@smoke"; fi
+          echo "URL tested: $E2E_BASE_URL, environment: $ENVIRONMENT, suite: $SUITE ${GREP:+($GREP)}, browser: $BROWSER"
+          E2E_BROWSER="$BROWSER" npx playwright test ${GREP:+"$GREP"}
+
+      - name: End-to-end summary
+        if: always()
+        run: |
+          python3 - <<'EOF' >> "$GITHUB_STEP_SUMMARY" || echo "No report to summarize"
+          import os, xml.etree.ElementTree as ET
+          root = ET.parse("reports/e2e-junit.xml").getroot()
+          cases = root.iter("testcase")
+          print(f"### End-to-end ({os.environ['ENVIRONMENT']}, suite {os.environ['SUITE']}, {os.environ['BROWSER']})")
+          print(f"- URL: {os.environ['E2E_BASE_URL']}")
+          print(f"- tests: {root.get('tests')}, fallas: {root.get('failures')}, errores: {root.get('errors')}, "
+                f"saltados: {root.get('skipped')}")
+          for case in cases:
+              status = "❌" if case.find("failure") is not None or case.find("error") is not None else "✅"
+              print(f"  - {status} {case.get('name')}")
+          EOF
+
+      # Traces, screenshots and videos of a failed journey are in test-results/ (retain-on-failure)
+      - name: Upload end-to-end reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-reports-${{ env.ENVIRONMENT }}-${{ env.BROWSER }}-${{ github.sha }}
+          path: |
+            reports/e2e-junit.xml
+            reports/e2e-html/
+            test-results/
+          if-no-files-found: ignore
 
   notify:
     name: Correo si falla
-    needs: [lint, unit, build, deploy, integration]
+    needs: [lint, unit, build, deploy, integration, e2e]
     if: failure() || cancelled()
     runs-on: ubuntu-latest
     timeout-minutes: 5
