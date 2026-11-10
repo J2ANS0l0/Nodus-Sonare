@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import type { Music } from "../../types/music";
 import { use_audio_player } from "../../hooks/use_audio_player";
 import "./player_bar.css";
@@ -33,6 +33,9 @@ export default function PlayerBar({ track, auto_play = false, is_liked = false, 
   const { is_playing, current_time, duration, volume, is_muted, toggle_play, seek, change_volume, toggle_mute, restart } =
     use_audio_player(track, auto_play, on_next);
   const [img_error, set_img_error] = useState(false);
+
+  // A broken cover must not hide the covers of the following tracks
+  useEffect(() => { set_img_error(false) }, [track?.music_cover_url]);
   const [is_like_animating, set_is_like_animating] = useState(false);
 
   const progress_ref = useRef<HTMLDivElement>(null);
@@ -95,7 +98,7 @@ export default function PlayerBar({ track, auto_play = false, is_liked = false, 
     <div className="player_bar">
       <div className="player_track_info">
         <div className="player_cover">
-          {track && !img_error ? (
+          {track?.music_cover_url && !img_error ? (
             <img src={track.music_cover_url} alt={track.music_album} crossOrigin="anonymous" onError={() => set_img_error(true)} />
           ) : (
             <div className="player_cover_placeholder">

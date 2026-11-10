@@ -3,7 +3,8 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any, BinaryIO
 
-# A graph node is stored as a free-form document with the exact shape of data/nodes.json.
+# A graph node is a free-form document (see RawNode in src/types/graph.ts): node_id, node_type, node_name,
+# node_color, the eight node_*_links_* lists and the Music / Author specific fields.
 Node = dict[str, Any]
 
 NODE_LINK_FIELDS: tuple[str, ...] = (
@@ -47,3 +48,25 @@ class IncomingFile:
     filename: str
     content_type: str
     size: int | None
+
+
+@dataclass(frozen=True)
+class EmbeddedImage:
+    """Artwork found inside an audio file."""
+
+    data: bytes
+    mime: str
+
+
+@dataclass(frozen=True)
+class Artwork:
+    """A cover stored in the bucket plus its most relevant color."""
+
+    cover: StoredObject
+    color: str  # "#rrggbb"
+
+
+@dataclass(frozen=True)
+class TrackUpload:
+    audio: StoredObject
+    artwork: Artwork | None

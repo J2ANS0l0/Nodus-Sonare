@@ -11,20 +11,6 @@ import type { NodeDatum, LinkDatum, RawNode } from './types/graph'
 import type { Music } from "./types/music";
 import { auth_headers } from './api/session'
 
-const DEFAULT_TRACK: Music = {
-  music_id: "59",
-  music_name: "Key",
-  music_description: "Key from C418",
-  music_author: "C418",
-  music_cover_url: "http://localhost:9000/music-cover/c418/volume-alpha.jpg",
-  music_url: "http://localhost:9000/music/c418/volume-alpha/01-key.mp3",
-  music_album: "Volume Alpha",
-  likes: 0,
-  views: 0,
-  shares: 0,
-  comments: 0,
-}
-
 const SHUFFLE_STEP_DELAY = 900; // ms between steps
 
 interface GraphData {
@@ -32,40 +18,18 @@ interface GraphData {
   links: LinkDatum[]
 }
 
-const generate_initial_nodes = (count: number): GraphData => {
-  const nodes: NodeDatum[] = [];
-  const links: LinkDatum[] = [];
-  for (let i = 0; i < count; i++) {
-    // Darker grayscale for visibility on white background
-    const v = Math.floor(Math.random() * 100) + 20;
-    const color = `rgb(${v},${v},${v})`;
-    nodes.push({
-      id: `initial_${i}`,
-      name: `Node ${i}`,
-      color: color
-    });
-  }
-  for (let i = 0; i < count; i++) {
-    if (Math.random() > 0.7) {
-      const target = Math.floor(Math.random() * count);
-      if (target !== i) {
-        links.push({ source: `initial_${i}`, target: `initial_${target}` });
-      }
-    }
-  }
-  return { nodes, links };
-};
+const EMPTY_GRAPH: GraphData = { nodes: [], links: [] }
 
 export default function App() {
   const [is_logged_in, set_is_logged_in] = useState(false)
   const [username, set_username] = useState<string | null>(null)
   const [active_tab, set_active_tab] = useState<NavItem>('Home')
   const [is_transitioning, set_is_transitioning] = useState(false)
-  const [graph_data, set_graph_data] = useState<GraphData | null>(() => generate_initial_nodes(200))
+  const [graph_data, set_graph_data] = useState<GraphData>(EMPTY_GRAPH)
   const [raw_nodes, set_raw_nodes] = useState<RawNode[]>([])
   const [connected, set_connected] = useState(false)
   const [error, set_error] = useState<string | null>(null)
-  const [current_track, set_current_track] = useState<Music>(DEFAULT_TRACK)
+  const [current_track, set_current_track] = useState<Music | null>(null)
   const [selected_node_id, set_selected_node_id] = useState<string | null>(null)
   const [is_manual_selection, set_is_manual_selection] = useState(false)
   const [should_focus, set_should_focus] = useState(true)
@@ -529,7 +493,7 @@ export default function App() {
     fetch('/api/like', {
       method: 'POST',
       headers: auth_headers(),
-      body: JSON.stringify({ username, music_node_id: track_id })
+      body: JSON.stringify({ music_node_id: track_id })
     }).catch(err => console.error('Failed to sync like:', err))
   }, [current_track, username, raw_nodes])
 
@@ -554,7 +518,7 @@ export default function App() {
             return
           }
           const incoming_nodes: RawNode[] = parsed
-          if (Array.isArray(incoming_nodes) && incoming_nodes.length) set_raw_nodes(incoming_nodes)
+          if (Array.isArray(incoming_nodes)) set_raw_nodes(incoming_nodes)
         } catch (e) { set_error('parse error') }
       }
       es.onerror = () => { set_connected(false); set_error('connection error'); es.close(); setTimeout(connect, 2000) }
@@ -587,25 +551,23 @@ export default function App() {
       )}
 
       <div style={{ width: '100%', height: '100%', pointerEvents: (active_tab === 'Profile' || active_tab === 'Post') ? 'none' : 'auto' }}>
-        {graph_data && (
-          <GraphView
-            nodes={graph_data.nodes}
-            links={graph_data.links}
-            config={current_config}
-            selected_id={selected_node_id}
-            playing_node_id={playing_node_id}
-            fixed_node_id={fixed_node_id}
-            should_focus={should_focus}
-            show_comment={is_comment_active}
-            is_logged_in={is_logged_in}
-            search_query={search_query}
-            show_search_bar={active_tab === 'Search'}
-            search_trigger={search_trigger}
-            on_node_click={handle_node_click}
-            on_deselect={handle_deselect}
-            on_search={handle_search}
-          />
-        )}
+        <GraphView
+          nodes={graph_data.nodes}
+          links={graph_data.links}
+          config={current_config}
+          selected_id={selected_node_id}
+          playing_node_id={playing_node_id}
+          fixed_node_id={fixed_node_id}
+          should_focus={should_focus}
+          show_comment={is_comment_active}
+          is_logged_in={is_logged_in}
+          search_query={search_query}
+          show_search_bar={active_tab === 'Search'}
+          search_trigger={search_trigger}
+          on_node_click={handle_node_click}
+          on_deselect={handle_deselect}
+          on_search={handle_search}
+        />
       </div>
 
       {is_logged_in && (
@@ -666,13 +628,6 @@ export default function App() {
         </>
       )}
 
-      {!graph_data && !is_logged_in && (
-        <div style={{
-          position: 'absolute', top: '50%', left: '50%',
-          transform: 'translate(-50%,-50%)',
-          fontSize: 12, fontFamily: 'monospace', color: '#999'
-        }}>generating background...</div>
-      )}
     </div>
   )
 }

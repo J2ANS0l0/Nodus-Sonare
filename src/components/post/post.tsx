@@ -155,20 +155,27 @@ export default function Post({ username, on_close, on_success }: PostProps) {
 
     try {
       // Upload audio files to the Silo bucket (a few at a time) and send their public URLs
-      const urls: string[] = new Array(tracks.length);
+      const uploads: { url: string; cover_url?: string | null; color?: string | null }[] = new Array(tracks.length);
       let cursor = 0;
       let done = 0;
       const worker = async () => {
         while (cursor < tracks.length) {
           const index = cursor++;
           const data = await upload_file('/api/upload/music', tracks[index].file!);
-          urls[index] = data.url;
+          uploads[index] = data; // includes the cover embedded in the audio and its dominant color
           set_progress({ done: ++done, total: tracks.length });
         }
       };
       await Promise.all(Array.from({ length: Math.min(UPLOAD_CONCURRENCY, tracks.length) }, worker));
 
-      const uploaded_tracks = tracks.map((t, i) => ({ name: t.name, url: urls[i], description: t.description, tag: t.tag }));
+      const uploaded_tracks = tracks.map((t, i) => ({
+        name: t.name,
+        url: uploads[i].url,
+        description: t.description,
+        tag: t.tag,
+        cover_url: uploads[i].cover_url || '',
+        color: uploads[i].color || undefined,
+      }));
 
       const response = await fetch('/api/album/upload', {
         method: 'POST',
@@ -176,10 +183,8 @@ export default function Post({ username, on_close, on_success }: PostProps) {
         body: JSON.stringify({
           album_name,
           author_name,
-          cover_url: '', // Removed from UI
           general_tag,
           tracks: uploaded_tracks,
-          posted_by: username
         })
       });
 
@@ -228,7 +233,7 @@ export default function Post({ username, on_close, on_success }: PostProps) {
                       type="text"
                       value={album_name}
                       onChange={(e) => set_album_name(e.target.value)}
-                      placeholder="e.g. Volume Beta"
+                      placeholder="Name your album"
                       required
                     />
                   </div>

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, File, UploadFile
 
 from app.api.dependencies import ContainerDep, CurrentUser, to_incoming_file
-from app.api.schemas import LikeRequest, LikeResponse, MeResponse, NodeResponse, ProfileUpdateRequest, UserOut
+from app.api.schemas import LikeRequest, LikeResponse, NodeResponse, ProfilePictureResponse, ProfileUpdateRequest, UserOut
 
 router = APIRouter(prefix="/api", tags=["profile"])
 
@@ -12,14 +12,14 @@ def update_profile(body: ProfileUpdateRequest, user: CurrentUser, container: Con
     return NodeResponse(message="Success", node=node)
 
 
-@router.post("/profile/picture", response_model=MeResponse)
+@router.post("/profile/picture", response_model=ProfilePictureResponse)
 def update_profile_picture(
     user: CurrentUser,
     container: ContainerDep,
     file: UploadFile = File(...),
-) -> MeResponse:
+) -> ProfilePictureResponse:
     user, node = container.profiles.update_picture(user, to_incoming_file(file))
-    return MeResponse(user=UserOut.of(user), node=node)
+    return ProfilePictureResponse(user=UserOut.of(user), node=node)
 
 
 @router.post("/like", response_model=LikeResponse)

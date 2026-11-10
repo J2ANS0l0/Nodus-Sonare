@@ -29,7 +29,6 @@ export default function Login({ on_login, is_transitioning }: LoginProps) {
           username,
           password,
           real_name: username, // For now, use username as real name
-          description: 'New user joined the network'
         } : { username, password }),
       });
 

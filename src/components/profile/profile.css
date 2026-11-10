@@ -259,3 +259,12 @@
   margin-top: 0.8rem;
   text-align: center;
 }
+
+.profile_container .profile_avatar_initial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.4rem;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.06);
+}

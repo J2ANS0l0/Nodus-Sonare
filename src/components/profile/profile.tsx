@@ -68,7 +68,7 @@ export default function Profile({ user_node, on_update, on_close }: ProfileProps
   };
 
   return (
-    <div className="profile_container" style={{ backgroundImage: `url(${user_node.author_profile_picture || ''})` }}>
+    <div className="profile_container" style={user_node.author_profile_picture ? { backgroundImage: `url(${user_node.author_profile_picture})` } : undefined}>
       <div className="glass_effect_layer" />
       
       <div className="profile_content_layer">
@@ -76,11 +76,17 @@ export default function Profile({ user_node, on_update, on_close }: ProfileProps
           <div className="profile_card_inner">
             <div className="profile_avatar_section">
               <div className="profile_avatar_container">
-                <img 
-                  src={user_node.author_profile_picture || 'https://via.placeholder.com/150'} 
-                  alt="Profile" 
-                  className="profile_avatar_image"
-                />
+                {user_node.author_profile_picture ? (
+                  <img 
+                    src={user_node.author_profile_picture} 
+                    alt="Profile" 
+                    className="profile_avatar_image"
+                  />
+                ) : (
+                  <div className="profile_avatar_image profile_avatar_initial">
+                    {(user_node.node_name || '?').charAt(0).toUpperCase()}
+                  </div>
+                )}
               </div>
             </div>
             

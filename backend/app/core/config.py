@@ -6,14 +6,12 @@ from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BACKEND_DIR = Path(__file__).resolve().parents[2]
-PROJECT_DIR = BACKEND_DIR.parent
 
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=BACKEND_DIR / ".env", extra="ignore")
 
     # HTTP
-    api_port: int = 5002
     cors_origins: list[str] = ["http://localhost:3000", "http://127.0.0.1:3000"]
 
     # SQLite (users)
@@ -48,10 +46,7 @@ class Settings(BaseSettings):
     # Live feed
     feed_poll_seconds: float = 1.0
 
-    # Seed data
-    nodes_seed_path: Path = PROJECT_DIR / "data" / "nodes.json"
-
-    @field_validator("sqlite_path", "nodes_seed_path")
+    @field_validator("sqlite_path")
     @classmethod
     def _relative_to_backend(cls, value: Path) -> Path:
         return value if value.is_absolute() else (BACKEND_DIR / value).resolve()

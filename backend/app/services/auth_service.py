@@ -7,12 +7,11 @@ from app.domain.entities import Node, User
 from app.domain.exceptions import AuthenticationError, ConflictError, ValidationError
 from app.interfaces.repositories import NodeRepository, UserRepository
 from app.interfaces.security import PasswordHasher, TokenService
-from app.services.node_factory import empty_node, find_author_by_name, max_numeric
+from app.services.node_factory import empty_node, find_author_by_name, max_numeric, random_color
 
 USERNAME_RE = re.compile(r"^[A-Za-z0-9_.\- ]{2,40}$")
 MIN_PASSWORD_LENGTH = 6
 MAX_PASSWORD_BYTES = 72  # bcrypt limit
-DEFAULT_AUTHOR_COLOR = "#FF0000"
 
 
 @dataclass(frozen=True)
@@ -57,7 +56,7 @@ class AuthService:
         if find_author_by_name(all_nodes, username):
             raise ConflictError("User already exists")
 
-        bio = description or "New user"
+        bio = description or ""
         user = self._users.add(
             User(
                 id=uuid.uuid4().hex,
@@ -76,8 +75,9 @@ class AuthService:
 
     def _create_author_node(self, user: User, all_nodes: list[Node], real_name: str, bio: str) -> Node:
         node_id = max_numeric(all_nodes, "node_id") + 1
+        color = random_color()
         for _ in range(5):  # retry on concurrent id allocation
-            node = empty_node(str(node_id), "Author", user.username, DEFAULT_AUTHOR_COLOR)
+            node = empty_node(str(node_id), "Author", user.username, color)
             node.update(
                 {
                     "author_id": user.id,  # links the graph node to the SQLite user

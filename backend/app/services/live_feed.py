@@ -77,10 +77,6 @@ class LiveFeed:
                 self._subscribers.discard(queue)
 
     # --- current track ----------------------------------------------------------------------
-    @property
-    def current_track(self) -> dict[str, Any] | None:
-        return self._current_track
-
     def publish_track(self, track: dict[str, Any]) -> None:
         self._current_track = track
         self._publish(self._track_event(track))

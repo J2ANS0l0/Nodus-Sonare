@@ -1,7 +1,7 @@
 from fastapi import APIRouter, status
 
-from app.api.dependencies import ContainerDep, CurrentUser
-from app.api.schemas import AuthResponse, LoginRequest, MeResponse, RegisterRequest, UserOut
+from app.api.dependencies import ContainerDep
+from app.api.schemas import AuthResponse, LoginRequest, RegisterRequest, UserOut
 
 router = APIRouter(prefix="/api", tags=["auth"])
 
@@ -27,8 +27,3 @@ def register(body: RegisterRequest, container: ContainerDep) -> AuthResponse:
 def login(body: LoginRequest, container: ContainerDep) -> AuthResponse:
     result = container.auth.login(body.username, body.password)
     return AuthResponse(message="Logged in", token=result.token, user=UserOut.of(result.user), node=result.node)
-
-
-@router.get("/me", response_model=MeResponse)
-def me(user: CurrentUser, container: ContainerDep) -> MeResponse:
-    return MeResponse(user=UserOut.of(user), node=container.nodes.find_author_by_author_id(user.id))

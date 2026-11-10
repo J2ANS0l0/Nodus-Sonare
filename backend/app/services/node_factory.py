@@ -1,4 +1,4 @@
-"""Helpers that build nodes with the canonical data/nodes.json shape."""
+"""Helpers that build nodes with the canonical RawNode shape."""
 import random
 from typing import Any, Iterable
 

@@ -53,10 +53,6 @@ npm run build
 ```bash
 # Borra todos los usuarios, nodos y archivos subidos: deja la app vacía como nueva
 cd backend && uv run python -m scripts.init_infra --reset && cd ..
-# Carga el grafo de ejemplo de data/nodes.json en DynamoDB
-cd backend && uv run python -m scripts.init_infra --seed && cd ..
-# Vacía todo y luego carga el grafo de ejemplo
-cd backend && uv run python -m scripts.init_infra --reset --seed && cd ..
 ```
 
 ## Docker

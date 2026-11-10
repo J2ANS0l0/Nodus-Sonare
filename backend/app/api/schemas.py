@@ -46,14 +46,13 @@ class AuthResponse(BaseModel):
     node: dict[str, Any] | None
 
 
-class MeResponse(BaseModel):
+class ProfilePictureResponse(BaseModel):
     user: UserOut
-    node: dict[str, Any] | None
+    node: dict[str, Any]
 
 
 class LikeRequest(BaseModel):
     music_node_id: str
-    username: str | None = None  # kept for backwards compatibility; identity comes from the token
 
 
 class LikeResponse(BaseModel):
@@ -74,6 +73,9 @@ class NodeResponse(BaseModel):
     node: dict[str, Any]
 
 
+HEX_COLOR = r"^#[0-9A-Fa-f]{6}$"
+
+
 class TrackIn(BaseModel):
     model_config = ConfigDict(extra="ignore")
 
@@ -81,15 +83,15 @@ class TrackIn(BaseModel):
     url: str
     description: str = ""
     tag: str = ""
+    cover_url: str = ""  # cover extracted from this audio file (see /api/upload/music)
+    color: str | None = Field(default=None, pattern=HEX_COLOR)  # dominant color of that cover
 
 
 class AlbumUploadRequest(BaseModel):
     album_name: str
     author_name: str
-    cover_url: str = ""
     general_tag: str = ""
     tracks: list[TrackIn] = Field(min_length=1)
-    posted_by: str | None = None
 
 
 class AlbumUploadResponse(BaseModel):
@@ -106,7 +108,9 @@ class NodeSelectedRequest(BaseModel):
     content: Any = None
 
 
-class UploadResponse(BaseModel):
+class MusicUploadResponse(BaseModel):
     bucket: str
     key: str
     url: str
+    cover_url: str | None = None  # artwork embedded in the audio, stored in the music-cover bucket
+    color: str | None = None      # most relevant color of that artwork

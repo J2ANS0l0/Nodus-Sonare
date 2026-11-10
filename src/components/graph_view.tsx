@@ -374,7 +374,7 @@ export default function GraphView({ nodes, links, config, selected_id, playing_n
   useEffect(() => {
     const simulation = simulation_ref.current
     const g = g_ref.current
-    if (!simulation || !g || !nodes.length) return
+    if (!simulation || !g) return
 
     const link_force = simulation.force<d3.ForceLink<NodeDatum, any>>('link')
     if (link_force) link_force.strength(config.link_force).distance(config.link_distance)

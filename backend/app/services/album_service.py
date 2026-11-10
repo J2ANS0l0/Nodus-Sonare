@@ -15,6 +15,8 @@ class TrackInput:
     url: str
     description: str = ""
     tag: str = ""
+    cover_url: str = ""        # artwork embedded in this track's audio file
+    color: str | None = None   # dominant color of that artwork
 
 
 def _split_tags(raw: str | None) -> list[str]:
@@ -41,7 +43,6 @@ class AlbumService:
         user: User,
         album_name: str,
         author_name: str,
-        cover_url: str,
         general_tag: str,
         tracks: list[TrackInput],
     ) -> list[Node]:
@@ -93,7 +94,9 @@ class AlbumService:
             next_music_id += 1
             track_tag_ids = list(dict.fromkeys(general_tag_ids + tag_ids_for(_split_tags(track.tag))))
 
-            node = empty_node(node_id, "Music", track.name.strip(), author.get("node_color") or DEFAULT_MUSIC_COLOR)
+            # Each track keeps its own artwork and takes its node color from it
+            color = track.color or author.get("node_color") or DEFAULT_MUSIC_COLOR
+            node = empty_node(node_id, "Music", track.name.strip(), color)
             node["node_tag_links_next"] = track_tag_ids
             node["node_author_links_next"] = [author_id]
             node["node_album_links_next"] = [music_ids[index + 1]] if index + 1 < len(music_ids) else []
@@ -104,7 +107,7 @@ class AlbumService:
                     "music_name": track.name.strip(),
                     "music_description": track.description or f"{track.name.strip()} from {author_name}",
                     "music_author": author_name,
-                    "music_cover_url": cover_url,
+                    "music_cover_url": track.cover_url,
                     "music_url": track.url,
                     "music_album": album_name,
                     "likes": 0,

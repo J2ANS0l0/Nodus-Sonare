@@ -7,10 +7,8 @@
 Usage:
   uv run python -m scripts.init_infra            # create whatever is missing (keeps existing data)
   uv run python -m scripts.init_infra --reset    # wipe users, nodes and files: a brand-new empty app
-  uv run python -m scripts.init_infra --seed     # also load the demo graph from data/nodes.json
 """
 import argparse
-import json
 import sys
 
 from app.core.config import get_settings
@@ -22,7 +20,6 @@ from app.infrastructure.sqlite_user_repository import SqliteUserRepository
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--reset", action="store_true", help="delete all users, nodes and stored files first")
-    parser.add_argument("--seed", action="store_true", help="load demo nodes from data/nodes.json")
     args = parser.parse_args()
     settings = get_settings()
 
@@ -54,11 +51,6 @@ def main() -> int:
 
     created = nodes.ensure_table()
     print(f"[dynamodb] table '{settings.dynamodb_table}' {'created' if created else 'already exists'}")
-
-    if args.seed:
-        seed = json.loads(settings.nodes_seed_path.read_text(encoding="utf-8"))
-        nodes.save_many(seed)
-        print(f"[dynamodb] seeded {len(seed)} nodes from {settings.nodes_seed_path}")
 
     for bucket in settings.buckets:
         storage.ensure_bucket(bucket, public_read=True)

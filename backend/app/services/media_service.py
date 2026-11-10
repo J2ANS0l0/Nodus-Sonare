@@ -3,9 +3,10 @@ import mimetypes
 import uuid
 from pathlib import PurePath
 
-from app.domain.entities import IncomingFile, StoredObject, User
+from app.domain.entities import IncomingFile, StoredObject, TrackUpload, User
 from app.domain.exceptions import ValidationError
 from app.interfaces.storage import ObjectStorage
+from app.services.artwork_service import ArtworkService
 
 IMAGE_TYPES = {"image/jpeg", "image/png", "image/webp", "image/gif"}
 AUDIO_TYPES = {"audio/mpeg", "audio/mp3", "audio/wav", "audio/x-wav", "audio/ogg", "audio/flac", "audio/x-flac",
@@ -17,29 +18,25 @@ class MediaService:
         self,
         storage: ObjectStorage,
         music_bucket: str,
-        cover_bucket: str,
         avatar_bucket: str,
         max_audio_size: int,
         max_image_size: int,
+        artwork: ArtworkService,
     ):
         self._storage = storage
+        self._artwork = artwork
         self._music_bucket = music_bucket
-        self._cover_bucket = cover_bucket
         self._avatar_bucket = avatar_bucket
         self._max_audio = max_audio_size
         self._max_image = max_image_size
 
-    @property
-    def avatar_bucket(self) -> str:
-        return self._avatar_bucket
-
-    def upload_track(self, user: User, file: IncomingFile) -> StoredObject:
+    def upload_track(self, user: User, file: IncomingFile) -> TrackUpload:
+        """Store the audio and, when it has embedded artwork, its cover and dominant color."""
         content_type = self._check(file, AUDIO_TYPES, self._max_audio, "audio")
-        return self._storage.upload(self._music_bucket, self._key(user, file, content_type), file.stream, content_type)
-
-    def upload_cover(self, user: User, file: IncomingFile) -> StoredObject:
-        content_type = self._check(file, IMAGE_TYPES, self._max_image, "image")
-        return self._storage.upload(self._cover_bucket, self._key(user, file, content_type), file.stream, content_type)
+        artwork = self._artwork.from_audio(user, file.stream, file.filename)
+        file.stream.seek(0)
+        audio = self._storage.upload(self._music_bucket, self._key(user, file, content_type), file.stream, content_type)
+        return TrackUpload(audio=audio, artwork=artwork)
 
     def upload_avatar(self, user: User, file: IncomingFile) -> StoredObject:
         content_type = self._check(file, IMAGE_TYPES, self._max_image, "image")

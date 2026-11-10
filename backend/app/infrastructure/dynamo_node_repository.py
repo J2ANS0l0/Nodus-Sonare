@@ -1,4 +1,4 @@
-"""DynamoDB implementation of NodeRepository. Items keep the exact shape of data/nodes.json."""
+"""DynamoDB implementation of NodeRepository. Items keep the RawNode shape used by the frontend."""
 from decimal import Decimal
 from typing import Any, Iterable
 
