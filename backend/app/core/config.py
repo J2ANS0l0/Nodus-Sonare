@@ -11,6 +11,14 @@ BACKEND_DIR = Path(__file__).resolve().parents[2]
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=BACKEND_DIR / ".env", extra="ignore")
 
+    # Deployment identity (GET /api/version). APP_VERSION is baked into the Docker image at build time
+    # (the commit SHA); APP_ENV is set when an environment is deployed.
+    app_version: str = "dev"
+    app_env: str = "local"
+
+    # Built frontend (Vite dist/). When set, the API also serves the web UI on the same port.
+    frontend_dist: Path | None = None
+
     # HTTP
     cors_origins: list[str] = ["http://localhost:3000", "http://127.0.0.1:3000"]
 
