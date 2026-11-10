@@ -1,0 +1,39 @@
+services:
+  # Silo: S3-compatible object storage (community MinIO fork maintained by PGSTY)
+  # https://github.com/pgsty/silo
+  silo:
+    image: pgsty/silo:RELEASE.2026-11-09T00-00-00Z
+    restart: unless-stopped
+    ports:
+      - "9000:9000"   # S3 API
+      - "9001:9001"   # web console
+    environment:
+      MINIO_ROOT_USER: ${S3_ACCESS_KEY}
+      MINIO_ROOT_PASSWORD: ${S3_SECRET_KEY}
+    volumes:
+      - silo_data:/data
+    command: server /data --console-address ":9001"
+
+  dynamodb:
+    image: amazon/dynamodb-local:latest
+    restart: unless-stopped
+    user: root
+    ports:
+      - "8002:8000"
+    volumes:
+      - dynamodb_data:/home/dynamodblocal/data
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodblocal/data"
+
+  dynamodb-admin:
+    image: aaronshaf/dynamodb-admin
+    restart: unless-stopped
+    ports:
+      - "8003:8001"
+    environment:
+      DYNAMO_ENDPOINT: http://dynamodb:8000
+    depends_on:
+      - dynamodb
+
+volumes:
+  silo_data:
+  dynamodb_data:
