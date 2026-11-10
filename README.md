@@ -87,6 +87,44 @@ cd integration && npx bru run 07-profile --env dev
 - `08-media/ep-05-picture-fake-png` se salta a propósito: documenta el defecto abierto D-1 (la foto de perfil no valida
   el contenido del archivo).
 
+### Pruebas end-to-end (Playwright)
+
+Recorridos de usuario en el navegador con [Playwright](https://playwright.dev/) (`@playwright/test` 1.65.0, versión
+exacta) y Page Object Model. Corren contra la app **ya levantada** (frontend + API + infraestructura):
+
+```bash
+npx playwright install chromium        # navegador de Playwright (solo la primera vez)
+npm start                              # frontend en http://localhost:3000 y API en http://localhost:5002
+# En otra terminal: solo los recorridos marcados @smoke
+npm run test:e2e:smoke
+# El mismo smoke con el navegador visible (headed)
+npm run test:e2e:smoke:headed
+# Todos los recorridos
+npm run test:e2e
+# Otro ambiente u otro navegador
+E2E_BASE_URL=http://localhost:3001 E2E_BROWSER=firefox npm run test:e2e
+```
+
+| Variable | Valor por defecto | Efecto |
+|---|---|---|
+| `E2E_BASE_URL` | `http://localhost:3000` | URL del frontend probado (el ambiente) |
+| `E2E_BROWSER` | `chromium` | `chromium`, `firefox` o `webkit` |
+| `E2E_REUSE_USER` | `1` en local, `0` con `CI` definida | Con `1`, si el usuario del smoke ya existe, el recorrido entra con login; con `0`, el 409 hace fallar la prueba |
+
+- Estructura: `playwright.config.ts`, page objects en `e2e/pages/`, datos y fuentes de archivos en `e2e/support/` y
+  recorridos en `e2e/tests/`.
+- **Smoke** (`e2e/tests/smoke.spec.ts`, `@smoke`): registra a *Feeling Blew*, espera la home, en *Post* suelta los
+  audios de `album/` y escribe el tag general *Rock Alternativo*, en *Explore* comprueba el tag, selecciona al autor,
+  presiona random, adelanta el audio hasta el final (verifica el evento `ended`) y hace logout.
+- `album/` tiene dos pistas **sintéticas** de 12 s (acordes de senos generados con ffmpeg, sin derechos de terceros),
+  con tags ID3 (`artist` Feeling Blew, `album` Ensayos Sinteticos, `genre` Demo, `track` 1/2 y 2/2). Para
+  regenerarlas: `ffmpeg -f lavfi -i "aevalsrc=0.3*sin(2*PI*220*t):s=44100:d=12" -ac 2 -c:a libmp3lame -b:a 128k
+  -id3v2_version 3 -metadata title="Primer Ensayo" -metadata artist="Feeling Blew" "album/01 Primer Ensayo.mp3"`.
+- El smoke usa credenciales fijas: para repetirlo con `E2E_REUSE_USER=0` hay que vaciar los datos antes (ver
+  [Datos](#datos)). En local, cada repetición sube el álbum otra vez.
+- Reportes: `reports/e2e-junit.xml` y `reports/e2e-html/`. Si una prueba falla quedan traza, captura y video en
+  `test-results/`.
+
 ## Datos
 
 ```bash

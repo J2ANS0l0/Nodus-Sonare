@@ -13,7 +13,10 @@
     "test:unit": "cd backend && uv run pytest tests/unit --cov",
     "test:integration": "cd integration && bru run --env ${BRUNO_ENV:-dev} --sandbox=developer --reporter-junit ../reports/integration-junit.xml --reporter-html ../reports/integration.html",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:e2e": "playwright test",
+    "test:e2e:smoke": "playwright test --grep @smoke",
+    "test:e2e:smoke:headed": "playwright test --grep @smoke --headed"
   },
   "dependencies": {
     "d3": "^7.9.0",
@@ -21,6 +24,7 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@playwright/test": "1.65.0",
     "@types/d3": "^7.4.3",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.1",

@@ -4,9 +4,10 @@ Justificación de las decisiones de calidad del proyecto. Cada decisión es una 
 del curso, la evidencia en el repositorio o en el pipeline y la fuente. Las referencias completas están al final
 en formato IEEE.
 
-> Estado: la capa **unitaria**, la capa de **integración** (Bruno) y las etapas **Lint** y **Unitarias** del pipeline
-> están implementadas. La etapa de integración del pipeline, el despliegue, end-to-end, page objects, parámetros y
-> correo se agregan cuando se implementen. Los números de build se anotan aquí y en `EVIDENCIA.md` cuando corran en
+> Estado: la capa **unitaria**, la capa de **integración** (Bruno), el primer recorrido **end-to-end** (smoke, con
+> Playwright y page objects) y las etapas **Lint** y **Unitarias** del pipeline están implementadas. Los otros dos
+> recorridos end-to-end, las etapas de integración y end-to-end del pipeline, el despliegue, los parámetros y el correo
+> se agregan cuando se implementen. Los números de build se anotan aquí y en `EVIDENCIA.md` cuando corran en
 > GitHub Actions.
 
 ## 1. Pruebas unitarias
@@ -132,9 +133,53 @@ de `integration/`. 57 casos: 31 de partición de equivalencia, 18 de valores lí
 | `07-profile` | DT | PRO-DT-R1 a R8 | Una regla por caso: 401, 404, 403 (otro dueño), 403 (no Author), 400 (color), 200 (color en minúsculas), 400 (nombre en blanco), 200 (persistido) |
 | `08-media` | EP | MED-EP-01 a 06 | MP3 → 201 y descargable desde Silo; texto como audio → 400; PNG → 200; texto como foto → 400; texto declarado `image/png` → 400 (D-1, saltado); sin token → 401 |
 
-## 3. Pipeline
+## 3. Pruebas end-to-end
 
-### 3.1 Etapas Lint y Unitarias, en ese orden y antes del build
+Primer recorrido de los tres que pide el proyecto: el **smoke**. Los otros dos se agregan con los mismos page objects.
+
+### 3.1 Herramienta y alcance del smoke
+
+| Campo | Contenido |
+|---|---|
+| Decisión | **Playwright** (`@playwright/test` 1.65.0, versión exacta) en TypeScript, en `e2e/` en la raíz y configurado en `playwright.config.ts`. El smoke (`e2e/tests/smoke.spec.ts`, etiqueta `@smoke`) recorre el camino crítico de la app: registro → home con el stream en vivo conectado → *Post* soltando los audios de `album/` con el tag general *Rock Alternativo* → *Explore*, donde comprueba que el tag existe, selecciona al autor y presiona random → adelanta el audio hasta el final → logout. Cada paso es un `test.step`, así el reporte dice en cuál falló. Se corre solo con `npm run test:e2e:smoke` (`--grep @smoke`). |
+| Alternativa | **Selenium**: el enunciado prefiere Playwright, y Selenium no trae espera automática, trazas ni reporte HTML incluidos. **Un smoke más corto** (solo login y home): más rápido, pero no tocaría la subida de archivos, el grafo ni el reproductor, que son lo que hace la app. **Un recorrido por funcionalidad para el smoke**: tres pruebas que se registran cada una tardan más y repiten pasos. |
+| Concepto | **Pirámide de pruebas**: end-to-end es la punta, pocas pruebas largas y caras; las reglas de negocio ya se prueban abajo. El **smoke** es una prueba amplia y poco profunda que dice si vale la pena correr el resto. |
+| Evidencia | `e2e/tests/smoke.spec.ts`; corrida local: `1 passed (9.5s)`. Build con la etapa end-to-end: _anotar número de build_. |
+| Fuente | [15], [1] |
+
+### 3.2 Page objects y principios SOLID
+
+| Campo | Contenido |
+|---|---|
+| Decisión | Un page object por pantalla o componente en `e2e/pages/`: `LoginPage`, `SideNav`, `PostPage`, `GraphPage` y `PlayerBar`. Los selectores viven solo ahí; la prueba habla en acciones del usuario (`post.add_tracks(...)`, `player.seek_to_end()`). **SRP** en `SideNav`: el menú lateral es su propia clase porque aparece en todas las pantallas con sesión; si cada page object tuviera sus propios botones de navegación, un cambio en el menú obligaría a editar todos. **OCP + DIP** en `PostPage.add_tracks(source: TrackSource)` (`e2e/support/track_sources.ts`): `PostPage` depende de la interfaz `TrackSource`, no de un gesto concreto. `DragAndDropSource` (la que usa el smoke) y `FilePickerSource` la implementan; una forma nueva de agregar pistas es una clase nueva y `PostPage` no cambia. Evita un `PostPage` con un `if (modo === 'drop') ... else ...` que crece con cada variante. |
+| Alternativa | **Selectores en la prueba**: menos archivos, pero un cambio de clase CSS rompe todas las pruebas que la usan. **Un solo page object `App`**: crece hasta mezclar login, formulario, grafo y reproductor. **Un método por gesto en `PostPage`** (`drop_files`, `pick_files`): funciona, pero cada variante nueva modifica la clase. |
+| Concepto | **SOLID – Responsabilidad única (S)** en `SideNav`; **SOLID – Abierto/cerrado (O)** e **Inversión de dependencias (D)** en `PostPage` + `TrackSource`. Recibir el `Page` por constructor no se cuenta como principio. |
+| Evidencia | `e2e/pages/side_nav.ts`, `e2e/pages/post_page.ts`, `e2e/support/track_sources.ts`. |
+| Fuente | [7], [16] |
+
+### 3.3 Esperas y verificaciones sin tiempos fijos
+
+| Campo | Contenido |
+|---|---|
+| Decisión | No hay ningún `waitForTimeout`. Cada paso espera una señal de la app: la home está lista cuando aparece el indicador `live` del stream SSE; el álbum se creó cuando el overlay de *Post* se cierra sin mensaje de error; el audio llegó al final cuando el elemento de audio dispara `ended`. Como el reproductor usa `new Audio()` y ese elemento no está en el DOM, `PlayerBar.install_audio_probe` instala antes de cargar la página un script que registra los `ended`. Los nodos del grafo flotan (simulación de fuerzas), así que `GraphPage.select_node` busca el círculo enlazado al nodo por su nombre y le despacha el `click`, en vez de hacer clic en una coordenada que se mueve. El drop arma un `DataTransfer` con los archivos reales de `album/` dentro de la página, porque Playwright no puede arrastrar desde el explorador de archivos del sistema. |
+| Alternativa | **Esperas fijas** (`waitForTimeout(3000)`): lentas cuando sobran y rotas cuando faltan. **Verificar solo el texto del tiempo** (`3:12 / 3:12`): al terminar, la app pasa sola a la siguiente pista y el texto vuelve a `0:00`, así que la aserción depende de la velocidad de la red. **Clic real por coordenadas sobre el nodo**: falla cuando el nodo se mueve entre el cálculo y el clic. |
+| Concepto | **Flaky test**: una prueba que depende del tiempo o de la posición de un elemento en movimiento pasa o falla sin que cambie el código. |
+| Evidencia | `e2e/pages/player_bar.ts` (`install_audio_probe`, `expect_track_ended`), `e2e/pages/graph_page.ts` (`select_node`), `e2e/support/track_sources.ts` (`DragAndDropSource`). Dos corridas seguidas en verde. |
+| Fuente | [14], [15] |
+
+### 3.4 Datos del smoke y sin reintentos
+
+| Campo | Contenido |
+|---|---|
+| Decisión | El smoke usa credenciales fijas (*Feeling Blew*, `FeelingBlew@gmail.com`). `E2E_REUSE_USER` decide qué pasa si el usuario ya existe: en local (`1` por defecto) el recorrido entra con login y se puede repetir sin borrar datos; en CI (`0` por defecto cuando existe `CI`) el 409 hace fallar la prueba, así cada build prueba el registro de verdad y el pipeline vacía los datos antes de la etapa. `retries: 0` en `playwright.config.ts`. Los audios de `album/` son dos pistas **sintéticas** de 12 s generadas con ffmpeg y con tags ID3 propios. |
+| Alternativa | **Usuario con sufijo aleatorio**, como en integración: se repite sin borrar datos, pero el recorrido de la demo ya no es el usuario acordado. **Entrar con login siempre que exista**: en un ambiente que guarda datos, a partir del segundo build el registro deja de probarse y una falla en él pasaría en verde. **Usar canciones comerciales como datos**: el repositorio es público, pesaban 12.6 MB y duraban más de 3 minutos cada una. **Reintentos en CI**: un reintento ocultaría las pruebas intermitentes, y además el segundo intento recibiría 409 porque el primero ya creó el usuario. |
+| Concepto | **Flaky test** (no se esconden con reintentos) y **gate**: si el registro se rompe, el smoke lo detecta en cada build. |
+| Evidencia | `e2e/support/test_data.ts` (`REUSE_EXISTING_USER`), `e2e/pages/login_page.ts` (`register_or_login`). Con el usuario ya creado, `E2E_REUSE_USER=0 npm run test:e2e:smoke` falla con `Expected: 201, Received: 409`; sin la variable, pasa. |
+| Fuente | [14] |
+
+## 4. Pipeline
+
+### 4.1 Etapas Lint y Unitarias, en ese orden y antes del build
 
 | Campo | Contenido |
 |---|---|
@@ -144,7 +189,7 @@ de `integration/`. 57 casos: 31 de partición de equivalencia, 18 de valores lí
 | Evidencia | `.github/workflows/ci.yml`. Build verde con ambas etapas: _anotar número de build_. |
 | Fuente | [9], [10] |
 
-### 3.2 Versión de Python fijada en 3.13
+### 4.2 Versión de Python fijada en 3.13
 
 | Campo | Contenido |
 |---|---|
@@ -154,7 +199,7 @@ de `integration/`. 57 casos: 31 de partición de equivalencia, 18 de valores lí
 | Evidencia | `backend/.python-version`, `backend/uv.lock`. Falla original: `error: Failed to build pyyaml==6.0.3` con `cpython-3.15.2`. |
 | Fuente | [11] |
 
-### 3.3 Reglas de lint explícitas
+### 4.3 Reglas de lint explícitas
 
 | Campo | Contenido |
 |---|---|
@@ -164,10 +209,10 @@ de `integration/`. 57 casos: 31 de partición de equivalencia, 18 de valores lí
 | Evidencia | `[tool.ruff.lint]` en `backend/pyproject.toml`; `app/services/album_service.py` (`zip(tracks, music_ids, strict=True)`). |
 | Fuente | [12] |
 
-## 4. Sugerencias de IA
+## 5. Sugerencias de IA
 
-El grupo usó Claude (Anthropic) como asistente durante la implementación de las capas unitaria (1–5) y de integración
-(6–11). Estas son sugerencias que la IA propuso y que el grupo discutió antes de aceptarlas o rechazarlas.
+El grupo usó Claude (Anthropic) como asistente durante la implementación de las capas unitaria (1–5), de integración
+(6–11) y end-to-end (12–14). Estas son sugerencias que la IA propuso y que el grupo discutió antes de aceptarlas o rechazarlas.
 
 | # | Sugerencia de la IA | Decisión del grupo | Razón | Prueba o build que la respalda |
 |---|---|---|---|---|
@@ -182,6 +227,9 @@ El grupo usó Claude (Anthropic) como asistente durante la implementación de la
 | 9 | Reportes **JUnit + HTML**, **sin `--bail`**, y `--sandbox=developer`. | **Aceptada**. Se descartaron "solo JUnit" y "JUnit + `--bail`". | El JUnit alimenta el resumen y los artefactos del CI y el HTML sirve de evidencia legible; sin `--bail` se ven todas las fallas de una corrida. | `reports/integration-junit.xml` y `reports/integration.html`; código de salida 1 con una copia mutada de la colección. |
 | 10 | En el límite "username de 2 caracteres" (REG-BVA-03), aceptar **201 o 409 `Username already taken`** y fallar con 400/422. | **Aceptada**. Se descartaron "reintentar con otro nombre en el pre-request" y "exigir solo 201". | Solo hay 1 296 nombres de 2 caracteres en el alfabeto del caso: exigir 201 vuelve el caso intermitente en un ambiente persistente, y el 409 también prueba que pasó la regla de longitud. | `integration/02-register/bva-03-username-2.bru`; tres corridas seguidas sobre la misma base en verde. |
 | 11 | Ante el defecto D-1 (la foto de perfil acepta texto declarado como `image/png`), **documentarlo y dejar un caso saltado** que espera 400, y corregirlo después de la entrega. | **Aceptada**. Se descartaron "corregirlo en esta sesión" y "solo documentarlo sin caso". | Con poco tiempo, no se toca un servicio bajo la puerta de cobertura; el caso deja lista la prueba de regresión y el defecto aparece como *skipped* en cada reporte. | `integration/08-media/ep-05-picture-fake-png.bru` (`<skipped message="Request Skipped"/>` en el JUnit). |
+| 12 | Verificar que la pista llegó al final con el evento **`ended`** del audio, registrado por un script de inicio, en vez de comparar los textos de tiempo. | **Aceptada**. Se descartó comparar `tiempo actual = duración`. | Al terminar, la app salta sola a la siguiente pista y el texto vuelve a `0:00`: comparar textos depende de la velocidad de la red. | `e2e/pages/player_bar.ts` (`install_audio_probe`); dos corridas seguidas del smoke en verde. |
+| 13 | **Entrar con login si el usuario del smoke ya existe**, para poder repetirlo sin borrar datos. | **Aceptada con cambios**: solo en local. En CI el 409 hace fallar la prueba (`E2E_REUSE_USER`). | Si se aceptaba siempre, en un ambiente con datos el registro dejaba de probarse desde el segundo build. | `E2E_REUSE_USER=0 npm run test:e2e:smoke` con el usuario existente: falla con `Expected: 201, Received: 409`. |
+| 14 | **`retries: 1` en CI** para absorber fallas intermitentes del navegador. | **Rechazada**. Se dejó `retries: 0`. | Un reintento esconde pruebas intermitentes en vez de corregirlas, y con credenciales fijas el segundo intento siempre recibiría 409. | `playwright.config.ts` (`retries: 0`). |
 
 ## Referencias
 
@@ -212,3 +260,7 @@ El grupo usó Claude (Anthropic) como asistente durante la implementación de la
 [13] Bruno, "Bruno CLI," *Bruno documentation*. [En línea]. Disponible: https://docs.usebruno.com/bru-cli/overview
 
 [14] J. Micco, "Flaky Tests at Google and How We Mitigate Them," *Google Testing Blog*, may. 2016. [En línea]. Disponible: https://testing.googleblog.com/2016/05/flaky-tests-at-google-and-how-we.html
+
+[15] Microsoft, "Page object models," *Playwright documentation*. [En línea]. Disponible: https://playwright.dev/docs/pom
+
+[16] R. C. Martin, *Agile Software Development: Principles, Patterns, and Practices*. Upper Saddle River, NJ, EE. UU.: Prentice Hall, 2003.

@@ -150,3 +150,8 @@ vite.config.ts.timestamp-*
 
 # Integration test reports (Bruno JUnit/HTML)
 /reports/
+
+# Playwright (end-to-end) artifacts
+/test-results/
+/playwright-report/
+/blob-report/
