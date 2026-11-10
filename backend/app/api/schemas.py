@@ -8,7 +8,7 @@ from app.domain.entities import User
 
 class RegisterRequest(BaseModel):
     email: EmailStr
-    username: str = Field(min_length=1, max_length=40)
+    username: str = Field(min_length=1, max_length=50)
     password: str = Field(min_length=1, max_length=200)
     real_name: str | None = None
     description: str | None = None
