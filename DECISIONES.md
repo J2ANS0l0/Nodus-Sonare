@@ -4,10 +4,9 @@ Justificación de las decisiones de calidad del proyecto. Cada decisión es una 
 del curso, la evidencia en el repositorio o en el pipeline y la fuente. Las referencias completas están al final
 en formato IEEE.
 
-> Estado: la capa **unitaria**, la capa de **integración** (Bruno) y las etapas **Lint** y **Unitarias** del pipeline
-> están implementadas. La etapa de integración del pipeline, el despliegue, end-to-end, page objects, parámetros y
-> correo se agregan cuando se implementen. Los números de build se anotan aquí y en `EVIDENCIA.md` cuando corran en
-> GitHub Actions.
+> Estado: capas **unitaria** e **integración** implementadas; pipeline con Lint, Unitarias, Build, Despliegue en dos
+> ambientes, Integración y correo. Falta la capa **end-to-end** (Playwright y page objects) y su etapa, que agrega el
+> otro integrante. Los números de build se anotan aquí y en `EVIDENCIA.md`.
 
 ## 1. Pruebas unitarias
 
@@ -64,7 +63,7 @@ en formato IEEE.
 ## 2. Pruebas de integración
 
 Capa de caja negra contra la API **en ejecución** (FastAPI + SQLite + DynamoDB Local + Silo), con la colección Bruno
-de `integration/`. 57 casos: 31 de partición de equivalencia, 18 de valores límite y 8 de una tabla de decisión.
+de `integration/`. 58 casos: 32 de partición de equivalencia, 18 de valores límite y 8 de una tabla de decisión.
 
 ### 2.1 Herramienta y ubicación: Bruno en `integration/`
 
@@ -73,7 +72,7 @@ de `integration/`. 57 casos: 31 de partición de equivalencia, 18 de valores lí
 | Decisión | Las pruebas de integración son una colección **Bruno** de archivos `.bru` (texto plano) en `integration/`, en la raíz del repositorio y separada de `backend/`. Corren con el CLI `@usebruno/cli`, fijado como devDependency **exacta** (`4.2.1`) en `package.json` y `package-lock.json`, con `npm run test:integration`. La colección solo habla HTTP con la URL del ambiente: **nunca importa código del backend**, así que es caja negra por construcción y prueba los adaptadores reales (SQLite, DynamoDB, Silo, bcrypt, JWT) que la capa unitaria reemplaza con fakes. |
 | Alternativa | **pytest + httpx en `backend/tests/integration/`**: el mismo lenguaje que las unitarias, pero tienta a importar `app.*` o usar `TestClient` en proceso (caja gris) y no apunta a una instancia desplegada. **Postman/Newman**: colecciones JSON difíciles de revisar en un diff y atadas a una cuenta en la nube. **Rango de versiones (`^4.2.1`) o la 4.3.0**: la 4.3.0 tenía 18 días de publicada y no se probó con esta colección; un rango puede cambiar el runner entre dos builds del mismo commit. |
 | Concepto | **Pirámide de pruebas**: capa intermedia, menos casos y más lentos que las unitarias (~11 s contra milisegundos), y cubre lo que las unitarias dejan fuera (`app/infrastructure`, `app/api`). **Config as code**: casos, ambientes y versión del runner están versionados. |
-| Evidencia | `integration/` (57 `.bru`), `package.json` (`"@usebruno/cli": "4.2.1"`, script `test:integration`). `npx bru --version` → `4.2.1`. Corrida local: `Requests 57 (56 Passed, 1 Skipped)`, `Tests 113/113`. |
+| Evidencia | `integration/` (58 `.bru`), `package.json` (`"@usebruno/cli": "4.2.1"`, script `test:integration`). `npx bru --version` → `4.2.1`. Corrida local: `Requests 57 (56 Passed, 1 Skipped)`, `Tests 113/113`. |
 | Fuente | [13], [3] |
 
 ### 2.2 Diseño de casos: partición de equivalencia, valores límite y tabla de decisión
@@ -120,7 +119,7 @@ de `integration/`. 57 casos: 31 de partición de equivalencia, 18 de valores lí
 
 | Área (carpeta) | Técnica | Casos | Qué cubre |
 |---|---|---|---|
-| `01-health` | EP | HEA-EP-01, 02 | API arriba en el ambiente (smoke); paleta de 12 colores hex distintos |
+| `01-health` | EP | HEA-EP-01 a 03 | API arriba (smoke); paleta de 12 colores hex distintos; `/api/version` responde el ambiente elegido y, en el pipeline, el SHA del commit (smoke) |
 | `02-register` | EP | REG-EP-01 a 06 | Válido → 201; email mal formado → 422; username con `@` → 400; username repetido (igual y en MAYÚSCULAS) → 409; email repetido en MAYÚSCULAS → 409 |
 | `02-register` | BVA | REG-BVA-01 a 05 | Username 0 → 422, 1 → 400, 2 → no se rechaza por longitud, 40 → 201, 41 → 422 |
 | `02-register` | BVA | REG-BVA-06 a 15 | Contraseña 0 → 422, 1 → 400, 5 → 400, 6 → 201, 72 bytes → 201, 73 bytes → 400, 36 × ñ (72 B) → 201, 36 × ñ + a (73 B) → 400, 200 → 400, 201 → 422 |
@@ -134,14 +133,14 @@ de `integration/`. 57 casos: 31 de partición de equivalencia, 18 de valores lí
 
 ## 3. Pipeline
 
-### 3.1 Etapas Lint y Unitarias, en ese orden y antes del build
+### 3.1 Orden de las etapas
 
 | Campo | Contenido |
 |---|---|
-| Decisión | `.github/workflows/ci.yml` tiene dos jobs encadenados: `lint` (Ruff) y `unit` (`needs: lint`, pytest con la puerta de cobertura). Si *Lint* falla, *Unitarias* no corre. Cada job tiene `timeout-minutes` (5 y 10) para que una etapa colgada termine sola. Corre en cada push a `main`, en pull requests y a mano (`workflow_dispatch`). Publica el JUnit XML y el XML de cobertura como artefacto y un resumen (número de pruebas y % de cobertura) en el *job summary*. Las etapas de build, despliegue, integración, end-to-end y correo se agregan en el mismo archivo. |
-| Alternativa | Un solo job con todos los pasos: más rápido de escribir, pero en la interfaz no se ve qué etapa falló y no se puede reintentar una sola. Correr las unitarias después del build: retrasa la retroalimentación de lo más barato de detectar. |
-| Concepto | **Shift-left** (lo más barato y rápido primero), **gate** (cada etapa detiene a las siguientes), **config as code** (el pipeline vive en el repositorio). |
-| Evidencia | `.github/workflows/ci.yml`. Build verde con ambas etapas: _anotar número de build_. |
+| Decisión | `.github/workflows/ci.yml` tiene un job por etapa, encadenados con `needs`: **Lint → Unitarias + cobertura → Build del artefacto → Despliegue → Integración** (→ End-to-end, que agrega el otro integrante) y un job **Correo** (`notify`) con `if: failure() \|\| cancelled()`. Si una etapa falla, las siguientes quedan *skipped* y el build en rojo. Cada job tiene `timeout-minutes` (5–10); si una etapa se cuelga, GitHub la cancela y el correo también sale, porque `notify` corre con `cancelled()`. Lint y Unitarias corren en `ubuntu-latest` también en pull requests; de Build en adelante, solo en push a `main` y `workflow_dispatch`. Cada job publica su resumen en el *job summary* y sus reportes como artefacto. |
+| Alternativa | Un solo job con todos los pasos: en la interfaz no se ve qué etapa falló y no se puede reintentar una sola. Unitarias después del build: retrasa la retroalimentación de lo más barato. Integración antes del despliegue (con `TestClient` en proceso): ya no prueba el artefacto que se despliega. End-to-end antes que integración: es la etapa más lenta y frágil; si la API está rota, falla por una causa que integración señala con más precisión. |
+| Concepto | **Shift-left** (lo más barato y rápido primero: lint en segundos, unitarias en menos de 1 s), **pirámide de pruebas** (de la base a la punta), **gate** (cada etapa detiene a las siguientes), **config as code** (el pipeline vive en el repositorio). |
+| Evidencia | `.github/workflows/ci.yml` (validado con `actionlint`, sin hallazgos). Build verde con todas las etapas: _anotar número de build_. |
 | Fuente | [9], [10] |
 
 ### 3.2 Versión de Python fijada en 3.13
@@ -164,10 +163,50 @@ de `integration/`. 57 casos: 31 de partición de equivalencia, 18 de valores lí
 | Evidencia | `[tool.ruff.lint]` en `backend/pyproject.toml`; `app/services/album_service.py` (`zip(tracks, music_ids, strict=True)`). |
 | Fuente | [12] |
 
+### 3.4 Artefacto único con el SHA y verificación de versión
+
+| Campo | Contenido |
+|---|---|
+| Decisión | El job **Build** construye una sola vez por build la imagen Docker `nodus-sonare:<sha>` (`Dockerfile` multi-stage: Node compila la UI de Vite y Python 3.13 + `uv sync --locked` corre la API, que también sirve la UI). El SHA entra como `--build-arg GIT_SHA` y queda **dentro** de la imagen (`APP_VERSION`). `GET /api/version` responde `{"version", "environment"}`. Después de desplegar, `deploy/check-version.sh` imprime la URL probada y la respuesta de la instancia, y **falla** si la versión no es el SHA del commit o si el ambiente no es el elegido. La etapa de Integración repite la verificación antes de probar, y el caso Bruno HEA-EP-03 la hace desde la colección (`--env-var expectedVersion=<sha>`). |
+| Alternativa | Pasar el SHA al desplegar (`-e APP_VERSION=...`): la instancia respondería lo que el pipeline le dice, no lo que realmente corre, y una imagen vieja pasaría el chequeo. Tarball con el código y `uv sync` en cada despliegue: no se necesita Dockerfile, pero cada ambiente instala dependencias por su cuenta y "el mismo artefacto" se ve menos. Servir la UI con `vite preview` o nginx: más procesos y puertos por ambiente. |
+| Concepto | **Build once, deploy many** (el mismo binario pasa por todos los ambientes); **gate** (despliegue con versión equivocada = build en rojo); **config as code** (`Dockerfile`, `deploy/`). |
+| Evidencia | `Dockerfile`, `deploy/deploy.sh`, `deploy/check-version.sh`. En local: `check-version.sh` con un SHA falso imprime `::error::Deployed version e904cd3… does not match commit 0000…` y sale con 1; con el ambiente equivocado también sale con 1. Build: _anotar número de build_. |
+| Fuente | [9] |
+
+### 3.5 Runner self-hosted y dos ambientes con la misma imagen
+
+| Campo | Contenido |
+|---|---|
+| Decisión | Build, Despliegue e Integración corren en un **runner self-hosted** del grupo (etiquetas `self-hosted, nodus`), porque en GitHub Actions cada job es una máquina nueva y la instancia desplegada tiene que seguir viva entre jobs. Dos ambientes en la misma máquina: **dev** (puerto 5002) y **staging** (5003), cada uno un contenedor de **la misma imagen** con su propia configuración en `deploy/env/<ambiente>.env`: `APP_ENV`, tabla de DynamoDB (`node_dev`/`node_staging`), buckets con prefijo, volumen SQLite propio y un `JWT_SECRET` aleatorio por despliegue. Comparten los contenedores de DynamoDB Local y Silo del `docker-compose`. Como el repositorio es público, los jobs del runner no corren en `pull_request`. |
+| Alternativa | Todo en runners de GitHub volviendo a desplegar en cada job: no depende de una máquina del grupo, pero el despliegue se repite (~1 min por job) y el build pasa de 3 min. Un solo job con despliegue y pruebas como pasos: las etapas no se verían como etapas. Contenedores de DynamoDB y Silo por ambiente: más aislamiento, pero duplica infraestructura y arranque. |
+| Concepto | **Config as code** (la configuración de cada ambiente está versionada y no tiene secretos); misma imagen y otra configuración (*twelve-factor*: configuración en el entorno). |
+| Evidencia | `deploy/env/dev.env`, `deploy/env/staging.env`. En local, desde la misma imagen: `{"version":"e904cd3…","environment":"dev"}` en `:5002` y `{"version":"e904cd3…","environment":"staging"}` en `:5003`, y la suite Bruno completa en verde contra los dos (`58 (57 Passed, 1 Skipped)`, `116/116`). Build por ambiente: dev _anotar número_, staging _anotar número_. |
+| Fuente | [15], [16] |
+
+### 3.6 Qué quedó como parámetro y qué quedó fijo
+
+| Campo | Contenido |
+|---|---|
+| Decisión | **Parámetros** de `workflow_dispatch` (con valor por defecto, que también usa cada push a `main`): `environment` (dev/staging), `suite` (regression/smoke: con `smoke`, Bruno corre solo los 7 casos con tag `smoke` y end-to-end solo `@smoke`), `browser` (chromium/firefox/webkit, para end-to-end) y `recipients` (por defecto los correos de los dos integrantes). El nombre de cada build (`run-name`) muestra los valores elegidos. **Fijo** en el repositorio: el umbral de cobertura (90 %), las reglas de lint, las versiones (Python 3.13, `uv.lock`, Bruno 4.2.1, imágenes base), los puertos y la configuración de cada ambiente, los `timeout-minutes` y el servidor de correo (`smtp.gmail.com:465`). Las credenciales del correo son secrets. |
+| Alternativa | Parametrizar el umbral de cobertura: permitiría bajar la puerta al lanzar un build y le quitaría el sentido de *gate*. Parametrizar la URL del ambiente: cualquier URL sin una configuración versionada detrás. Un parámetro "forzar falla": no cuenta según el enunciado y no tiene uso real. |
+| Concepto | **Gate** (lo que protege la calidad no se negocia por build), **config as code** (todo lo fijo está versionado; lo variable es explícito y tiene valor por defecto). |
+| Evidencia | `.github/workflows/ci.yml` (`on.workflow_dispatch.inputs`, `env`, `run-name`). En local: `suite=smoke` → `Requests 7 (7 Passed)`, `Tests 17/17`; `suite=regression` → `58 (57 Passed, 1 Skipped)`. Build con parámetros no predeterminados: _anotar número_. |
+| Fuente | [10] |
+
+### 3.7 Correo cuando falla
+
+| Campo | Contenido |
+|---|---|
+| Decisión | El job `notify` (en `ubuntu-latest`, `if: failure() \|\| cancelled()`) corre `.github/scripts/notify_failure.py`, que lee **todo de variables de entorno**: `SMTP_HOST`/`SMTP_PORT` (fijos en el workflow, no son secretos), `SMTP_USERNAME`/`SMTP_PASSWORD` (secrets del repositorio), `MAIL_TO` (parámetro `recipients`) y los datos del build. El correo dice el número de build, el commit, la rama, el ambiente, la etapa que falló (la primera de `needs` que no terminó en `success`, distinguiendo "falló" de "cancelada o superó su tiempo máximo") y el enlace al log. La contraseña nunca se imprime y GitHub enmascara los secrets en el log. |
+| Alternativa | Una acción del marketplace (`dawidd6/action-send-mail`): menos código, pero código de terceros con acceso a la contraseña y menos evidente que "lee de variables de entorno". La configuración global de correo del CI: el enunciado no la acepta. Un servidor de correo local: no entrega a buzones reales. |
+| Concepto | **Config as code** (el script y el workflow están versionados; solo las credenciales viven fuera, como secrets). Retroalimentación rápida ante un *gate* que se cierra. |
+| Evidencia | `.github/scripts/notify_failure.py`. Prueba local con `DRY_RUN=1` (asunto `Build #12 en rojo: Build del artefacto (cancelada o superó su tiempo máximo) (staging)`). Prueba previa de las credenciales: un correo de prueba enviado por `smtp.gmail.com:465` llegó al buzón. Correo de un build en rojo: _anotar número de build_. |
+| Fuente | [17] |
+
 ## 4. Sugerencias de IA
 
 El grupo usó Claude (Anthropic) como asistente durante la implementación de las capas unitaria (1–5) y de integración
-(6–11). Estas son sugerencias que la IA propuso y que el grupo discutió antes de aceptarlas o rechazarlas.
+(6–11) y del pipeline (12–19). Estas son sugerencias que la IA propuso y que el grupo discutió antes de aceptarlas o rechazarlas.
 
 | # | Sugerencia de la IA | Decisión del grupo | Razón | Prueba o build que la respalda |
 |---|---|---|---|---|
@@ -182,6 +221,14 @@ El grupo usó Claude (Anthropic) como asistente durante la implementación de la
 | 9 | Reportes **JUnit + HTML**, **sin `--bail`**, y `--sandbox=developer`. | **Aceptada**. Se descartaron "solo JUnit" y "JUnit + `--bail`". | El JUnit alimenta el resumen y los artefactos del CI y el HTML sirve de evidencia legible; sin `--bail` se ven todas las fallas de una corrida. | `reports/integration-junit.xml` y `reports/integration.html`; código de salida 1 con una copia mutada de la colección. |
 | 10 | En el límite "username de 2 caracteres" (REG-BVA-03), aceptar **201 o 409 `Username already taken`** y fallar con 400/422. | **Aceptada**. Se descartaron "reintentar con otro nombre en el pre-request" y "exigir solo 201". | Solo hay 1 296 nombres de 2 caracteres en el alfabeto del caso: exigir 201 vuelve el caso intermitente en un ambiente persistente, y el 409 también prueba que pasó la regla de longitud. | `integration/02-register/bva-03-username-2.bru`; tres corridas seguidas sobre la misma base en verde. |
 | 11 | Ante el defecto D-1 (la foto de perfil acepta texto declarado como `image/png`), **documentarlo y dejar un caso saltado** que espera 400, y corregirlo después de la entrega. | **Aceptada**. Se descartaron "corregirlo en esta sesión" y "solo documentarlo sin caso". | Con poco tiempo, no se toca un servicio bajo la puerta de cobertura; el caso deja lista la prueba de regresión y el defecto aparece como *skipped* en cada reporte. | `integration/08-media/ep-05-picture-fake-png.bru` (`<skipped message="Request Skipped"/>` en el JUnit). |
+| 12 | Correr Build, Despliegue e Integración en un **runner self-hosted** del grupo (híbrido: Lint y Unitarias siguen en `ubuntu-latest`), solo en push a `main` y `workflow_dispatch`. | **Aceptada**. Se descartaron "todo en GitHub volviendo a desplegar en cada job" y "un solo job con despliegue y pruebas". | La instancia desplegada sigue viva entre jobs, cada etapa es un job y el build cabe en 3 min; excluir `pull_request` evita que un PR ejecute código en la máquina del grupo. | `.github/workflows/ci.yml` (`runs-on: [self-hosted, nodus]`); runner `philip-mac` registrado. Build: _anotar número_. |
+| 13 | Que **FastAPI sirva la UI compilada** (`FRONTEND_DIST`) para tener UI y API en un solo puerto por ambiente. | **Aceptada**. Se descartaron "`vite preview` por ambiente" y "nginx delante". | El frontend ya usa rutas relativas (`/api/...`), así que no cambia; las end-to-end de staging no pueden pegarle por error a la API de dev. | `backend/app/main.py`; `curl localhost:5003/` devuelve la UI y `/assets/*.js` responde 200. |
+| 14 | Artefacto = **imagen Docker `nodus-sonare:<sha>`** con el SHA dentro (`--build-arg GIT_SHA`). | **Aceptada**. Se descartó el tarball con el código. | "Mismo artefacto, otra configuración" queda explícito, y la versión la responde la imagen, no el pipeline. | `Dockerfile`; `check-version.sh` falla con un SHA falso (código 1). |
+| 15 | Separar los ambientes con **otros nombres en los mismos contenedores** (tabla, buckets, SQLite y JWT por ambiente). | **Aceptada**. Se descartaron "contenedores separados por ambiente". | El backend ya lee esos valores de variables de entorno; no se duplica infraestructura. | `deploy/env/*.env`; suite completa en verde contra dev y staging desde la misma imagen. |
+| 16 | Que el parámetro `suite` afecte **integración y end-to-end** (tag `smoke` en 7 casos Bruno, `--tags=smoke`). | **Aceptada**. Se descartó "solo end-to-end". | El parámetro tiene efecto visible desde ya (número de casos en el log y en el JUnit), sin esperar a las end-to-end. | `smoke` → `7 (7 Passed)`, `17/17`; `regression` → `58 (57 Passed, 1 Skipped)`. |
+| 17 | Mandar el correo con un **script propio con `smtplib`** que lee todo de variables de entorno. | **Aceptada**. Se descartó la acción `dawidd6/action-send-mail`. | Cumple el punto 7 de forma evidente y no le da la contraseña a código de terceros. | `.github/scripts/notify_failure.py` (`DRY_RUN=1`). Correo de un build en rojo: _anotar número_. |
+| 18 | Valor por defecto de `recipients`: **los correos de los dos integrantes**. | **Aceptada**. Se descartó "solo un integrante". | A los dos les llegan las fallas de `main`; en la demo se cambia por el del catedrático al lanzar el build. | `ci.yml` (`inputs.recipients.default`). |
+| 19 | Dejar la **etapa end-to-end para el integrante que escribe las pruebas Playwright**, con el pipeline preparado (`browser` declarado, instrucciones en el README). | **Aceptada**. Se descartó "dejar el job escrito por la IA". | Cada integrante toca el pipeline con commits propios y en la demo explica los suyos. | README, sección "Agregar la etapa end-to-end". |
 
 ## Referencias
 
@@ -212,3 +259,9 @@ El grupo usó Claude (Anthropic) como asistente durante la implementación de la
 [13] Bruno, "Bruno CLI," *Bruno documentation*. [En línea]. Disponible: https://docs.usebruno.com/bru-cli/overview
 
 [14] J. Micco, "Flaky Tests at Google and How We Mitigate Them," *Google Testing Blog*, may. 2016. [En línea]. Disponible: https://testing.googleblog.com/2016/05/flaky-tests-at-google-and-how-we.html
+
+[15] GitHub, "Security hardening for GitHub Actions: Hardening for self-hosted runners," *GitHub Docs*. [En línea]. Disponible: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions
+
+[16] A. Wiggins, "The Twelve-Factor App: III. Config," 2017. [En línea]. Disponible: https://12factor.net/config
+
+[17] Python Software Foundation, "smtplib — SMTP protocol client," *Python 3.13 documentation*. [En línea]. Disponible: https://docs.python.org/3.13/library/smtplib.html
